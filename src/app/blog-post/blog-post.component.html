@@ -1,0 +1,58 @@
+<!-- page -->
+<!-- <div class="services-breadcrumb" style="margin-top: 3%;">
+  <div class="agile_inner_breadcrumb">
+    <div class="container">
+      <ul class="w3_short">
+        <li>
+          <a href="/">Home</a>
+          <i>|</i>
+        </li>
+        <li>{{blogDetails.BLOG_TITLE}}</li>
+      </ul>
+    </div>
+  </div>
+</div> -->
+
+<div class="containerWidth">
+  <div class="services-breadcrum" style="background:transparent">
+    <div class="agile_inner_breadcrumb">
+      <div class="container">
+        <ul class="w3_short">
+          <li>
+            <a class="_1KHd47" routerLink='/'>Home</a>
+            <i class="fa fa-angle-right left color breadcrumbIcon"></i>
+          </li>
+          <li>
+            <a class="_1KHd48">{{blogDetails.BLOG_TITLE}}</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- //page -->
+  <!-- about page -->
+  <!-- welcome -->
+  <div class="welcome">
+    <div class="container">
+      <!-- tittle heading -->
+      <h3 class="tittle-w3l">{{blogDetails.BLOG_TITLE}}
+        <span class="heading-style">
+          <i></i>
+          <i></i>
+          <i></i>
+        </span>
+      </h3>
+
+      <div class="w3l-welcome-info">
+        <div class="clearfix"> </div>
+      </div>
+      <div class="w3l-welcome-text">
+
+        <p [innerHTML]="blogDetails.BLOG_CONTENT"></p>
+
+      </div>
+    </div>
+  </div>
+  <br>
+</div>

@@ -1,0 +1,339 @@
+<div class="">
+    <div class="container" style="padding: 0.5em;">
+        <div class="top" *ngIf="this.subscriberMethodsService.subscriberDetailsObject && this.subscriberMethodsService.subscriberDetailsObject.SUBSCRIBER_FIRST_NAME">
+            <h3>{{this.subscriberMethodsService.subscriberDetailsObject.SUBSCRIBER_FIRST_NAME}}</h3>
+        </div>
+
+
+        <!-- Modal -->
+        <div class="addaddress" *ngIf="showDelAdd">
+            <div class="modal-dialog modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="exampleModalLabel" style="font-size: 18px; font-weight: bold;">Add a Delivery Address
+                        </h4>
+                        <button type="button" class="close" data-dismiss="modal" (click)="closeDelAddDialog()" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <!-- new-checklist-soln-delivery-address -->
+                    <div class="modal-body">
+                        <form>
+
+                            <!-- <app-google-places></app-google-places> -->
+
+                            <mat-form-field appearance="outline" class="example-full-width mt-4">
+                                <mat-label>House no.</mat-label>
+                                <input matInput placeholder="House no." [(ngModel)]="addressLine1" required name="addressLine1">
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline" class="example-full-width">
+                                <mat-label>Address </mat-label>
+                                <input matInput placeholder="Address" [(ngModel)]="addressLine2" required name="addressLine2">
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline" class="example-full-width">
+                                <mat-label>Mobile Number</mat-label>
+                                <input matInput (keypress)="this.commonService.numberOnly($event)" maxlength="10" placeholder="10 digit Number" [(ngModel)]="mobileNumber" required name="mobileNumber">
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline" class="example-full-width">
+                                <mat-label>Contact Person</mat-label>
+                                <input matInput placeholder="Contact Person" [(ngModel)]="contactName" required name="contactName">
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline" class="example-full-width">
+                                <mat-label>Pincode</mat-label>
+                                <input matInput (keypress)="this.commonService.numberOnly($event)" maxlength="6" placeholder="Pincode" [(ngModel)]="addressPin" required name="addressPin">
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline" class="example-full-width">
+                                <mat-label>City</mat-label>
+                                <input matInput placeholder="City" [(ngModel)]="cityName" required name="cityName">
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline" class="example-full-width">
+                                <mat-label>State</mat-label>
+                                <input matInput placeholder="State" [(ngModel)]="stateName" required name="stateName">
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline" class="example-full-width">
+                                <mat-label>Country</mat-label>
+                                <input matInput placeholder="Country" [(ngModel)]="countryName" required name="countryName">
+                            </mat-form-field>
+
+                            <div class="three mb-4">
+                                <div>
+                                    <h5>Address Label</h5>
+                                    <div class="one">
+                                        <button class="labeloption" [ngClass]="getDeliveryAddressClass(1)" (click)="updateAddressLabel(1)">Home</button>
+                                        <button class="labeloption" [ngClass]="getDeliveryAddressClass(2)" (click)="updateAddressLabel(2)">Office</button>
+                                        <button class="labeloption" [ngClass]="getDeliveryAddressClass(3)" (click)="updateAddressLabel(3)">Others</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div *ngIf="addressLabelCode == 3">
+                                <h5>Custom Label</h5>
+                                <mat-form-field appearance="outline" style="width: 100%;">
+                                    <input matInput placeholder="eg: Friend" [(ngModel)]="customLabel" name="customLabel">
+                                </mat-form-field>
+                            </div>
+
+                        </form>
+
+                        <flash-messages></flash-messages>
+
+                    </div>
+
+                    <!-- new-checklist-soln-delivery-address -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn background" [disabled]="checkMandatoryFieldsForCreateDeliveryAddress()" 
+                        (click)="getCountryStateCityIdAndSave()">Save
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal -->
+
+        <!--tab start-->
+        <div class="row">
+            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                <!-- required for floating -->
+
+                <!-- Nav tabs -->
+                <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                    <li class="nav-item" role="presentation" style="margin-bottom: 10px;">
+                        <a style="border-left: 2px solid #ff5722;color: #000;" class="nav-link active" data-toggle="pill" href="#myProfile" role="tab" aria-controls="pills-home" aria-selected="true">
+                            <i class="fa fa-user" style="margin-right: 5px;"></i> My Profile</a>
+                    </li>
+                    <li class="nav-item" role="presentation" style="margin-bottom: 10px;">
+                        <a style="border-left: 2px solid #ff5722;color: #000;" class="nav-link" data-toggle="pill" href="#address" role="tab" aria-controls="pills-profile" aria-selected="false">
+                            <i class="fa fa-map-marker" style="margin-right: 5px;"></i> Address Book</a>
+                    </li>
+                    <li class="nav-item" role="presentation" style="margin-bottom: 10px;">
+                        <a style="border-left: 2px solid #ff5722;color: #000;" class="nav-link" data-toggle="pill" href="#fresh" role="tab" aria-controls="pills-contact" aria-selected="false">
+                            <i class="fa fa-rupee" style="margin-right: 5px;"></i> Our Money({{this.commonService.STORE_CURRENCY_SYMBOL}} {{this.walletMethodsService.subscriberWallerDetailsObject.WALLET_MONEY}})
+                        </a>
+                    </li>
+                </ul>
+                <!-- Ends Nav tabs -->
+
+            </div>
+            <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div class="tab-pane active" id="myProfile" *ngIf="this.subscriberMethodsService.subscriberDetailsObject">
+                        <div class="one">
+                            <h4 class="leftDetail">Basic Info</h4>
+                            <div class="rightDetail">
+                                <button style="color: #fff;" class="edit background" onclick="editMyProfile()">Edit</button>
+                                <button class="save background" onclick="closeMyProfile()">Go Back</button>
+                            </div>
+                        </div>
+                        <br>
+
+                        <!-- Final checklist  -->
+                        <div class="onedit">
+                            <div class="one">
+                                <h5 class="leftDetail"><b>FIRSTNAME :</b></h5>
+                                <h5 class="rightDetail">
+                                    {{this.commonService.checkIfNull(this.subscriberMethodsService.subscriberDetailsObject.SUBSCRIBER_FIRST_NAME)}}
+                                </h5>
+                            </div>
+                            <div class="one">
+                                <h5 class="leftDetail"><b>LASTNAME :</b></h5>
+                                <h5 class="rightDetail">
+                                    {{this.commonService.checkIfNull(this.subscriberMethodsService.subscriberDetailsObject.SUBSCRIBER_LAST_NAME)}}
+                                </h5>
+                            </div>
+                            <div class="one">
+                                <h5 class="leftDetail"><b>YOUR EMAIL :</b></h5>
+                                <h5 class="rightDetail">
+                                    {{this.commonService.checkIfNull(this.subscriberMethodsService.subscriberDetailsObject.SUBSCRIBER_EMAIL_ID)}}
+                                </h5>
+                            </div>
+                            <div class="one">
+                                <h5 class="leftDetail"><b>MOBILE NO. :</b></h5>
+                                <h5 class="rightDetail">
+                                    {{this.commonService.checkIfNull(this.subscriberMethodsService.subscriberDetailsObject.SUBSCRIBER_MOBILE_NR)}}
+                                </h5>
+                            </div>
+                        </div>
+                        <!--onedit-->
+
+                        <div class="onsave">
+                            <div class="one">
+                                <h5 class="leftDetail"><b>FIRSTNAME</b></h5>
+                                <mat-form-field appearance="outline" class="example-full-width rightDetail">
+                                    <mat-label>FIRSTNAME</mat-label>
+                                    <input matInput value="{{this.commonService.checkIfNull(this.subscriberMethodsService.subscriberDetailsObject.SUBSCRIBER_FIRST_NAME)}}" readonly>
+                                </mat-form-field>
+                            </div>
+                            <div class="one">
+                                <h5 class="leftDetail"><b>LASTNAME</b></h5>
+                                <mat-form-field appearance="outline" class="example-full-width rightDetail">
+                                    <mat-label>LASTNAME</mat-label>
+                                    <input matInput value="{{this.commonService.checkIfNull(this.subscriberMethodsService.subscriberDetailsObject.SUBSCRIBER_LAST_NAME)}}" readonly>
+                                </mat-form-field>
+                            </div>
+                            <div class="one">
+                                <h5 class="leftDetail"><b>YOUR EMAIL</b></h5>
+                                <mat-form-field appearance="outline" class="example-full-width rightDetail">
+                                    <mat-label>YOUR EMAIL</mat-label>
+                                    <input matInput value="{{this.commonService.checkIfNull(this.subscriberMethodsService.subscriberDetailsObject.SUBSCRIBER_EMAIL_ID)}}" readonly>
+                                </mat-form-field>
+                            </div>
+                            <div class="one">
+                                <h5 class="leftDetail"><b>MOBILE NO.</b></h5>
+                                <mat-form-field appearance="outline" class="example-full-width rightDetail">
+                                    <mat-label>MOBILE NO.</mat-label>
+                                    <input matInput value="{{this.commonService.checkIfNull(this.subscriberMethodsService.subscriberDetailsObject.SUBSCRIBER_MOBILE_NR)}}" readonly>
+                                    <!-- <button class="btn background" (click)="openUpdateSubscriberMobileNumberDialog()">Edit</button> -->
+                                </mat-form-field>
+                            </div>
+                            
+                            <br>
+
+                            <flash-messages></flash-messages>
+
+                            <div class="one">
+                                <h4 class="leftDetail">Change Password</h4>
+                                <div class="rightDetail">
+                                    <button class="save1 background" (click)="updateSubscriberPassword()" [disabled]="checkMandatoryFieldsForPasswrodChange()">Save</button>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="one">
+                                <h5 class="leftDetail"><b>OLD PASSWORD</b></h5>
+                                <mat-form-field appearance="outline" class="example-full-width rightDetail">
+                                    <mat-label>OLD PASSWORD.</mat-label>
+                                    <input matInput [(ngModel)]="subscriberPassword" type="password">
+                                </mat-form-field>
+                            </div>
+                            <div class="one">
+                                <h5 class="leftDetail"><b>New PASSWORD</b></h5>
+                                <mat-form-field appearance="outline" class="example-full-width rightDetail">
+                                    <mat-label>NEW PASSWORD.</mat-label>
+                                    <input matInput [(ngModel)]="subscriberNewPassword" type="password">
+                                </mat-form-field>
+                            </div>
+
+                            <div class="one">
+                                <h4>&nbsp;</h4>
+                                <button class="save1 background" 
+                                (click)="updateSubscriberPassword()" [disabled]="checkMandatoryFieldsForPasswrodChange()">
+                                    Update Password
+                                </button>
+                            </div>
+
+                        </div>
+                        <!--onsave-->
+                        <!-- Final checklist  -->
+
+
+                    </div>
+                    <!--tabone-->
+
+                    <div class="tab-pane" id="address">
+                        <div class="one">
+                            <h4 class="leftDetail">Delivery Address</h4>
+                            <div class="rightDetail">
+                                <button class="save1 background" (click)="emptyGoogleAddress();openDelAddDialog();">Add Address</button>
+                            </div>
+                        </div>
+
+                        <div *ngFor="let address of this.deliveryAddresssMethodsService.deliveryAddressesArray">
+                            <div *ngFor="let row of address">
+
+                                <!-- new-checklist-soln-delivery-address -->
+                                <div class="addressdetails">
+
+                                    <div *ngIf="row.ADDRESS_LABEL != '' && row.ADDRESS_LABEL != 'null'">
+                                        <b>{{row.ADDRESS_LABEL}} </b>
+                                    </div>
+                                    <span *ngIf="row.ADDRESS_LINE1"> 
+                                        {{row.ADDRESS_LINE1}}
+                                    </span>
+                                    <span *ngIf="row.ADDRESS_LINE2"> 
+                                        {{this.commonService.checkIfNull(row.ADDRESS_LINE2)}}
+                                    </span>
+                                    <div *ngIf="row.ADDRESS_PINCODE != '' && row.ADDRESS_PINCODE != 'null'">
+                                        {{row.ADDRESS_PINCODE}}
+                                    </div>
+                                    <span *ngIf="address.CONTACT_NAME != '' && row.CONTACT_NAME != 'null'">
+                                        {{row.CONTACT_NAME}}
+                                    </span>
+                                    <span *ngIf="row.CONTACT_MOBILE_NR != '' && row.CONTACT_MOBILE_NR != 'null'">
+                                        {{row.CONTACT_MOBILE_NR}}
+                                    </span>
+                                    <div *ngIf="row.ADDRESS_CITY_NAME != '' && row.ADDRESS_CITY_NAME != 'null'">
+                                        {{row.ADDRESS_CITY_NAME}}
+                                    </div>
+                                    <div *ngIf="row.ADDRESS_STATE_NAME != '' && row.ADDRESS_STATE_NAME != 'null'">
+                                        {{row.ADDRESS_STATE_NAME}}
+                                    </div>
+                                    <div *ngIf="row.ADDRESS_COUNTRY_NAME != '' && row.ADDRESS_COUNTRY_NAME != 'null'">
+                                        {{row.ADDRESS_COUNTRY_NAME}}
+                                    </div>
+
+                                </div>
+
+                                <div class="two">
+
+                                    <div style="color: #fff;" class="edit1 background linkCls" (click)="openDialog(row);">Delete</div>
+                                    <div class="save1 background linkCls" (click)="editDeliveryAddress(row);openDelAddDialog();">Edit
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!--tabtwo-->
+
+                    <div class="tab-pane" id="fresh">
+                        <h5><b>Our Money</b></h5>
+                        <p>Add money to your Our Money wallet and enjoy one click checkout. Get {{this.commonService.STORE_CURRENCY_SYMBOL}} 50 cashback when you add {{this.commonService.STORE_CURRENCY_SYMBOL}} 699 to your Our Money Wallet. Get {{this.commonService.STORE_CURRENCY_SYMBOL}}
+                            100 cashback when you add {{this.commonService.STORE_CURRENCY_SYMBOL}} 1199 to your Our Money Wallet. Get {{this.commonService.STORE_CURRENCY_SYMBOL}} 200 cashback when you add {{this.commonService.STORE_CURRENCY_SYMBOL}} 1999
+                            to your Our Money Wallet</p>
+                        <hr>
+                        <h5><b>Current Our Balance</b></h5>
+                        <p>{{this.commonService.STORE_CURRENCY_SYMBOL}} {{this.walletMethodsService.subscriberWallerDetailsObject.WALLET_MONEY}}
+                        </p>
+                    </div>
+                    <!--tabthree-->
+                    <div class="tab-pane" id="payment">Payment Tab</div>
+                    <!--tab4-->
+                    <div class="tab-pane" id="favourite">
+
+                        <h4>Favorited Dishes</h4>
+                        <div class="three">
+                            <div>
+                                <img src="./assets/images/dish1.png" width="100%">
+                            </div>
+                            <div>
+                                <div class="one">
+                                    <h6><b>American Lo Mein</b></h6>
+                                    <h6><i class="fa fa-heart"></i>1324</h6>
+                                </div>
+                                <p>Noodles, Carrot, Broccoli, Bell Pepper, Button Mushroom, Baby Corn, French Bean, Spinach, Bok Choy, Cabbage, Light Soy Sauce, Dark Soy Sauce, Teriyaki Sauce</p>
+                            </div>
+
+                        </div>
+                        <!--favdish-->
+                    </div>
+                    <!--tab5-->
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <!--row-->
+
+        <!--tab end-->
+
+
+    </div>
+    <!--container-->
+</div>
+<!--profile-->

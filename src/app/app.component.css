@@ -1,0 +1,97 @@
+.whatsApp {
+    position: fixed;
+    z-index: 9999;
+    bottom: 8%;
+    right: 4%;
+}
+
+.whatsApp img {
+    height: 50px;
+    width: 50px;
+}
+
+@media screen and ( min-height: 360px) {
+    .content {
+        min-height: 360px;
+    }
+}
+
+@media screen and ( min-height: 568px) {
+    .content {
+        min-height: 568px !important;
+    }
+}
+
+@media screen and ( min-height: 650px) {
+    .content {
+        min-height: 670px !important;
+    }
+}
+
+@media screen and ( min-height: 730px) {
+    .content {
+        min-height: 730px !important;
+    }
+}
+
+@media screen and ( min-height: 768px) {
+    .content {
+        min-height: 768px !important;
+    }
+}
+
+@media screen and ( min-height: 823px) {
+    .content {
+        min-height: 823px !important;
+    }
+}
+
+@media screen and ( min-height: 900px) {
+    .content {
+        min-height: 900px !important;
+    }
+}
+
+@media screen and ( min-height: 1024px) {
+    .content {
+        min-height: 1024px !important;
+    }
+}
+
+@media screen and ( min-height: 1080px) {
+    .content {
+        min-height: 1080px !important;
+    }
+}
+
+@media screen and ( min-height: 1200px) {
+    .content {
+        min-height: 1200px !important;
+    }
+}
+
+@media screen and ( min-height: 1366px) {
+    .content {
+        min-height: 1366px !important;
+    }
+}
+
+@media screen and ( min-height: 1440px) {
+    .content {
+        min-height: 1440px !important;
+    }
+}
+
+@media screen and ( min-height: 1536px) {
+    .content {
+        min-height: 1536px !important;
+    }
+}
+
+#google_translate_element {
+    position: fixed;
+    z-index: 9999;
+    bottom: 8%;
+    left: 4%;
+    box-shadow: 10px 10px 8px #e7dbdb;
+}

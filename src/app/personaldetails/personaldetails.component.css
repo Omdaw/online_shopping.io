@@ -1,0 +1,281 @@
+a,
+p,
+button,
+h3,
+h4,
+h5 {
+    font-family: Arial, Helvetica, sans-serif !important;
+}
+
+.container {
+    margin-top: 1%;
+    margin-bottom: 6%;
+    overflow: auto;
+}
+
+.profile {
+    margin-top: 13%;
+    margin-bottom: 2%;
+    padding: 10px;
+}
+
+.top {
+    margin-bottom: 20px;
+}
+
+#pills-tab {
+    display: block;
+}
+
+.edit {
+    border-radius: 20px;
+    padding: 2px 20px;
+}
+
+.save {
+    border: none;
+    border-radius: 20px;
+    color: #fff;
+    padding: 2px 20px;
+    display: none;
+}
+
+.save1 {
+    border-radius: 20px;
+    color: #fff;
+    padding: 2px 10px;
+    text-align: center;
+}
+
+.edit1 {
+    border-radius: 50px;
+    padding: 2px 10px;
+    text-align: center;
+}
+
+.edit:hover {
+    color: #fff;
+}
+
+.edit1:hover {
+    color: #fff;
+}
+
+.tabs-left {
+    border: none;
+    border-radius: 0px;
+}
+
+.save:hover {
+    box-shadow: 0px 2px 2px 0.1px #ccc;
+}
+
+.save1:hover {
+    box-shadow: 0px 2px 2px 0.1px #ccc;
+}
+
+.tabs-left>li {
+    float: none;
+    margin: 0px;
+    border: none;
+    border-radius: 0px;
+    border-top: 1px solid #e7e9e9;
+    border-bottom: 1px solid #e7e9e9;
+}
+
+.tabs-left>li>a {
+    color: #39393a;
+    line-height: 1.2;
+    font-size: 16px;
+}
+
+.tabs-left>li.active>a,
+.tabs-left>li.active>a:hover,
+.tabs-left>li.active>a:focus {
+    background: transparent;
+    border: none;
+    border-left: 2px solid #ff5722;
+    line-height: 1.2;
+    border-radius: 0px;
+    color: #fff !important;
+    background-color: #000;
+}
+
+.mycolumn span:focus,
+.mycolumn span:hover {
+    text-decoration: none;
+    color: #ff1744 !important;
+}
+
+.tabs-left>li.active>a:hover {
+    color: #39393a;
+}
+
+.tab-content {
+    padding: 0px 20px;
+}
+
+.tab-pane {
+    padding: 0px;
+}
+
+.one {
+    display: flex;
+    /* justify-content: space-between; */
+}
+
+.leftDetail {
+    width: 30%;
+}
+
+.rightDetail {
+    width: 70%;
+}
+
+.onsave {
+    display: none;
+}
+
+.example-full-width {
+    width: 60%;
+}
+
+.two {
+    display: flex;
+    justify-content: center;
+}
+
+.two div {
+    margin-right: 10px;
+}
+
+.modal-body .example-full-width {
+    width: 100%;
+}
+
+.three {
+    display: flex;
+}
+
+.three div {
+    margin-right: 10px;
+}
+
+.labeloption {
+    border-radius: 50px;
+    padding: 2px 10px;
+    text-align: center;
+    margin-right: 5px;
+}
+
+.highlightDeliveryAddressLabel {
+    background: var(--theme-color);
+    color: #fff;
+}
+
+.addaddress {
+    z-index: 999;
+    position: fixed;
+    left: 33%;
+    top: 4%;
+    bottom: 5%;
+}
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1366px) {
+    .profile {
+        margin: 14.5% 0%;
+    }
+    .addaddress {
+        top: 4%;
+        left: 30%;
+    }
+}
+
+@media only screen and (min-device-width: 1024px) and (max-device-width: 1366px) and (orientation: portrait) {
+    .profile {
+        margin: 15% 0%;
+    }
+    .addaddress {
+        top: 20%;
+        left: 25%;
+    }
+}
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1020px) and (orientation: portrait) {
+    .profile {
+        margin: 20% 0%;
+    }
+    .addaddress {
+        top: 20%;
+        left: 10%;
+    }
+}
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) {
+    .profile {
+        margin: 15% 0%;
+    }
+    .addaddress {
+        top: 20%;
+        left: 25%;
+    }
+}
+
+@media only screen and (max-device-width: 600px) {
+    .top h3{
+        padding-left: 0.9em;
+    }
+    .leftDetail {
+        width: 40%;
+    }
+    .rightDetail {
+        width: 60%;
+    }
+    #pills-tab {
+        padding: 0 1.8em;
+    }
+    .profile {
+        margin-top: 40%;
+    }
+    .addaddress {
+        top: 15%;
+        left: 0%;
+    }
+    .one {
+        margin-top: 10px;
+    }
+    .modal-dialog::-webkit-scrollbar {
+        display: none;
+    }
+    .modal-dialog {
+        max-height: 420px !important;
+        overflow-y: scroll;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .show>.nav-link {
+    color: #fff;
+    background-color: var(--theme-color);
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .show>.nav-link {
+    color: #fff !important;
+}
+
+li {
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .24), 0 0 2px 0 rgba(0, 0, 0, .12);
+}
+
+.h5,
+h5 {
+    font-size: 14px;
+}
+
+.h4,
+h4 {
+    font-size: 18px;
+}

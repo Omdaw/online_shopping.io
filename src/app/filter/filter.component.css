@@ -1,0 +1,156 @@
+/*filetrpage*/
+
+.filterbody {
+    height: 100%;
+    padding-top: 12px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.bodyRow {
+    display: flex;
+    height: 100vh;
+    margin-top: 4px;
+}
+
+.filterbodyleft {
+    width: 40%;
+    /* padding: 60px 0; */
+    background: rgb(239 238 242 / 44%);
+    text-align: left;
+}
+
+.filterbodyright {
+    width: 60%;
+    /* padding: 60px 0; */
+    background: #fff;
+}
+
+li {
+    list-style: none;
+}
+
+.filterOptions span {
+    margin-left: 8px;
+    font-size: 13px;
+}
+
+.color {
+    color: #000;
+}
+
+.filterheader {
+    padding: 15px 10px;
+    color: #fff;
+}
+
+.filter {
+    margin-top: 15px;
+}
+
+.filterTitle {
+    font-size: 18px;
+    /* margin-top: 12px; */
+    color: #210;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.filterItems {
+    border-radius: 2px;
+    background: #fff;
+    padding: 20px 10px 10px 20px
+}
+
+.filterItems ul li {
+    padding-left: 12px;
+}
+
+
+/* .filterItems ul li span {
+    font-size: 14px;
+    color: #22110061;
+} */
+
+.underline {
+    padding: 8px;
+    border-bottom: 1px solid rgba(34, 17, 0, .151);
+}
+
+.filterbodyleft ul {
+    list-style: none;
+    padding: 0px;
+}
+
+.filterbodyleft li {
+    /* padding: 15px 10px;
+    border-bottom: 1px solid #dbdbdb91; */
+    border-left: 2px solid transparent;
+}
+
+.filterbodyleft li a {
+    font-size: 14px;
+    font-weight: 500;
+    width: 92%;
+    margin-left: 4%;
+    padding: 15px 10px;
+    display: block;
+    border-bottom: 1px solid #dbdbdb91;
+}
+
+.filterbodyleft i {
+    float: right;
+    color: #c5c5c5eb;
+    font-size: 12px;
+    padding-top: 4px;
+}
+
+.filtercategorybox {}
+
+.filtercategorybox ul {
+    list-style: none;
+}
+
+.filtercategorybox li {
+    padding: 13px 0;
+    margin: 0 10px;
+    border-bottom: 1px solid #dbdbdb91;
+}
+
+
+/* width */
+
+.filtercategorybox::-webkit-scrollbar {
+    width: 0px;
+}
+
+
+/* Track */
+
+.filtercategorybox::-webkit-scrollbar-track {
+    background: #fff;
+}
+
+
+/* Handle */
+
+.filtercategorybox::-webkit-scrollbar-thumb {
+    background: #fff;
+}
+
+li {
+    cursor: pointer;
+}
+
+[type='checkbox'] {
+    cursor: pointer;
+}
+
+.selectedFilter {
+    color: var(--theme-color) !important;
+    border-left: 2px solid var(--theme-color) !important;
+}
+
+.selectedFilter i {
+    color: var(--theme-color) !important;
+}

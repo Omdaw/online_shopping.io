@@ -1,0 +1,365 @@
+<div class="containerWidth">
+    <div class="loading" *ngIf="processBar">
+        <mat-spinner class="loading-image"></mat-spinner>
+    </div>
+    <div class="container myordercontainer">
+
+
+        <div *ngIf="ordersArray && ordersArray.length == 0">
+            <div class="col-lg-12 text-center">
+                <h1 class="noOrdersMsg">There are no orders!!</h1>
+                <img class="mywish" src="assets/images/no_order1.png" alt="">
+            </div>
+        </div>
+
+        <div *ngIf="showOrders">
+
+            <div *ngIf="ordersArray && ordersArray.length > 0">
+                <h3> My Orders </h3>
+                <div class="oderpage" *ngFor="let row of ordersArray;" style="display: flex; justify-content: space-between; border:1px solid #ccc; padding:10px; margin-bottom: 10px;">
+                    <div class="orderone">
+                        <h5>Order Number</h5>
+                        <h5>Order Date</h5>
+                        <h5>Store Name</h5>
+                        <h5>Invoice Amount</h5>
+                        <h5 *ngIf="row.INVOICE_DISCOUNT_AMOUNT!=0">Invoice Discount Amount</h5>
+                        <h5>Invoice Final Amount</h5>
+                        <h5>Number of Items</h5>
+                        <h5>Payment Type</h5>
+                        <h5>Delivery Status </h5>
+                    </div>
+                    <!--orderone-->
+                    <div class="ordertwo">
+                        <h5>#{{row.INVOICE_ID}} </h5>
+                        <h5>{{row.ORDER_PLACED_DATE}} </h5>
+                        <h5>{{row.STORE_NAME}}</h5>
+                        <h5>{{row.INVOICE_AMOUNT}}</h5>
+                        <h5 *ngIf="row.INVOICE_DISCOUNT_AMOUNT!=0">{{row.INVOICE_DISCOUNT_AMOUNT}}</h5>
+                        <h5>{{row.INVOICE_FINAL_AMOUNT}}</h5>
+                        <h5>{{row.NUMBER_OF_ITEMS}}</h5>
+                        <h5>{{row.PAYMENT_TYPE_NAME}}</h5>
+                        <h5>{{row.DELIVERY_STATUS_NAME}}</h5>
+                    </div>
+                    <!--ordertwo-->
+                    <div class="orderthree">
+                        <button [disabled]="row.DELIVERY_STATUS_ID == 4" class="btn btn-danger mr-2 cancelOrderBtn" (click)="openDialog(row)">
+                            <ng-container *ngIf="row.DELIVERY_STATUS_ID != 4"> Cancel Order </ng-container>
+                            <ng-container *ngIf="row.DELIVERY_STATUS_ID == 4"> Cancelled </ng-container>
+                        </button>
+                        <button mat-raised-button class="background viewOrderBtn hoverClass" (click)="viewOrderDetails(row)">
+                            <mat-icon>visibility </mat-icon>
+                        </button>
+                    </div>
+                    <!--orderthree-->
+
+                </div>
+                <!--orderpage-->
+            </div>
+        </div>
+
+        <!-- View Details Starts -->
+        <div class="row" *ngIf="showOrderDetails">
+            <div class="col-lg-12">
+                <div class="example-card">
+                    <table class="table table-bordered" style="border-spacing:0 10px;">
+                        <thead style="text-align: center;">
+                            <tr>
+                                <td>Order Number</td>
+                                <td>Order Date</td>
+                                <td>Store Name</td>
+                                <td>Invoice Amount</td>
+                                <td *ngIf="orderDetailsObject.INVOICE_DISCOUNT_AMOUNT!=0">Invoice Discount Amount</td>
+                                <td>Invoice Final Amount</td>
+                                <td>Number of Items</td>
+                                <td>Payment Type</td>
+                                <td>Delivery Status</td>
+                                <td *ngIf="deliverySlot && deliverySlot != ''">Delivery Slot</td>
+                            </tr>
+                        </thead>
+                        <tbody style="text-align: center;">
+                            <tr>
+                                <td>#{{orderDetailsObject.INVOICE_ID}} </td>
+                                <td>{{orderDetailsObject.ORDER_PLACED_DATE}} </td>
+                                <td>{{orderDetailsObject.STORE_NAME}} </td>
+                                <td>{{orderDetailsObject.INVOICE_AMOUNT}} </td>
+                                <td *ngIf="orderDetailsObject.INVOICE_DISCOUNT_AMOUNT!=0">{{orderDetailsObject.INVOICE_DISCOUNT_AMOUNT}} </td>
+                                <td>{{orderDetailsObject.INVOICE_FINAL_AMOUNT}} </td>
+                                <td>{{orderDetailsObject.NUMBER_OF_ITEMS}} </td>
+                                <td>{{orderDetailsObject.PAYMENT_TYPE_NAME}} </td>
+                                <td>{{orderDetailsObject.DELIVERY_STATUS_NAME}} </td>
+                                <td *ngIf="deliverySlot && deliverySlot != ''">{{deliverySlot}}</td>
+                            </tr>
+                        </tbody>
+
+                        <!-- <tr>
+                            <td>Order Number</td>
+                            <td style="display: flex;">#{{orderDetailsObject.INVOICE_ID}} </td>
+                        </tr>
+
+                        <tr>
+                            <td>Order Date</td>
+                            <td style="display: flex;">{{orderDetailsObject.ORDER_PLACED_DATE}} </td>
+                        </tr>
+
+                        <tr>
+                            <td>Store Name</td>
+                            <td style="display: flex;">{{orderDetailsObject.STORE_NAME}} </td>
+                        </tr>
+
+                        <tr>
+                            <td>Invoice Amount</td>
+                            <td style="display: flex;">{{orderDetailsObject.INVOICE_AMOUNT}} </td>
+                        </tr>
+
+                        <tr *ngIf="orderDetailsObject.INVOICE_DISCOUNT_AMOUNT!=0">
+                            <td>Invoice Discount Amount</td>
+                            <td style="display: flex;">{{orderDetailsObject.INVOICE_DISCOUNT_AMOUNT}} </td>
+                        </tr>
+
+                        <tr>
+                            <td>Invoice Final Amount</td>
+                            <td style="display: flex;">{{orderDetailsObject.INVOICE_FINAL_AMOUNT}} </td>
+                        </tr>
+
+                        <tr>
+                            <td>Number of Items</td>
+                            <td style="display: flex;">{{orderDetailsObject.NUMBER_OF_ITEMS}} </td>
+                        </tr>
+
+                        <tr>
+                            <td>Payment Type</td>
+                            <td style="display: flex;">{{orderDetailsObject.PAYMENT_TYPE_NAME}} </td>
+                        </tr>
+
+                        <tr>
+                            <td>Delivery Status</td>
+                            <td style="display: flex;">{{orderDetailsObject.DELIVERY_STATUS_NAME}} </td>
+                        </tr>
+                        <tr *ngIf="deliverySlot && deliverySlot != ''">
+                            <td>Delivery Slot </td>
+                            <td>{{deliverySlot}} </td>
+                        </tr> -->
+                    </table>
+
+                    <!-- <mat-card-content class="example-card-content">
+          <div class="row">
+            <div class="col-lg-4">Order Number </div>
+            <div class="col-lg-8">#{{orderDetailsObject.INVOICE_ID}} </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-4">Order Date </div>
+            <div class="col-lg-8">{{orderDetailsObject.ORDER_PLACED_DATE}} </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-4">Store Name </div>
+            <div class="col-lg-8">{{orderDetailsObject.STORE_NAME}} </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-4">Invoice Amount </div>
+            <div class="col-lg-8">{{orderDetailsObject.INVOICE_AMOUNT}} </div>
+          </div>
+          <div class="row" *ngIf="orderDetailsObject.INVOICE_DISCOUNT_AMOUNT!=0">
+            <div class="col-lg-4">Invoice Discount Amount </div>
+            <div class="col-lg-8">{{orderDetailsObject.INVOICE_DISCOUNT_AMOUNT}} </div>
+          </div>
+          <div class="row" >
+            <div class="col-lg-4">Invoice Final Amount </div>
+            <div class="col-lg-8">{{orderDetailsObject.INVOICE_FINAL_AMOUNT}} </div>
+          </div>
+          <div class="row" >
+            <div class="col-lg-4">Number of Items </div>
+            <div class="col-lg-8">{{orderDetailsObject.NUMBER_OF_ITEMS}} </div>
+          </div>
+          <div class="row" >
+            <div class="col-lg-4">Payment Type </div>
+            <div class="col-lg-8">{{orderDetailsObject.PAYMENT_TYPE_NAME}} </div>
+          </div>
+          <div class="row" >
+            <div class="col-lg-4">Delivery Status </div>
+            <div class="col-lg-8">{{orderDetailsObject.DELIVERY_STATUS_NAME}} </div>
+          </div>
+        </mat-card-content> -->
+
+                </div>
+            </div>
+        </div>
+        <div class="row" *ngIf="showOrderDetails">
+            <div class="col-lg-12">
+                <div class="table-responsive mycustab">
+                    <table class="timetable_sub table-bordered">
+                        <thead style="text-align: center;">
+                            <tr>
+                                <th>SL No.</th>
+                                <th>Product</th>
+                                <th>Quantity</th>
+                                <th>Product Name</th>
+                                <th>GST</th>
+                                <th>
+                                    Price<br>
+                                    <p style="font-size: 10px;">(inclusive of Tax)</p>
+                                </th>
+                                <!-- <th style="text-align: center;">Ratings & Review</th> -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Row Start-->
+                            <ng-container *ngFor="let row of transactionArray; let i = index;">
+                                <tr class="rem1" style="text-align: center;">
+                                    <td class="invert">{{i+1}}</td>
+                                    <td class="invert-image">
+                                        <a [routerLink]="['/product-view', row.PRODUCT_ID, row.PRODUCT_DETAIL_ID, row.PRODUCT_CATEGORY_NAME, row.PRODUCT_NAME]">
+                                            <!--//Checklist-3 (Point-1)-->
+                                            <img src="{{row.PRODUCT_IMAGE_FILE_PATH}}" onerror="this.src='assets/images/noProductToShowInThisCategory.jpg'" alt="Loading Product Image" style="height: 50px;width: 50px;" class="img-responsive">
+                                        </a>
+                                    </td>
+                                    <td class="invert">
+                                        <div class="quantity">
+                                            <div class="quantity-select">
+                                                <div class="entry value">
+                                                    <span>{{row.PRODUCT_QUANTITY}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="invert">{{row.PRODUCT_NAME}}</td>
+                                    <td class="invert">
+                                        {{(row.PRODUCT_GST_AMOUNT * row.PRODUCT_QUANTITY)|number:'1.0-2'}}</td>
+                                    <td class="invert">
+                                        {{((row.PRODUCT_FINAL_PRICE + row.PRODUCT_GST_AMOUNT) * row.PRODUCT_QUANTITY)|number:'1.0-2'}}
+                                    </td>
+                                    <!-- <td style="text-align: center; color: #2874F1;"
+                                    *ngIf="orderDetailsObject.DELIVERY_STATUS_NAME == 'Delivered'">
+                                    <p style="display: contents; cursor: pointer;"
+                                        (click)="openProductReviewDialog(row.PRODUCT_DETAIL_ID)">
+                                        <span>
+                                            <mat-icon style="vertical-align: middle;"> star </mat-icon>
+                                        </span>
+                                        <span style="vertical-align: middle; margin-left: 2px;">RATE & REVIEW
+                                            PRODUCT</span>
+                                    </p>
+                                </td> -->
+                                </tr>
+
+                                <!-- addon products  -->
+                                <ng-container *ngIf="row.ADD_ON_DETAIL && row.ADD_ON_DETAIL.length > 0">
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <th colspan="5"> Addons </th>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td colspan="5">
+                                            <table class="timetable_sub">
+                                                <thead>
+                                                    <tr>
+                                                        <th>SL No.</th>
+                                                        <th>Product</th>
+                                                        <th>Quantity</th>
+                                                        <th>Product Name</th>
+                                                        <th>GST</th>
+                                                        <th>
+                                                            Price<br>
+                                                            <p style="font-size: 10px;">(inclusive of Tax)</p>
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <!-- Row Start-->
+                                                    <tr class="rem1" *ngFor="let addonproduct of row.ADD_ON_DETAIL;">
+                                                        <td class="invert">{{i+1}}</td>
+                                                        <td class="invert-image">
+                                                            <a [routerLink]="['/product-view', addonproduct.PRODUCT_ID, addonproduct.PRODUCT_DETAIL_ID, addonproduct.PRODUCT_CATEGORY_NAME, addonproduct.PRODUCT_NAME]">
+                                                                <!--//Checklist-3 (Point-1)-->
+                                                                <img src="{{addonproduct.PRODUCT_IMAGE_FILE_PATH}}" onerror="this.src='assets/images/noProductToShowInThisCategory.jpg'" alt="Loading Product Image" style="height: 100px;width: 100px;" class="img-responsive myorderimg">
+                                                            </a>
+                                                        </td>
+                                                        <td class="invert">
+                                                            <div class="quantity">
+                                                                <div class="quantity-select">
+                                                                    <div class="entry value">
+                                                                        <span>{{addonproduct.PRODUCT_QUANTITY}}</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="invert">
+                                                            {{addonproduct.PRODUCT_NAME}}
+                                                            <p class="variants">
+                                                                <ng-container *ngIf="addonproduct.SIZE_LABEL != 'null' && addonproduct.SIZE != 'null'">
+                                                                    <span>{{addonproduct.SIZE_LABEL}} : {{addonproduct.SIZE}}</span>
+                                                                </ng-container>
+                                                                <ng-container *ngIf="addonproduct.PRODUCT_COLOR_LABEL != 'null' && addonproduct.PRODUCT_COLOR != 'null'">
+                                                                    <span>{{addonproduct.PRODUCT_COLOR_LABEL}} : {{addonproduct.PRODUCT_COLOR}}</span>
+                                                                </ng-container>
+                                                                <ng-container *ngIf="addonproduct.MATERIAL_LABEL != 'null' && addonproduct.MATERIAL != 'null'">
+                                                                    <span>{{addonproduct.MATERIAL_LABEL}} : {{addonproduct.MATERIAL}}</span>
+                                                                </ng-container>
+                                                            </p>
+                                                        </td>
+                                                        <td class="invert">
+                                                            {{(addonproduct.PRODUCT_GST_AMOUNT * addonproduct.PRODUCT_QUANTITY)|number:'1.0-2'}}</td>
+                                                        <td class="invert">{{getProductFinalPrice(addonproduct)|number:'1.0-2'}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </ng-container>
+                                <!-- addon products ends -->
+
+                            </ng-container>
+                            <!-- Row Ends-->
+                            <!--Delivery Charge-->
+                            <tr *ngIf="deliveryCharge">
+                                <td colspan="5"> Convenience Fee </td>
+                                <td colspan="2"> {{deliveryCharge|number:'1.0-2'}} </td>
+                            </tr>
+                            <!--Convenience Fee-->
+                            <tr *ngIf="convenienceFee">
+                                <td colspan="5"> Delivery Charge </td>
+                                <td colspan="2"> {{convenienceFee|number:'1.0-2'}} </td>
+                            </tr>
+                            <!--Invoice Amount-->
+                            <tr *ngIf="invoiceAmount">
+                                <td colspan="5"> Invoice Amount </td>
+                                <td colspan="2"> {{invoiceAmount|number:'1.0-2'}} </td>
+                            </tr>
+                            <!--Invoice Discount-->
+                            <tr *ngIf="invoiceDiscountAmount">
+                                <td colspan="5"> Invoice Discount Amount </td>
+                                <td colspan="2"> {{invoiceDiscountAmount|number:'1.0-2'}} </td>
+                            </tr>
+                            <!--Invoice Total Amount-->
+                            <tr>
+                                <td colspan="5"> Grand Total </td>
+                                <td colspan="2"> {{invoiceTotal|number:'1.0-2'}} </td>
+                            </tr>
+                            <!--GST-->
+                            <tr>
+                                <td colspan="5"> GST </td>
+                                <td colspan="2"> {{gst|number:'1.0-2'}} </td>
+                            </tr>
+                            <!--CGST-->
+                            <tr>
+                                <td colspan="5"> CGST </td>
+                                <td colspan="2"> {{gst/2|number:'1.0-2'}} </td>
+                            </tr>
+                            <!--SGST-->
+                            <tr>
+                                <td colspan="5"> SGST </td>
+                                <td colspan="2"> {{gst/2|number:'1.0-2'}} </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-lg-12" style="margin-top: 16px;">
+                <div class="row">
+                    <div class="col-lg-6"> <button class="selectedFilter btn commonBtn" (click)="goback()" style="border:none; padding:5px;">Go Back</button> </div>
+                </div>
+            </div>
+        </div>
+        <!-- View Details Ends -->
+    </div>
+    <!--Container-->
+</div>

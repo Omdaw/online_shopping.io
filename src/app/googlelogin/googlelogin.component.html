@@ -1,0 +1,12 @@
+<div class="containerWidth">
+  <div style="margin-top: 200px;"></div>
+
+  <button (click)="singIn('Google');">Sign in with Google</button><br /><br />
+  <button (click)="signOut();">Sign out</button><br /><br />
+
+  <div *ngIf="user">
+    <img src="{{ user.photoUrl }}">
+    <h4>{{ user.name }}</h4>
+    <p>{{ user.email }}</p>
+  </div>
+</div>

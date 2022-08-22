@@ -1,0 +1,31 @@
+@import "~bootstrap/dist/css/bootstrap.css";
+
+.example-full-width {
+    width: 100%;
+  }
+
+  .example-card {
+    max-width: 80%;
+    margin: 5% 10%;
+  }
+  
+  .addresses-div{
+    max-width: 80%;
+    margin: 5% 10%;
+    padding: 10px;
+    font-size: 100px;
+  }
+
+  .edit-btn .del-btn{
+    float: right;
+  }
+
+  .del-address-font{
+    font-family: initial;
+    font-size  : 13px;
+  }
+
+  .mat-card-address-view{
+    margin: 10px;
+  }
+  

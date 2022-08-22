@@ -1,0 +1,21 @@
+<div class="container">
+    <h6 style="font-size: 17px;font-weight: 600 !important;"> Repeat last used customization?</h6>
+    <ul>
+        <p>
+            <ng-container *ngFor="let addOnObj of selectedVarianceAndAddOns; let i = index;">
+                <ng-container *ngIf="i!=0;">
+                    ,
+                </ng-container>
+                <b>{{addOnObj.ADD_ON_GROUP_NAME}}:</b>
+                <ng-container *ngFor="let products of addOnObj.ADD_ON_PRODUCTS; let j = index;">
+                    <ng-container *ngIf="j!=0;">
+                        ,
+                    </ng-container>
+                    {{products.PRODUCT_NAME}}
+                </ng-container>
+            </ng-container>
+        </p>
+    </ul>
+    <button class="btn background mr-3" style="color: #fff;margin: 5px 0;" (click)="fetchProduct()">I'LL CHOOSE</button>
+    <button class="btn background" style="color: #fff;margin: 5px 0;" (click)="updateCart();">REPEAT LAST</button>
+</div>

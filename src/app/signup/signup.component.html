@@ -1,0 +1,63 @@
+<div class="containerWidth">
+    <div class="log">
+        <div class="row">
+            <div class="col-md-3 col-sm-12 col-xs-12"> </div>
+            <div class="col-md-6 col-sm-12 col-xs-12">
+                <h3 class="agileinfo_sign" style="color: #000;">Sign Up</h3>
+
+                <div class="row">
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0"> &nbsp; </div>
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                        <!-- new-checklist-1-soln-1 -->
+                        <input type="hidden" class="form-control" placeholder="Referral Code" [(ngModel)]="referralCode" (keyup)="onValueIn()">
+                    </div>
+                </div>
+
+                <!-- Form Start -->
+                <form>
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Firstname" [(ngModel)]="firstname" required name="firstname" #ngFirstname="ngModel" (input)="validateForm(ngFirstname)">
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Lastname" [(ngModel)]="lastname" name="lastname" #ngLastname="ngModel" (input)="validateForm(ngLastname)">
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width">
+                        <input matInput="email" placeholder="Email" [(ngModel)]="email" required name="email" #ngEmail="ngModel" (input)="validateForm(ngEmail)" [email]="true">
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width">
+                        <input matInput type="password" placeholder="Password" [(ngModel)]="password" required name="password" #ngPassword="ngModel" (input)="validateForm(ngPassword); validatePassAndConfirmPassword();">
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width">
+                        <input matInput type="password" placeholder="Confirm Password" [(ngModel)]="confirmPassword" id="password2" required name="confirmPassword" #ngConfirmPassword="ngModel" (input)="validateForm(ngConfirmPassword); validatePassAndConfirmPassword();">
+                    </mat-form-field>
+                    <p style="color: red;" *ngIf="pwdMatchError">Password and Confirm Password does not match</p>
+                    <mat-form-field class="example-full-width">
+                        <input matInput type="text" (keypress)="this.commonService.numberOnly($event)" maxlength="10" placeholder="Mobile Number" [(ngModel)]="mobileNumber" [pattern]="this.commonService.mobNumberPattern" required name="mobileNumber" #ngMobileNumber="ngModel"
+                            (input)="validateForm(ngMobileNumber);">
+                    </mat-form-field>
+                    <flash-messages></flash-messages>
+                    <div class="row">
+                        <div class="col-6 mobRightPadding">
+                            <a>
+                                <input type="submit" value="Sign Up" (click)="signup()" class="background cancel_button">
+                            </a>
+                        </div>
+                        <div class="col-6 mobLeftPadding">
+                            <a [routerLink]="['/']">
+                                <input type="button" value="Cancel" class="background cancel_button">
+                            </a>
+                        </div>
+                    </div>
+                </form>
+                <!-- Form End -->
+                <div style="text-align: center;">
+                    <a [routerLink]="['/collections/login']" style="color: var(--theme-color);"> Already have an account?</a>
+                    <p>
+                        <a>By clicking register, I agree to your terms</a>
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-12 col-xs-12"> </div>
+        </div>
+    </div>
+</div>

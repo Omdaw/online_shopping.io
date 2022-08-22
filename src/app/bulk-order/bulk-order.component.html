@@ -1,0 +1,38 @@
+<div class="containerWidth">
+  <form>
+    <div class="container">
+      <br><br><br>
+      <mat-form-field appearance="outline" class="example-container">
+        <mat-label>Email address</mat-label>
+        <input matInput="email" placeholder="example@domain.com" name="emailAddress" [(ngModel)]="emailAddress"
+          #ngEmailAddress="ngModel" (input)="validateEnquiryForm(ngEmailAddress)" [email]="true" required>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="example-container">
+        <mat-label>Name</mat-label>
+        <input matInput placeholder="Jack" name="subscriberName" [(ngModel)]="subscriberName"
+          #ngSubscriberName="ngModel" (input)="validateEnquiryForm(ngSubscriberName)" required>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="example-container">
+        <mat-label>Phone Number</mat-label>
+        <input matInput placeholder="1234567890" name="phoneNumber" (keypress)="this.commonService.numberOnly($event)"
+          maxlength="10" [pattern]="this.commonService.mobNumberPattern" [(ngModel)]="phoneNumber"
+          #ngPhoneNumber="ngModel" (input)="validateEnquiryForm(ngPhoneNumber)" required>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="example-container">
+        <mat-label>Your Query</mat-label>
+        <textarea matInput placeholder="Your Query" name="enquiryContent" [(ngModel)]="enquiryContent"
+          #ngEnquiryContent="ngModel" (input)="validateEnquiryForm(ngEnquiryContent)" required></textarea>
+      </mat-form-field>
+
+      <flash-messages></flash-messages>
+
+      <button type="submit" class="background" (click)="submitEnquiryForm()">Submit</button>
+
+
+    </div>
+    <!--container-->
+  </form>
+</div>

@@ -1,0 +1,108 @@
+
+.blogTitle {
+    
+    margin-bottom: 10px;
+    cursor: pointer;
+    color: #25282b;
+    font-family: sans-serif;
+    font-size: 26px;
+    line-height: 31.2px;
+    vertical-align: baseline;
+    letter-spacing: normal;
+    word-spacing: 0px;
+    font-weight: 600;
+    font-style: normal;
+    font-variant: normal;
+    text-transform: none;
+    text-decoration: none solid rgb(37, 40, 43);
+    text-align: left;
+    text-indent: 0px;
+}
+
+.button-nav {
+    display: flex;
+    border-radius: 4px;
+    background-color: rgb(255, 255, 255);
+    border: 2px rgb(0, 0, 0) solid;
+    color: #08233e;
+    text-align: center;
+    font-size: 15px;
+    padding:10px 5px;
+    /* min-width: 150px; */
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 15px 5px 5px 0px;
+}
+
+.services-breadcrumb{
+    margin-top: 12%; 
+}
+.welcome{
+    /* margin-top: 5%; */
+}
+
+.services-breadcrumb{
+    /* margin-top: 3%;  */
+}
+.welcome{
+    padding:0 !important
+}
+
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1366px) 
+{
+    
+    .services-breadcrumb{
+        margin-top: 14%; 
+    }
+}
+
+
+
+@media only screen 
+and (min-device-width : 1024px) 
+and (max-device-width : 1366px) 
+and (orientation : landscape)
+and (-webkit-min-device-pixel-ratio: 2) { 
+    
+}
+@media only screen 
+and (min-device-width : 1024px) 
+and (max-device-width : 1366px) 
+and (orientation : portrait)
+and (-webkit-min-device-pixel-ratio: 2) { 
+    .services-breadcrumb{
+        margin-top: 18%; 
+    }
+}
+
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1020px) 
+and (orientation : portrait)
+and (-webkit-min-device-pixel-ratio: 2) { 
+    .services-breadcrumb{
+        margin-top: 17%; 
+    }
+}
+
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : landscape)
+and (-webkit-min-device-pixel-ratio: 2) { 
+    .services-breadcrumb{
+        margin-top: 18%; 
+    }
+}
+
+@media(max-width:767px){
+    .welcome{
+        /* margin-top: 2% !important; */
+    }
+    
+    .services-breadcrumb{
+        margin-top: 34%;
+    }
+}

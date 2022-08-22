@@ -1,0 +1,133 @@
+<style>
+    .container {
+        background: #fff;
+        padding: 10px;
+    }
+    
+    img {
+        float: left;
+        width: 75px;
+        height: 75px;
+    }
+    
+    .table thead th {
+        border-bottom: 1px solid #efefef78;
+    }
+    
+    .table th {
+        border-top: none;
+    }
+    
+    .table td {
+        vertical-align: middle;
+    }
+    
+    @media (max-width: 1366px) {
+        .container {
+            width: 750px;
+        }
+    }
+    
+    @media (max-width:767px) {
+        .container {
+            width: 590px;
+        }
+    }
+    
+    @media (max-width:568px) {
+        .mat-dialog-container {
+            padding: 5px !important;
+        }
+        .container {
+            width: 270px;
+        }
+        .prodImage {
+            display: none
+        }
+        img {
+            float: left;
+            width: 200%;
+        }
+    }
+</style>
+
+<div class="containerWidth">
+    <div class="container">
+        <h4 style="font-weight: 600 !important;"> Checkout Alert</h4>
+        <table class="table" style="border:1px solid rgb(237 237 237); width:100%; ">
+            <thead style="display: block;">
+                <tr style="width: 100%;display: inline-table;">
+                    <th style="text-align: center; font-size: 15px;" colspan="2"> Product </th>
+                    <th style="text-align: center; font-size: 15px;"> Quantity </th>
+                </tr>
+            </thead>
+            <div *ngFor="let row of this.transactionsService.unavailableProductsArray; let i = index;" style="padding: 0.8em;">
+                <tbody style="width: 100%; display: inline-table;">
+                    <tr class="row" style="vertical-align: middle;margin: 0;">
+                        <td class="col-6" style="display: flex;justify-content: center;border-top: none;">
+                            <div class="prodImage">
+                                <img [src]="row.PRODUCT_IMAGE_FILE_PATH" onerror="this.src='assets/images/noProductToShowInThisCategory.jpg'">
+                                <span style="font-size: 12px" matBadge="{{row.PRODUCT_QUANTITY}}"> </span>
+                            </div>
+                            <div style="font-size: 16px;color: #000;padding: 0 12px;">{{row.PRODUCT_NAME}}</div>
+                        </td>
+
+                        <td class="col-6" style="text-align: center;border-top: none;">
+                            <div *ngIf="row.PRODUCT_QUANTITY > 0">
+                                <button class="btn btn-success">{{row.PRODUCT_QUANTITY}} Available</button>
+                            </div>
+                            <div *ngIf="row.PRODUCT_QUANTITY == 0">
+                                <button class='btn btn-secondary' style="background: silver;border: none;">Unavailable</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr></tr>
+                </tbody>
+            </div>
+        </table>
+
+        <!-- <table style="border:1px solid rgb(224, 222, 222); width:100%; ">
+            <div *ngFor="let row of this.transactionsService.unavailableProductsArray; let i = index;" style="padding: 0.8em;">
+                <colgroup>
+                    <col width="30%">
+                    <col width="40%">
+                    <col width="30%">
+                </colgroup>
+                <tr>
+                    <th style="text-align: center; font-size: 15px;" colspan="2"> Product </th>
+                    <th style="text-align: center; font-size: 15px;"> Quantity </th>
+                </tr>
+                <tr *ngIf="i == 0">
+                    <td colspan="3">
+                        <hr size="3">
+                    </td>
+                </tr>
+                <tr style="vertical-align: middle;">
+                    <td class="prodImage" style="padding: 6px;">
+                        <div>
+                            <img [src]="row.PRODUCT_IMAGE_FILE_PATH" onerror="this.src='assets/images/noProductToShowInThisCategory.jpg'">
+                        </div>
+                        <span style="font-size: 12px" matBadge="{{row.PRODUCT_QUANTITY}}"> </span>
+                    </td>
+                    <td style="font-size: 16px;color: #000;">
+                        <div>{{row.PRODUCT_NAME}}</div>
+                    </td>
+
+                    <td style="text-align: right;" *ngIf="row.PRODUCT_QUANTITY > 0">
+                        <button class="btn btn-success">{{row.PRODUCT_QUANTITY}} Available</button>
+                    </td>
+                    <td style="text-align: right;" *ngIf="row.PRODUCT_QUANTITY == 0">
+                        <button class='btn btn-secondary' style="background: silver;border: none;">Unavailable</button>
+                    </td>
+                </tr>
+
+            </div>
+        </table> -->
+
+    </div>
+
+
+    <div style="text-align: center;">
+        <button style="width: 80px;" class="btn background" (click)="closeDialogue();this.transactionsService.checkCartItems();">OK</button>
+    </div>
+</div>

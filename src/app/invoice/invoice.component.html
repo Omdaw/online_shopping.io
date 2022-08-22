@@ -1,0 +1,108 @@
+<div class="containerWidth">
+    <div class="container" style="margin-top: 14%; margin-bottom: 20px;">
+        <h4>INVOICE</h4>
+        <br>
+        <div class="row" style="margin: 0px;">
+            <div class="col-md-8">
+                <p>{{invoiceObject.CONTACT_NAME}}<br>
+                    {{invoiceObject.ADDRESS_LINE1}} <br>{{invoiceObject.ADDRESS_LINE2}}</p>
+                <p *ngIf="invoiceObject.ADDRESS_CITY_NAME   != 'null'">{{invoiceObject.ADDRESS_CITY_NAME}} </p>
+                <p *ngIf="invoiceObject.ADDRESS_STATE_NAME  != 'null'">{{invoiceObject.ADDRESS_STATE_NAME}} </p>
+                <p *ngIf="invoiceObject.ADDRESS_COUNTRY_NAME!= 'null'">{{invoiceObject.ADDRESS_COUNTRY_NAME}} </p>
+
+                <table border="1">
+                    <tr>
+                        <td>Invoice no</td>
+                        <td>{{invoiceObject.TRANSACTION_ID}}</td>
+                    </tr>
+                    <tr>
+                        <td>Order No</td>
+                        <td>{{invoiceObject.INVOICE_ID}}</td>
+                    </tr>
+                    <tr>
+                        <td> Payment</td>
+                        <td>{{invoiceObject.PAYMENT_TYPE_NAME}}</td>
+                    </tr>
+                    <tr>
+                        <td>Total Amount</td>
+                        <td>Rs. {{invoiceObject.INVOICE_FINAL_AMOUNT}}</td>
+                    </tr>
+                    <tr>
+                        <td>No. of item</td>
+                        <td>{{invoiceDetails.length}}</td>
+                    </tr>
+                </table>
+
+            </div>
+            <!--col1-->
+            <div class="col-md-4">
+                <p>{{invoiceObject.STORE_NAME}}</p>
+                <p>{{invoiceObject.STORE_ADDRESS_LINE1}}</p>
+                <p>{{invoiceObject.STORE_ADDRESS_LINE2}}</p>
+
+
+            </div>
+            <!--col2-->
+        </div>
+        <!--row-->
+        <br>
+        <table border="1" style="width: 100%;">
+            <tr>
+                <th>Sl.No</th>
+                <th>item</th>
+                <th>Unit Cost</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Saving</th>
+            </tr>
+            <!-- <tr>
+    <td colspan="6"><b>Chilled Item</b></td>
+    </tr> -->
+            <tr *ngFor="let row of invoiceDetails;let i = index;">
+
+                <td>{{i+1}}</td>
+                <td><b>{{row.PRODUCT_NAME}}</b></td>
+                <td style="text-align: right">Rs. {{row.PRODUCT_PRICE}}</td>
+                <td style="text-align: right">{{row.PRODUCT_QUANTITY}}</td>
+                <td style="text-align: right">Rs. {{row.PRODUCT_FINAL_PRICE * row.PRODUCT_QUANTITY}}</td>
+                <td style="text-align: right">Rs. {{row.PRODUCT_DISCOUNT_AMOUNT}}</td>
+
+
+            </tr>
+
+            <tr>
+
+                <td colspan="4" style="text-align: right;">Sub Total</td>
+                <td style="text-align: right">Rs. {{invoiceObject.INVOICE_AMOUNT}}</td>
+                <td style="text-align: right">Rs. {{invoiceObject.INVOICE_DISCOUNT_AMOUNT}}</td>
+
+
+            </tr>
+            <tr>
+
+                <td colspan="4" style="text-align: right;">GST(included in the sub total above)</td>
+                <td style="text-align: right">Rs. {{this.gst|number:'1.0-2'}}</td>
+                <td></td>
+
+
+            </tr>
+            <tr>
+
+                <td colspan="4" style="text-align: right;">Final Total</td>
+                <td style="text-align: right">Rs. {{invoiceObject.INVOICE_FINAL_AMOUNT}}</td>
+                <td style="text-align: right">Rs. {{invoiceObject.INVOICE_TOTAL_DISCOUNT}}</td>
+
+
+            </tr>
+
+        </table>
+
+
+
+    </div>
+    <!--container-->
+
+    <a [routerLink]="['/']" style="text-decoration: none;"> <input type="button" class="background checkbutton"
+            value="Continue Shopping" style="margin: 100px 0px 0px 40%"> </a>
+
+</div>

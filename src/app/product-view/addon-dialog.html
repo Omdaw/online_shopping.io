@@ -1,0 +1,110 @@
+<style>
+    .addonContainer {
+        max-height: 430px;
+        overflow-y: auto;
+    }
+</style>
+<div class="row addonContainer">
+    <div class="col-12">
+
+        <ng-container *ngFor="let addOnGroup of productsDetailObject.ADD_ON_PRODUCT_GROUP_MAP; let groupIndex = index;">
+            <h6 style="font-weight: 600 !important;margin-top: 1em;font-size: 16px;">
+                {{addOnGroup.ADD_ON_PRODUCT_GROUP_NAME}}
+                <ng-container *ngIf="addOnGroup.IS_MANDATORY == 'true'">
+                    (required)
+                </ng-container>
+                <ng-container *ngIf="addOnGroup.IS_MANDATORY == 'false'">
+                    (optional)
+                </ng-container>
+                <!-- new-checklist-1-soln-4 -->
+                <ng-container *ngIf="addOnGroup.IS_MANDATORY == 'false' && addOnGroup.MAX_SELECTION != 'null' && addOnGroup.MAX_SELECTION > 0">
+                    (You can select Max {{addOnGroup.MAX_SELECTION}} items)
+                </ng-container>
+            </h6>
+
+
+            <mat-radio-group [(ngModel)]="addOnGroup.SELECTED_PRODUCT">
+                <ng-container *ngFor="let product of addOnGroup.ADD_ON_PRODUCT_GROUP_PRODUCT_DETAIL_MAP; let productIndex = index;">
+                    <!-- Radio buttons -->
+                    <div *ngIf="addOnGroup.IS_MULTI_SELECT == 'false'">
+                        <mat-radio-button class="example-radio-button" [value]="product">
+                            {{product.PRODUCT_NAME}}
+                            <!-- price -->
+                            <ng-container *ngIf="product.SELLING_PRICE != 'null'">
+                                {{this.commonService.STORE_CURRENCY_SYMBOL}} {{product.SELLING_PRICE}}
+                            </ng-container>
+
+                            <!-- size -->
+                            <ng-container *ngIf="product.SIZE != 'null'">
+                                ({{product.SIZE}} {{product.SIZE_LABEL}})
+                            </ng-container>
+
+                            <!-- color -->
+                            <ng-container *ngIf="product.PRODUCT_COLOR != 'null'">
+                                ({{product.PRODUCT_COLOR}} {{product.PRODUCT_COLOR_LABEL}})
+                            </ng-container>
+
+                            <!-- material -->
+                            <ng-container *ngIf="product.MATERIAL != 'null'">
+                                ({{product.MATERIAL}} {{product.MATERIAL_LABEL}})
+                            </ng-container>
+
+                        </mat-radio-button>
+                        <a style="color: blueviolet;" (click)="openViewProductDialog(product);"> view detail</a>
+                    </div>
+                    <!-- //Radio buttons -->
+                </ng-container>
+            </mat-radio-group>
+
+            <ng-container *ngFor="let product of addOnGroup.ADD_ON_PRODUCT_GROUP_PRODUCT_DETAIL_MAP; let productIndex = index;">
+
+                <!-- checkboxes -->
+                <div *ngIf="addOnGroup.IS_MULTI_SELECT == 'true'">
+                    <mat-checkbox [(ngModel)]="product.CHECKED" (ngModelChange)="product.CHECKED?
+                        ((addOnGroup.NO_OF_ITEMS_SELECTED==undefined)?addOnGroup.NO_OF_ITEMS_SELECTED = 1: addOnGroup.NO_OF_ITEMS_SELECTED = addOnGroup.NO_OF_ITEMS_SELECTED + 1):
+                        addOnGroup.NO_OF_ITEMS_SELECTED = addOnGroup.NO_OF_ITEMS_SELECTED - 1" [disabled]="!addOnGroup.MAX_SELECTION || (addOnGroup.MAX_SELECTION == addOnGroup.NO_OF_ITEMS_SELECTED && !product.CHECKED)">
+                        {{product.PRODUCT_NAME}}
+
+                        <!-- price -->
+                        <ng-container *ngIf="product.SELLING_PRICE != 'null'">
+                            {{this.commonService.STORE_CURRENCY_SYMBOL}} {{product.SELLING_PRICE}}
+                        </ng-container>
+
+                        <!-- size -->
+                        <ng-container *ngIf="product.SIZE != 'null'">
+                            ({{product.SIZE}} {{product.SIZE_LABEL}})
+                        </ng-container>
+
+                        <!-- color -->
+                        <ng-container *ngIf="product.PRODUCT_COLOR != 'null'">
+                            ({{product.PRODUCT_COLOR}} {{product.PRODUCT_COLOR_LABEL}})
+                        </ng-container>
+
+                        <!-- material -->
+                        <ng-container *ngIf="product.MATERIAL != 'null'">
+                            ({{product.MATERIAL}} {{product.MATERIAL_LABEL}})
+                        </ng-container>
+                    </mat-checkbox>
+                    <a style="color: blueviolet;" (click)="openViewProductDialog(product);"> view detail</a>
+                    <!-- </label> -->
+                </div>
+                <!-- //checkboxes -->
+
+            </ng-container>
+        </ng-container>
+
+
+
+    </div>
+</div>
+<!-- row -->
+<div class="row">
+    <div class="col-12">
+
+        <!-- add to cart  -->
+        <button *ngIf="this.transactionService.showOutofStockBasedOnProductDetailsObject(productsDetailObject) == false" class="btn background float-right" style="color: #fff" (click)="this.addToCart()">
+                {{this.commonService.addToCartButtonText}}
+            </button>
+
+    </div>
+</div>

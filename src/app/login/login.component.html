@@ -1,0 +1,166 @@
+<div class="containerWidth">
+    <div class=" container log ">
+        <div class="row" *ngIf="this.loginservice.displayGuestCheckIn == false && !displayOtpCheckIn">
+            <div class="col-md-3 col-sm-12 col-12"></div>
+            <div class="col-md-6 col-sm-12 col-12">
+                <h3 class="agileinfo_sign" style="color: black;">Login</h3>
+                <p style="text-align: center;" *ngIf="this.commonService.showPersonalEmailLogin">
+                    Sign In now, Don't have an account?
+                    <a [routerLink]="['/collections/signup']" style="color: var(--theme-color);font-weight: 600;">
+            Sign Up
+          </a>
+                </p>
+
+                <br>
+
+                <div class="loginForm" *ngIf="this.commonService.showPersonalEmailLogin">
+                    <form>
+                        <!-- Form Start -->
+
+                        <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Email ID" required name="loginEmail" [(ngModel)]="loginEmail" #ngLoginEmail="ngModel" (input)="validateForm(ngLoginEmail)" [email]="true">
+                        </mat-form-field>
+
+                        <mat-form-field class="example-full-width">
+                            <input matInput type="password" placeholder="Password" required [(ngModel)]="loginPassword" name="loginPassword" #ngLoginPassword="ngModel" (input)="validateForm(ngLoginPassword)">
+                        </mat-form-field>
+
+
+                        <flash-messages></flash-messages>
+
+                        <div class="row">
+                            <div class="col-6 mobRightPadding">
+                                <input type="submit" value="Sign In" (click)="login()" class="background cancel_button">
+                            </div>
+                            <div class="col-6 mobLeftPadding">
+                                <a [routerLink]="['/']">
+                                    <input type="button" value="Cancel" class="background cancel_button">
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- Form End -->
+                    <div style="margin: 8px 0px;">
+                        <a [routerLink]="['/collections/reset-password']">Forgot Password?</a>
+                    </div>
+                </div>
+
+                <div style="margin-top: 24px;margin-bottom: 20px;">
+                    <h3 style="text-align: center;" *ngIf="this.commonService.showPersonalEmailLogin && (this.commonService.showGoogleSignIn || this.commonService.showFacebookLogin || this.commonService.showGuestCheckIn)">
+                        OR
+                    </h3>
+                </div>
+
+                <div class="row socialBtns" style="width: 90%;margin-left: 5%;">
+
+                    <!-- guest checkin -->
+                    <!-- <div *ngIf="this.commonService.showGuestCheckIn" class="col-lg-4 col-md-4 col-sm-12 col-12 mx-auto">
+                        <div class="guest" style="cursor: pointer;" (click)="this.loginservice.showGuestCheckIn();">
+                            <h5> <i class="fa fa-users"></i>Guest CheckIn</h5>
+                        </div>
+                    </div> -->
+
+                    <!-- //login-with-otp-enable-and-disable -->
+                    <!-- Otp Checkin Button --> 
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-12 mx-auto" *ngIf="this.commonService.showOtpLogin">
+                        <div class="guest" style="cursor: pointer;" (click)="displayOtpCheckIn = true">
+                            <h5> <i class="fa fa-users"></i>Login with OTP</h5>
+                        </div>
+                    </div>
+
+                    <!-- facebook -->
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-12 mx-auto" *ngIf="this.commonService.showFacebookLogin">
+                        <div class="facebook" style="cursor: pointer;" (click)="this.socialSignupService.singIn('Facebook');">
+                            <h5 style="font-size: 16px !important;"><i class="fa fa-facebook-square"></i>
+                            </h5>
+                            <h5>Facebook</h5>
+                        </div>
+                    </div>
+
+                    <!-- google -->
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-12 mx-auto" *ngIf="this.commonService.showGoogleSignIn">
+                        <div class="google" style="cursor: pointer;" (click)="this.socialSignupService.singIn('Google');">
+                            <h5 style="font-size: 16px !important;"><i class="fa fa-google-plus-square"></i>
+                            </h5>
+                            <h5>Google</h5>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="col-md-3 col-sm-12 col-12"></div>
+
+
+
+        </div>
+
+        <!-- Guest checkin-->
+        <div class="loginForm" *ngIf="this.loginservice.displayGuestCheckIn">
+            <h3 class="agileinfo_sign guestCheckIn" style="color: black;">Guest Check-In </h3>
+            <div class="row">
+
+                <div class="col-md-3 col-sm-12 col-12"></div>
+                <div class="col-md-6 col-sm-12 col-12">
+                    <form>
+                        <mat-form-field class="example-full-width">
+                            <input matInput placeholder="FirstName" required name="guestName" [(ngModel)]="guestName" #ngGuestName="ngModel" (input)="validateGuestCheckInForm(ngGuestName)" required>
+                        </mat-form-field>
+                        <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Email ID" required name="guestEmail" [(ngModel)]="guestEmail" #ngGuestEmail="ngModel" (input)="validateGuestCheckInForm(ngGuestEmail)" [email]="true">
+                        </mat-form-field>
+                        <mat-form-field class="example-full-width">
+                            <input matInput type="text" (keypress)="this.commonService.numberOnly($event)" maxlength="10" placeholder="Mobile Number" [(ngModel)]="guestMobileNumber" required name="guestMobileNumber" [pattern]="this.commonService.mobNumberPattern" #ngGuestMobile="ngModel"
+                                (input)="validateGuestCheckInForm(ngGuestMobile);">
+                        </mat-form-field>
+                        <flash-messages></flash-messages>
+                        <div class="row">
+                            <div class="col-6 mobRightPadding">
+                                <input type="submit" value="Continue" (click)="guestCheckIn()" class="background cancel_button">
+                            </div>
+                            <div class="col-6 mobLeftPadding">
+                                <input type="button" value="Cancel" (click)="this.loginservice.hideGuestCheckIn()" class="background cancel_button">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-3 col-sm-12 col-12"></div>
+            </div>
+        </div>
+        <!-- Guest checkin ends-->
+
+        <!-- OTP checkin-->
+        <div *ngIf="displayOtpCheckIn">
+            <div class="loginForm">
+                <h3 class="agileinfo_sign guestCheckIn" style="color: black;">Login with OTP</h3>
+                <div class="row">
+
+                    <div class="col-md-3 col-sm-12 col-12"></div>
+                    <div class="col-md-6 col-sm-12 col-12">
+
+                        <form>
+                            <mat-form-field class="example-full-width">
+                                <input matInput placeholder="FirstName" required name="otpFirstname" [(ngModel)]="otpFirstname" #ngOtpFirstname="ngModel" (input)="validateOtpCheckInForm(ngOtpFirstname)" required>
+                            </mat-form-field>
+                            <mat-form-field class="example-full-width">
+                                <input matInput placeholder="Mobile Number" required name="otpMobileNumber" [(ngModel)]="otpMobileNumber" #ngOtpMobileNumber="ngModel" (input)="validateOtpCheckInForm(ngOtpMobileNumber)" (keypress)="this.commonService.numberOnly($event)" maxlength="10"
+                                    [pattern]="this.commonService.mobNumberPattern">
+                            </mat-form-field>
+
+                            <div class="row">
+                                <div class="col-6 mobRightPadding">
+                                    <input type="submit" value="Sign In" (click)="otpCheckIn()" class="background cancel_button">
+                                </div>
+                                <div class="col-6 mobLeftPadding">
+                                    <input type="button" value="Cancel" (click)="displayOtpCheckIn = false" class="background cancel_button">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-md-3 col-sm-12 col-xs-12"></div>
+                </div>
+            </div>
+        </div>
+        <!-- OTP checkin ends-->
+    </div>

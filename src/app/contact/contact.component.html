@@ -1,0 +1,135 @@
+<style>
+  .page-head_agile_info_w3l {
+    min-height: 0 !important;
+    /* margin-top: 160px !important; */
+  }
+
+  .w3_short {
+    margin-top: 15px;
+  }
+
+  @media(max-width: 786px) {
+    .page-head_agile_info_w3l {
+      margin-top: 126px !important;
+    }
+  }
+
+  .contact-right.wthree {
+    margin-top: -60px !important;
+  }
+
+  .contact-form {
+    width: 100% !important;
+  }
+</style>
+
+<div class="containerWidth">
+  <!-- banner-2 -->
+  <div class="page-head_agile_info_w3l">
+
+  </div>
+  <!-- //banner-2 -->
+  <!-- page -->
+  <div class="services-breadcrumb">
+    <div class="agile_inner_breadcrumb">
+      <div class="container" style="margin-top: 12%;">
+        <ul class="w3_short">
+          <li>
+            <a routerLink="/">Home</a>
+            <i>|</i>
+          </li>
+          <li>Contact Us</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!-- //page -->
+  <!-- contact page -->
+  <div class="">
+    <div class="container">
+      <!-- tittle heading -->
+      <h3 class="tittle-w3l">Contact Us
+        <span class="heading-style">
+          <i></i>
+          <i></i>
+          <i></i>
+        </span>
+      </h3>
+
+      <div class="contact agileits">
+        <div class="contact-agileinfo">
+          <div class="row">
+            <div class="col-lg-7 col-md-7 col-12" style="margin-bottom: 80px;">
+              <div class="contact-form wthree">
+                <form action="#" method="post">
+                  <div class="form-group">
+                    <input ngModel required minlength="3" maxlength="10" type="text" name="firstName"
+                      #firstName="ngModel" placeholder="Name">
+                    <div class="alert alert-danger" *ngIf="firstName.touched && !firstName.valid">
+                      <div *ngIf="firstName.errors.required">Name is required</div>
+                      <div *ngIf="firstName.errors.minlength">Name should be minimum 3 charcters</div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <input ngModel required minlength="10" maxlength="10" type="text" pattern="[0-9]{10}" name="phone"
+                      placeholder="Phone Number" #phone="ngModel">
+                    <div class="alert alert-danger" *ngIf="phone.touched && !phone.valid">
+                      <div *ngIf="phone.errors.required">Phone Number is required</div>
+                      <div *ngIf="phone.errors.minlength">Phone Number should be minimum 10 Numbers</div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <input ngModel required type="email" name="email" placeholder="Email" #email="ngModel">
+
+                    <div class="alert alert-danger" *ngIf="email.touched && !email.valid">
+                      <div *ngIf="email.errors.required">Email is required</div>
+                      <div *ngIf="email.errors.pattern">Email doesn't match</div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <textarea placeholder="Message" name="message" required=""></textarea>
+
+                    <div class="alert alert-danger" *ngIf="phone.touched && !phone.valid">
+                      <div *ngIf="phone.errors.required">Phone Number is required</div>
+                      <div *ngIf="phone.errors.minlength">Phone Number should be minimum 10 Numbers</div>
+                      <div *ngIf="phone.errors.pattern">Name doesn't match</div>
+                    </div>
+                  </div>
+                  <input type="submit" value="Submit">
+                </form>
+              </div>
+            </div>
+
+            <div class="col-lg-5 col-md-5 col-12">
+              <div class="contact-right wthree">
+                <div class="contact-text w3-agileits">
+                  <h4>GET IN TOUCH :</h4>
+                  <p>
+                    <i class="fa fa-map-marker"></i> 123 Sebastian, NY 10002, USA.</p>
+                  <p>
+                    <i class="fa fa-phone"></i> Telephone : 333 222 3333</p>
+                  <p>
+                    <i class="fa fa-fax"></i> FAX : +1 888 888 4444</p>
+                  <p>
+                    <i class="fa fa-envelope-o"></i> Email :
+                    <a href="mailto:example@mail.com">mail@example.com</a>
+                  </p>
+                </div>
+
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m26!1m12!1m3!1d31112.610655978606!2d77.59044657150055!3d12.902813167656298!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m11!3e6!4m3!3m2!1d12.890924199999999!2d77.6210953!4m5!1s0x3bae1505f91fa4ef%3A0xd63ebc3919dfe5ad!2scampion%20software!3m2!1d12.9160776!2d77.5947527!5e0!3m2!1sen!2sin!4v1593166952607!5m2!1sen!2sin"
+                  width="100%" height="375" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false"
+                  tabindex="0"></iframe>
+
+                <div class="clearfix"> </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- //contact -->
+    </div>
+  </div>
+</div>

@@ -1,0 +1,607 @@
+
+
+  <div class="">
+    <div class="_1joEet">
+        <div class="_1HEvv0">
+            <a class="_1KHd47" [routerLink]="['/']">Home</a> &nbsp;
+            <svg width="16" height="27" viewBox="0 0 16 27" xmlns="http://www.w3.org/2000/svg" class="_2XP0B_">
+                <path d="M16 23.207L6.11 13.161 16 3.093 12.955 0 0 13.161l12.955 13.161z"
+                    fill="#fff" class="_24NaUy">
+                </path>
+            </svg>
+            <i class="fa fa-angle-right left color breadcrumbIcon"></i>
+        </div>&nbsp;
+        <div class="_1HEvv0">
+            <a class="_1KHd48" [routerLink]="['/AllCollections/product', productObject.PRODUCT_CATEGORY_ID,productObject.PRODUCT_CATEGORY_NAME]">{{productObject.PRODUCT_CATEGORY_NAME}}</a>
+            <svg width="16" height="27" viewBox="0 0 16 27" xmlns="http://www.w3.org/2000/svg" class="_2XP0B_">
+                <path d="M16 23.207L6.11 13.161 16 3.093 12.955 0 0 13.161l12.955 13.161z"
+                    fill="#fff" class="_24NaUy">
+                </path>
+            </svg>&nbsp;
+        </div>
+    </div>
+</div>
+
+<div class="containerWidth">
+
+
+
+    <!-- Progress Bar -->
+    <div class="loading" *ngIf="productsDetailObject == undefined">
+        <mat-spinner class="loading-image"></mat-spinner>
+    </div>
+    <!-- Progress Bar ends -->
+
+    <div class="productView" style="margin-bottom: 4.5em;">
+
+        <div style="background-color: #fff !important;" *ngIf="productsDetailObject != undefined">
+            <div class="view" style="background-color: #fff !important;font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;">
+                <div class="mycarousel">
+
+                    <div class="mytopsec">
+
+                      
+                        <div class="row" style="margin-top: 20px;">
+                            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mysinglepro">
+
+                                <div class="productName">
+                                    <h1 class="productTitle break-word" *ngIf="productObject.PRODUCT_NAME != '' && productObject.PRODUCT_NAME != 'undefined'">
+                                        {{productObject.PRODUCT_NAME}}</h1>
+                                </div>
+
+                                <div class="productDesc">
+                                    <p *ngIf="productObject.PRODUCT_DESC != '' && productObject.PRODUCT_DESC != 'undefined'" [innerHTML]="productObject.PRODUCT_DESC" style="font-family: Arial, Helvetica, sans-serif !important;"> </p>
+                                </div>
+
+                                <!-- Final Checklist-->
+                                <span class="discount" style="font-size: 16px;position: absolute;z-index: 1;" *ngIf="this.productMidLayerService.showScratchPrice(productsDetailObject)">
+                                    <h6 style="margin-left: 22px;">
+                                        <span>
+                                            {{this.productMidLayerService.getDicountPercentage(productsDetailObject)}}</span>
+                                </h6>
+                                </span>
+                                <!-- //Final Checklist-->
+
+                                <div id="carouselExampleControls" class="carousel slide myproslide" data-ride="carousel">
+                                    <!-- [ngClass]="getClassName(productsArrayIndex)" -->
+                                    <div class="carousel-inner">
+                                        <div *ngFor="let row of productImageWithPathArray;let i = index;" [ngClass]="getClassName(i)">
+
+                                            <div class="productLoop">
+
+                                                <!-- product image  -->
+                                                <img class="imageHoverStyle" [src]="row.PRODUCT_IMAGE_FILE_PATH" alt='' style="height:83% !important;width: 100%;object-fit: cover;" onError="this.src='assets/images/noProductToShowInThisCategory.jpg';" />
+
+                                                <!-- discount -->
+                                             <!--   <span class="discount" style="font-size: 16px;z-index: 1;" *ngIf="this.productMidLayerService.showScratchPrice(productsDetailObject)">
+                                                    <h6 style="margin-left: 22px;">
+                                                        <span>
+                                                            {{this.productMidLayerService.getDicountPercentage(productsDetailObject)}}</span>
+                                                </h6>
+                                                </span>-->
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <a *ngIf="productImageWithPathArray.length>1" class="carousel-control-prev" href='#carouselExampleControls' data-slide='prev'>
+                                        <i style="font-size: 40px;font-weight: bold;color: var(--theme-color);" class="fa fa-angle-left" aria-hidden="true"></i>
+                                    </a>
+                                    <a *ngIf="productImageWithPathArray.length>1" class="carousel-control-next" href='#carouselExampleControls' data-slide='next'>
+                                        <i style="font-size: 40px;font-weight: bold;color: var(--theme-color);" class="fa fa-angle-right" aria-hidden="true"></i>
+                                    </a>
+
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 myprodetail">
+
+                                <div class="des mytopsec">
+                                    <div class="row" style="margin-bottom: 16px;">
+                                        <div class="col-9 mobProdName">
+
+                                            <h5 style="display: none;" *ngIf="productObject.PRODUCT_CATEGORY_NAME != '' && productObject.PRODUCT_CATEGORY_NAME != 'undefined'">
+                                                {{productObject.PRODUCT_CATEGORY_NAME}}</h5>
+                                            <h6 style="display: none;" *ngIf="productObject.PRODUCT_BRAND_NAME != '' && productObject.PRODUCT_BRAND_NAME != 'undefined'
+          && productObject.PRODUCT_BRAND_NAME != 'Undefined'">
+                                                {{productObject.PRODUCT_BRAND_NAME}}</h6>
+
+                                            <div class="productprice col-12">
+                                                <span>
+                                                    <del class="mydel" style="font-size: 20px;color: #929299" *ngIf="this.productMidLayerService.showScratchPrice(productsDetailObject)">
+                                                        {{this.commonService.STORE_CURRENCY_SYMBOL}}{{this.productMidLayerService.getScratchPrice(productsDetailObject)}}
+                                                        </del>&nbsp;
+                                                    <span class="myprice"
+                                                        style="font-size: 24px;font-weight: 500;color: #212121;">
+                                                        {{this.commonService.STORE_CURRENCY_SYMBOL}}{{this.productMidLayerService.getProductPrice(productsDetailObject)}}
+                                                    </span> &nbsp;
+                                              
+
+                                           <!--    <span style="color: #ff1744;font-size: 16px;" *ngIf="this.productMidLayerService.showScratchPrice(productsDetailObject)" class="discount-percentage">(
+                                                        {{this.productMidLayerService.getDicountPercentage(productsDetailObject)}})
+                                                    </span>--> 
+                                                </span>
+                                            </div>
+
+
+                                        </div>
+                                        <div class="col-3 mobHeart">
+                                            <span class="">
+                                                <div style="cursor: pointer;" class="wishlistD"
+                                                    *ngIf="this.myWishlistService.isThisProductsInMyWishlist(productsDetailObject)==false"
+                                                    (click)="this.myWishlistService.addToMyWishlist(productsDetailObject)">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="_2oLiqr" width="24"
+                                                        height="24" viewBox="0 0 20 16">
+                                                        <path
+                                                            d="M8.695 16.682C4.06 12.382 1 9.536 1 6.065 1 3.219 3.178 1 5.95 1c1.566 0 3.069.746 4.05 1.915C10.981 1.745 12.484 1 14.05 1 16.822 1 19 3.22 19 6.065c0 3.471-3.06 6.316-7.695 10.617L10 17.897l-1.305-1.215z"
+                                                            fill="var(--theme-color)" class="_35Y7Yo" stroke="#FFF"
+                                                            fill-rule="evenodd" opacity=".9">
+                                                        </path>
+                                                    </svg>
+                                                </div>
+
+                                                <div style="cursor: pointer;" class="wishlistD"
+                                                    *ngIf="this.myWishlistService.isThisProductsInMyWishlist(productsDetailObject)"
+                                                    (click)="this.myWishlistService.deleteMyWishlist(productsDetailObject)">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="_2oLiqr" width="24"
+                                                        height="24" viewBox="0 0 20 16">
+                                                        <path
+                                                            d="M8.695 16.682C4.06 12.382 1 9.536 1 6.065 1 3.219 3.178 1 5.95 1c1.566 0 3.069.746 4.05 1.915C10.981 1.745 12.484 1 14.05 1 16.822 1 19 3.22 19 6.065c0 3.471-3.06 6.316-7.695 10.617L10 17.897l-1.305-1.215z"
+                                                            fill="var(--theme-color)" class="_35Y7Yo" stroke="#FFF"
+                                                            fill-rule="evenodd" opacity=".9"
+                                                            style="fill:var(--theme-color);">
+                                                        </path>
+                                                    </svg>
+                                                </div>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12 btnsPadding">
+                                        <!-- Pincode -->
+                                        <div *ngIf="this.commonService.STORE_CHECK_PINCODE_AT_CHECKOUT_FLAG">
+                                            <div class="_20aOSn">
+                                                <div class="_6xSBsc" style="margin: 0px 30px;">Delivery</div>
+                                                <mat-form-field>
+                                                    <mat-label>Enter Your Pincode</mat-label>
+                                                    <input matInput [(ngModel)]="pincode" size="6" (keypress)="this.commonService.numberOnly($event)">
+                                                </mat-form-field>
+                                                <button class="pincodebutton " (click)="estimateDelivery()">Estimated
+                                                    Delivery</button>
+                                            </div>
+                                            <div style="border:1px dashed red;padding:10px; text-align: center;" *ngIf="this.pincodeMethods.pincodeAvailablity==3">
+                                                <p style="color:red">
+                                                    {{this.pincodeMethods.checkDeliveryLocationPincodeFailureResultObject.ERROR_MSG}}
+                                                </p>
+                                            </div>
+                                            <div style="border:1px dashed #666; padding:10px; text-align: center;" *ngIf="this.pincodeMethods.pincodeAvailablity==2">
+                                                <p style="color:#666">Estimated Product Delivery Duration : {{this.pincodeMethods.checkDeliveryLocationPincodeResultObject.DELIVERY_DURATION_UNIT}} {{this.pincodeMethods.checkDeliveryLocationPincodeResultObject.DELIVERY_DURATION_UNIT_TYPE_NAME}}
+                                                </p>
+                                                <p style="color:#666">Estimated Product Delivery Charges : {{this.pincodeMethods.checkDeliveryLocationPincodeResultObject.DELIVERY_CHARGE}}
+                                                </p>
+                                                <p style="color:#666">Delivery Notes : {{this.pincodeMethods.checkDeliveryLocationPincodeResultObject.DELIVERY_NOTES}}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <!-- Pincode ends-->
+
+                                        <!-- new Size design start here -->
+                                        <div class="_37KLG6 _3K7Qff col-12">
+
+                                            <!-- Size -->
+                                            <div class="_2a2WU_" *ngIf="sizeDropdownValues.length > 0">
+                                                <span id="Size" class="_1lwQLq _3K7Qff">{{dropdownLabelsObject.SIZE_LABEL}}</span>
+                                                <ul class="fUBI-_">
+                                                    <li class="_3hSwtk _2UBURg" id="swatch-1-size" *ngFor="let row of sizeDropdownValues" title="{{row.value}}" (click)="onSizeChange(row.value)">
+                                                        <a class="_1TJldG _2I_hq9 _2UBURg" style="text-decoration: none;" [ngClass]="getSizeClassName(row.value)">{{row.value}}</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+
+                                            <!-- Color  -->
+                                            <div class="_2a2WU_" *ngIf="colorDropdownValues.length > 0">
+                                                <span id="Size" class="_1lwQLq _3K7Qff">{{dropdownLabelsObject.PRODUCT_COLOR_LABEL}}</span>
+                                                <ul class="fUBI-_">
+                                                    <li class="_3hSwtk _2UBURg" id="swatch-1-size" *ngFor="let row of colorDropdownValues" (click)="onColorChange(row.value)">
+                                                        <a class="_1TJldG _2I_hq9 _2UBURg" [ngClass]="getColorClassName(row.value)">{{row.value}}</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+
+                                            <!-- Material  -->
+                                            <div class="_2a2WU_" *ngIf="materialDropdownValues.length > 0">
+                                                <span id="Size" class="_1lwQLq _3K7Qff">{{dropdownLabelsObject.MATERIAL_LABEL}}</span>
+                                                <ul class="fUBI-_">
+                                                    <li class="_3hSwtk _2UBURg" id="swatch-1-size" *ngFor="let row of materialDropdownValues" (click)="onMaterialChange(row.value)">
+                                                        <a class="_1TJldG _2I_hq9 _2UBURg" [ngClass]="getMaterialClassName(row.value)">{{row.value}}</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+
+
+                                            <!-- size for mobile  -->
+                                            <div class="sizeMobile" *ngIf="sizeDropdownValues.length > 0">
+                                                <div class="sizewrap">
+                                                    <div>
+                                                        <span id="Size" class="_1lwQLq _3K7Qff">{{dropdownLabelsObject.SIZE_LABEL}}</span>
+                                                    </div>
+                                                </div>
+                                                <ul class="fUBI-_">
+                                                    <li class="_3hSwtk _2UBURg" id="swatch-0-size" *ngFor="let row of sizeDropdownValues" (click)="onSizeChange(row.value)">
+                                                        <a class="_1TJldG _2I_hq9 _1wX7_H" [ngClass]="getSizeClassName(row.value)">{{row.value}}</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <!-- size for mobile  -->
+                                            <!-- size design end  -->
+
+                                            <!-- color -->
+                                            <div class="sizeMobile" *ngIf="colorDropdownValues.length > 0">
+                                                <div class="sizewrap">
+                                                    <div>
+                                                        <span id="Size" class="_1lwQLq _3K7Qff">{{dropdownLabelsObject.PRODUCT_COLOR_LABEL}}</span>
+                                                    </div>
+                                                </div>
+                                                <ul class="fUBI-_">
+                                                    <li class="_3hSwtk _2UBURg" id="swatch-0-size" *ngFor="let row of colorDropdownValues" (click)="onColorChange(row.value)">
+                                                        <a class="_1TJldG _2I_hq9 _1wX7_H" [ngClass]="getColorClassName(row.value)">{{row.value}}</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <!-- //color -->
+
+                                            <!-- material -->
+                                            <div class="sizeMobile" *ngIf="materialDropdownValues.length > 0">
+                                                <div class="sizewrap">
+                                                    <div>
+                                                        <span id="Size" class="_1lwQLq _3K7Qff">{{dropdownLabelsObject.MATERIAL_LABEL}}</span>
+                                                    </div>
+                                                </div>
+                                                <ul class="fUBI-_">
+                                                    <li class="_3hSwtk _2UBURg" id="swatch-0-size" *ngFor="let row of materialDropdownValues" (click)="onMaterialChange(row.value)">
+                                                        <a class="_1TJldG _2I_hq9 _1wX7_H" [ngClass]="getMaterialClassName(row.value)">{{row.value}}</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <!-- //material -->
+
+                                        </div>
+
+                                        <div class="col-12">
+                                            <button style="color:#fff; margin-top: 10px;" class="button1 soldbtn" *ngIf="this.transactionService.showOutofStock(productObject, productDetailsIndex)" disabled>
+                                                Sold Out
+                                            </button>
+                                        </div>
+
+
+                                        <div class="mytopsec">
+                                            <div class="cartbtn col-12">
+
+                                                <ng-container *ngIf="showUnavailable">
+                                                    <div class="addWrap">
+                                                        <div class="col-lg-12 col-md-12">
+                                                            <button class="button1 selectedFilter w-100" disabled>
+                                                                Unavailable
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </ng-container>
+
+                                                <ng-container *ngIf="!showUnavailable">
+                                                    <!-- buy now and add to cart  -->
+                                                    <div class="addWrap" *ngIf="this.transactionService.showAddToCart(productObject, productDetailsIndex) && this.transactionService.showOutofStock(productObject, productDetailsIndex) == false">
+                                                        <div class="row">
+                                                            <div class="col-lg-6">
+                                                                <button class="button1 background selectedFilter hoverClass" (click)="buyNow()">BUY
+                                                                    NOW</button>
+                                                            </div>
+                                                            <div class="col-lg-6">
+                                                                <!-- <div style="width:25px"></div> -->
+                                                                <button class="button1 background selectedFilter hoverClass" (click)="onAddToCartButtonClick()">
+                                                                    {{this.commonService.addToCartButtonText | uppercase}}
+                                                                    <!-- checklist-2 -->
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- update cart - addon product -->
+                                                    <ng-container *ngIf="productsDetailObject.ADD_ON_PRODUCT_GROUP_MAP && productsDetailObject.ADD_ON_PRODUCT_GROUP_MAP.length > 0">
+                                                        <div class="quantity-select" *ngIf="this.transactionService.showAddToCartForSingleProductPage(productObject, productDetailsIndex)==false && this.transactionService.showOutofStock(productObject, productDetailsIndex) == false">
+                                                            <div class="entry value-minus background hoverClass" title="This item has multiple customizations added. Remove the correct item from the cart." (click)="this.commonService.openAlertBar('This item has multiple customizations added. Remove the correct item from the cart.')">
+                                                                &nbsp;</div>
+                                                            <div class="entry value">
+                                                                {{this.transactionService.getSelectedQtyForSingleProductPage(productObject, productDetailsIndex)}}
+                                                            </div>
+                                                            <div class="entry value-plus background active hoverClass" (click)="openCustomizationConfirmationPopup()">
+                                                                &nbsp;</div>
+                                                        </div>
+                                                    </ng-container>
+
+                                                    <!-- update cart - no addon product -->
+                                                    <ng-container *ngIf="productsDetailObject.ADD_ON_PRODUCT_GROUP_MAP == undefined || productsDetailObject.ADD_ON_PRODUCT_GROUP_MAP.length == 0">
+                                                        <div class="quantity-select" *ngIf="this.transactionService.showAddToCart(productObject, productDetailsIndex)==false && this.transactionService.showOutofStock(productObject, productDetailsIndex) == false">
+                                                            <div class="entry value-minus background hoverClass" (click)="updateCart(this.transactionService.getSelectedQty(productObject, productDetailsIndex), 2)">
+                                                                &nbsp;</div>
+                                                            <div class="entry value">
+                                                                {{this.transactionService.getSelectedQty(productObject, productDetailsIndex)}}
+                                                            </div>
+                                                            <div class="entry value-plus background active hoverClass" (click)="updateCart(this.transactionService.getSelectedQty(productObject, productDetailsIndex), 1)">
+                                                                &nbsp;</div>
+                                                        </div>
+                                                    </ng-container>
+
+                                                </ng-container>
+                                            </div>
+                                        </div>
+
+                                        <ul style="list-style: none; padding:0px;">
+                                        </ul>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!--col2---->
+                        </div>
+                    </div>
+                    <!--row-->
+
+                </div>
+                <!--container-->
+
+                <!-- Additional Info -->
+                <div class="myproductban" *ngIf="additionalInfo.length>0">
+                    <div class="row mytopsec">
+                        <mat-accordion class="example-headers-align" multi style="width: 100%;">
+                            <ng-container *ngFor="let row of additionalInfo">
+                                <ng-container *ngIf="row.STATUS_CODE == 1">
+                                    <mat-expansion-panel style="box-shadow: none;margin: 10px 0;" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                                  <!--      <mat-expansion-panel-header [collapsedHeight]="'auto'" [expandedHeight]="'auto'" style="padding: 12px 20px;background-color:rgb(197 185 172 / 55%)">
+                                            <div class="webProdInfo">
+                                                <mat-panel-title>
+                                                    <span class="addInfoTitle">{{row.ADDITIONAL_INFO_TITLE}}</span>
+                                                </mat-panel-title>
+                                            </div>
+                                            <div class="mobProdInfo">
+                                                <mat-panel-title *ngIf="!panelOpenState">
+                                                    <span class="addInfoTitle">{{row.ADDITIONAL_INFO_TITLE |limitTo:24}}</span>
+                                                </mat-panel-title>
+                                                <mat-panel-title *ngIf="panelOpenState">
+                                                    <span class="addInfoTitle">{{row.ADDITIONAL_INFO_TITLE}}</span>
+                                                </mat-panel-title>
+                                            </div>
+                                        </mat-expansion-panel-header>-->
+                                        <div [innerHTML]="row.ADDITIONAL_INFO_DESC" style="padding: 12px 0;font-size: 16px;font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;">
+                                        </div>
+                                    </mat-expansion-panel>
+                                </ng-container>
+                                <!--If-->
+                            </ng-container>
+                            <!--For-->
+                        </mat-accordion>
+                    </div>
+                    <!-- row -->
+                </div>
+
+
+                <div class="applybtn" style="position:fixed; bottom:0; z-index:1;left: 0;right: 0; width:100%;  height:48px;margin-top: 12px;">
+                    <div class="row">
+
+                        <!-- Unavailable  -->
+                        <ng-container *ngIf="showUnavailable">
+                            <div class="col-12 " style="text-align: center;background-color: #fb5a7a; height: 48px;">
+                                <p style="color: #fff; padding:0px; font-size: 14px;margin: 16px;" disabled>
+                                    Unavailable
+                                </p>
+                            </div>
+                        </ng-container>
+
+                        <!-- if available  -->
+                        <ng-container *ngIf="!showUnavailable">
+                            <!-- sold out  -->
+                            <ng-container *ngIf="this.transactionService.showOutofStock(productObject, productDetailsIndex)">
+                                <div class="col-12 " style="text-align: center;background-color: #fb5a7a;height: 48px;">
+                                    <p style="color: #fff; padding:0px; font-size: 14px;margin: 16px;" disabled>
+                                        SOLD OUT
+                                    </p>
+                                </div>
+                            </ng-container>
+
+                            <ng-container *ngIf="selectedProductDetailsId > 0 
+                                            && this.transactionService.showAddToCart(productObject, productDetailsIndex) 
+                                            && this.transactionService.showOutofStock(productObject, productDetailsIndex) == false">
+                                <div class="row" style=" width: 100%;">
+                                    <div class="col-sm-6 col-6" style="padding:0px;">
+                                        <div style="text-align: center;">
+                                            <button class="buyAddButtons" style="padding: 12px;background-color: red;color: white !important;width: 100%;height: 48px;font-size: 14px; border: none;" (click)="buyNow()">
+                                                BUY NOW
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-6" style="padding: 0px;">
+                                        <div (click)="onAddToCartButtonClick()" style="text-align: center;">
+                                            <button class="buyAddButtons background" style="padding: 12px;width: 100%;height: 48px;font-size: 14px;border: none;">
+                                                {{this.commonService.addToCartButtonText | uppercase}}
+                                                <!-- checklist-2 -->
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-container>
+
+                            <ng-container style="text-align: center;background-color: #fff;margin-top: 0px;" *ngIf="this.transactionService.showAddToCart(productObject, 
+  productDetailsIndex)==false && this.transactionService.showOutofStock(productObject, productDetailsIndex) == false">
+
+                                <div class="col-6" style="background-color: #fff;">
+                                    <ng-container *ngIf="productsDetailObject.ADD_ON_PRODUCT_GROUP_MAP.length > 0">
+                                        <div class="quantity-select mobQuantitySelect" *ngIf="this.transactionService.showAddToCartForSingleProductPage(productObject, productDetailsIndex)==false && this.transactionService.showOutofStock(productObject, productDetailsIndex) == false">
+                                            <div class="entry value-minus background" (click)="this.commonService.openAlertBar('This item has multiple customizations added. Remove the correct item from the cart.')" title="This item has multiple customizations added. Remove the correct item from the cart.">
+                                                &nbsp;</div>
+                                            <div class="entry value">
+                                                {{this.transactionService.getSelectedQtyForSingleProductPage(productObject, productDetailsIndex)}}
+                                            </div>
+                                            <div class="entry value-plus active background" (click)="openCustomizationConfirmationPopup()">
+                                                &nbsp;</div>
+                                        </div>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="productsDetailObject.ADD_ON_PRODUCT_GROUP_MAP.length == 0">
+                                        <div class="quantity-select mobQuantitySelect" *ngIf="this.transactionService.showAddToCartForSingleProductPage(productObject, productDetailsIndex)==false && this.transactionService.showOutofStock(productObject, productDetailsIndex) == false">
+                                            <div class="entry value-minus background hoverClass" (click)="updateCart(this.transactionService.getSelectedQtyForSingleProductPage(productObject, productDetailsIndex), 2)">
+                                                &nbsp;</div>
+                                            <div class="entry value">
+                                                {{this.transactionService.getSelectedQtyForSingleProductPage(productObject, productDetailsIndex)}}
+                                            </div>
+                                            <div class="entry value-plus active background hoverClass" (click)="updateCart(this.transactionService.getSelectedQtyForSingleProductPage(productObject, productDetailsIndex), 1)">
+                                                &nbsp;</div>
+                                        </div>
+                                    </ng-container>
+                                </div>
+
+                                <div class="col-6" style="background: #fb641b;">
+                                    <a routerLink="/collections/mobilecart">
+                                        <p style="color: #fff; padding:0px; font-size: 14px;margin-top: 16px;text-align: center">
+                                            GO TO CART ( <span class="cartvalue ">{{this.userProfileService.numberOfProductsInCart}}</span> )
+                                        </p>
+                                    </a>
+                                </div>
+
+
+                            </ng-container>
+
+                        </ng-container>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Related Products  -->
+        <div class="relProducts myrelpro" *ngIf="relatedProducts.length > 0" style="padding-top: 14px;">
+
+            <div class="row">
+                <div class="col-md-9 col-sm-8 col-8 mobLeftPadding">
+                    <h3 class="relProdHeading">Related Products</h3>
+                </div>
+                <div class="col-md-3 col-sm-4 col-4 mobRightPadding">
+                    <div style="display: flex;float: right;">
+                        <div *ngIf="relatedProducts.length > 1">
+                            <div class="controls pull-right">
+                                <a class="left fa fa-chevron-left btn btn-success background carouselBtn" href="#Carousel3" data-slide="prev"></a>
+                            </div>
+                        </div>
+                        <div *ngIf="relatedProducts.length > 1">
+                            <div class="controls pull-right">
+                                <a class="right fa fa-chevron-right btn btn-success background carouselBtn" href="#Carousel3" data-slide="next"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 mobLeftRightPadding">
+                    <div id="Carousel3" class="carousel slide">
+
+                        <ol class="carousel-indicators">
+                            <li data-target="#Carousel3" data-slide-to="0" class="active"></li>
+                            <li data-target="#Carousel3" data-slide-to="1"></li>
+                            <li data-target="#Carousel3" data-slide-to="2"></li>
+                        </ol>
+
+                        <!-- Carousel items -->
+                        <div class="carousel-inner">
+
+                            <div *ngFor="let prods of relatedProducts;let productsArrayIndex = index;let rowIndex = index;" [ngClass]="getClassName(productsArrayIndex)">
+                                <div class="productsGrid">
+                                    <div *ngFor="let row of prods;let prodIndex = index;" class="archive" style="">
+
+                                        <div class="banner5box">
+                                            <mat-card style="margin-bottom:1em; box-shadow: none;" class="matproduct">
+                                                <mat-card-content>
+                                                    <div>
+                                                        <div class="men-thumb-item">
+                                                            <a [routerLink]="['/collections/product-view', row.PRODUCT_ID]" style="cursor: pointer">
+                                                                <img class="proimg imageHoverStyle" style="width: 100%;" src="{{getProductImageName(row)}}" onerror="this.src='assets/images/noProductToShowInThisCategory.jpg'" alt="Loading Product Image" style="height: 250px;width: 100%;object-fit: cover;">
+                                                            </a>
+                                                            <span class="discount" style="color:red;" *ngIf="this.productMidLayerService.getScratchPrice(row.PRODUCT_DETAIL) > 0">
+                                                                <h6 style="margin:0px;">
+                                                                    {{this.productMidLayerService.getDicountPercentage(row.PRODUCT_DETAIL)}}
+                                                                </h6>
+                                                            </span>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="item-info-product item-info-product1" style="font-family: rubik;height: auto;padding-bottom: 10px;
+                              margin-top: 10px;">
+                                                        <div class="row myheartrow mobilePadding">
+                                                            <div class="left col-9">
+                                                                <h4 style="margin-top: 0 !important;margin-bottom: 0 !important;">
+                                                                    <a class="productNameClass" [routerLink]="['/collections/product-view', row.PRODUCT_ID]">
+                                                                        {{row.PRODUCT_NAME}}
+                                                                    </a>
+                                                                </h4>
+                                                                <div class="info-product-price">
+                                                                    <span>
+                                                                        <span class="item_price"
+                                                                            *ngIf="row.PRODUCT_DETAIL">
+                                                                            {{this.commonService.STORE_CURRENCY_SYMBOL}}{{this.productMidLayerService.getProductPrice(row.PRODUCT_DETAIL)}}</span>                                                                    &nbsp;
+                                                                    <del *ngIf="this.productMidLayerService.getScratchPrice(row.PRODUCT_DETAIL) > 0">
+                                                                            {{this.commonService.STORE_CURRENCY_SYMBOL}}{{this.productMidLayerService.getScratchPrice(row.PRODUCT_DETAIL)}}</del>                                                                    &nbsp;
+                                                                    <span *ngIf="this.productMidLayerService.showScratchPrice(row.PRODUCT_DETAIL)" class="discount-percentage">
+                                                                        ({{this.productMidLayerService.getDicountPercentage(row.PRODUCT_DETAIL)}})
+                                                                            </span>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="right col-3 heart" style="text-align: end;">
+                                                                <span style="float: none;margin-top: 13px; margin-right: 0px;cursor: pointer;">
+                                                                    <div class="image-hover"
+                                                                        *ngIf="this.myWishlistService.isThisProductsInMyWishlist(row.PRODUCT_DETAIL)==false">
+                                                                        <i style="font-size: 20px;cursor: pointer;"
+                                                                            class="far fa-heart"
+                                                                            (click)="this.myWishlistService.addToMyWishlist(row.PRODUCT_DETAIL)"></i>
+                                                                    </div>
+                                                                    <div class="image-hover"
+                                                                        *ngIf="this.myWishlistService.isThisProductsInMyWishlist(row.PRODUCT_DETAIL)">
+                                                                        <i class="fas fa-heart"
+                                                                            style="color: var(--theme-color); cursor: pointer;font-size: 20px;"
+                                                                            (click)="this.myWishlistService.deleteMyWishlist(row.PRODUCT_DETAIL)"></i>
+                                                                    </div>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </mat-card-content>
+                                            </mat-card>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--.row-->
+                            </div>
+                            <!--.carousel-item-->
+
+                        </div>
+                        <!--.carousel-inner-->
+
+                    </div>
+                    <!--.Carousel-->
+                </div>
+            </div>
+        </div>
+        <!-- related products ends  -->
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $(".mCustomScrollbar").mCustomScrollbar({
+            axis: "x"
+        });
+    });
+
+    $('#Carousel').carousel({
+        interval: 5000
+    });
+</script>

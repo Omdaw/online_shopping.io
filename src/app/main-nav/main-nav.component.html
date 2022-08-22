@@ -1,0 +1,464 @@
+
+
+
+
+<style>
+    .dropdown-menu {
+        top: 40px;
+        left: 70%;
+        width: 200px;
+    }
+</style>
+
+<!--<div class="loading" *ngIf="processBar">
+    <mat-spinner class="loading-image"></mat-spinner>
+</div>-->
+
+<!-- <input type="hidden" id="defaultAreaName" >
+<div class="addressSearchInputCls"></div>
+<div class="addressSearchInputMobCls"></div> -->
+<div class="first">
+<div class="ema"> <p>info@myluxurybargain.com <span class="lo"><a><i class="fa fa-envelope-o" aria-hidden="true"></i></a></span></p></div>
+<div class="time"><p>Mon-Fri: 10AM - 5PM <span class="lo"><a><i class="fa fa-clock-o" aria-hidden="true"></i></a></span></p></div>
+<div class="cno"><p>Customer care: +91 8376914422<span class="lo"><a><i class="fa fa-phone" aria-hidden="true"></i></a></span></p></div>
+
+</div>
+
+<div class="googleAddress"></div>
+
+   <div *ngIf="this.flagsService.showHeaderFlag">
+    <div class="mainnavmobile" id="firstHeader">
+        <div *ngIf="flashMessageStatusCode==1">
+          <div class="topWAHeader background " *ngIf="displayWAHeader" >
+                
+            </div>
+        </div>
+ 
+        <div class="F mainNavHeader {{categoriesShadow}}" [ngClass]="{ 'sticky' : isSticky}">
+            <div class="firstrow mytopbarcontainer containerWidth">
+                <!-- class backgroundImage-->
+   
+                <div class="mytopbarcontainer">
+                    <div class="row myheader">
+
+                        <div class="col-lg-12" style="height: 40px">
+                            <ul style="display: flex; justify-content: flex-end">
+                                
+                                    <form autocomplete="off" (submit)="searchProducts();" style="margin-right: 10px;margin-top: 2px;">
+                                        <div #webSearchDiv>
+                                            <div *ngIf="showSearchField" class="searchPart input-group">
+                                                <fieldset>
+                                                    <input id="search" type="text" autocomplete="false" class="form-control" [(ngModel)]="searchText" name="x" placeholder="Search here" (keyup)="showSerach();fetchSearch();">
+
+                                                    <span class="searchBtn input-group-btn">
+                                                        <span
+                                                            style="background-color: transparent;color: #fff;border:none;margin-left: -10px"
+                                                            class="btn btn-default" type="submit"
+                                                            (click)="searchProducts();">
+                                                            <img style="width: 18px;height: 18px;margin-top: 6px;"
+                                                                src="assets/images/searchSVG.svg" alt="search">
+                                                        </span>
+                                                    </span>
+                                                </fieldset>
+                                                <!-- Search Box starts -->
+                                                <div class="searchbox" *ngIf="this.SearchService.displaySearch" (mouseleave)="hideSerach()">
+                                                    <div class="row" style="margin: 1px;" *ngFor="let row of searchedProductsArray;let i = index;">
+                                                
+                                                        <!-- Final Checklist -->
+                                                        <div class="col-md-1 col-sm-1 col-xs-1 procol1 ">
+                                                            <a [routerLink]="['/collections/product-view', row.PRODUCT_ID, row.PRODUCT_DETAIL_ID, row.PRODUCT_CATEGORY_NAME, row.PRODUCT_NAME]"
+                                                                style="text-decoration: none;">
+                                                                <img src="{{getProductImageName(row)}}"
+                                                                    onerror="this.src='assets/images/noProductToShowInThisCategory.jpg'" alt=" "
+                                                                    style="height: 38px;width: 38px;object-fit: cover;">
+                                                            </a>
+                                                        </div>
+                                                
+                                                        <div class="col-md-4 col-sm-4 col-xs-4 procol2">
+                                                            <a [routerLink]="['/collections/product-view', row.PRODUCT_ID, row.PRODUCT_DETAIL_ID, row.PRODUCT_CATEGORY_NAME, row.PRODUCT_NAME]"
+                                                                style="text-decoration: none;">
+                                                                <!-- Final Checklist -->
+                                                                <p *ngIf="row.PRODUCT_BRAND_NAME != '' && row.PRODUCT_BRAND_NAME != 'undefined'
+                                                          && row.PRODUCT_BRAND_NAME != 'Undefined'  && row.PRODUCT_BRAND_NAME != 'Default'" style="font-size:10px;"
+                                                                    class="paragraph-color-class">
+                                                                    {{row.PRODUCT_BRAND_NAME}}</p>
+                                                                <!-- //Final Checklist -->
+                                                                <p style="font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;margin-top: 3%; font-size:16px;cursor: pointer;"
+                                                                    class="color">
+                                                                    {{row.PRODUCT_NAME | limitTo: 30}}
+                                                                    <ng-container>
+                                                                        <p class="variants">
+                                                                            <ng-container *ngIf="row.SIZE_LABEL != 'null' && row.SIZE != 'null'">
+                                                                                <span>{{row.SIZE_LABEL}} : {{row.SIZE}}</span>
+                                                                            </ng-container>
+                                                                            <ng-container *ngIf="row.PRODUCT_COLOR_LABEL != 'null' && row.PRODUCT_COLOR != 'null'">
+                                                                                <span>{{row.PRODUCT_COLOR_LABEL}} : {{row.PRODUCT_COLOR}}</span>
+                                                                            </ng-container>
+                                                                            <ng-container *ngIf="row.MATERIAL_LABEL != 'null' && row.MATERIAL != 'null'">
+                                                                                <span>{{row.MATERIAL_LABEL}} : {{row.MATERIAL}}</span>
+                                                                            </ng-container>
+                                                                        </p>
+                                                                    </ng-container>
+                                                                </p>
+                                                            </a>
+                                                        </div>
+                                                        <!-- //Final Checklist -->
+                                                
+                                                        <div class="col-md-2 col-sm-2 hidden-xs procol2">
+                                                            <p style="font-size:13px;" class="search-cell color">{{getProductUnit(row)}} {{getProductUnitTypeName(row)}}
+                                                            </p>
+                                                        </div>
+                                                
+                                                        <div class="col-md-3 col-sm-3 col-xs-3 procol2">
+                                                            <p style="font-size:13px;" class="search-cell color">
+                                                                {{this.commonService.STORE_CURRENCY_SYMBOL}} {{getProductSellingPrice(row)}}
+                                                            </p>
+                                                        </div>
+                                                
+                                                        <div class="col-md-2 col-sm-2 col-xs-2">
+                                                
+                                                            <img src="assets/images/noque-search-add-to-cart.png" (click)="addToCart(row, i)" class="search-cell"
+                                                                *ngIf="this.transactionService.showAddToCart(row) && this.transactionService.showOutofStock(row) == false"
+                                                                style="max-width: 70px !important;height: 28px;object-fit: cover;">
+                                                
+                                                            <!-- Out of Stock-->
+                                                            <div *ngIf="this.transactionService.showOutofStock(row)">
+                                                                <!-- <input  type="button"  value="Out of Stock" class="outbutton"   disabled/> -->
+                                                                <img src="assets/images/home-page-out-of-stock-image.png">
+                                                            </div>
+                                                            <!-- Out of Stock end-->
+                                                            <div class="quantity-select"
+                                                                *ngIf="this.transactionService.showAddToCart(row)==false && this.transactionService.showOutofStock(row) == false"
+                                                                class="search-cell">
+                                                                <i class="fa fa-minus-circle"
+                                                                    (click)="this.productMidLayerService.updateCart(row, i, this.transactionService.getSelectedQty(row), 2, 1)"></i>
+                                                                <span style="margin: 0 12px;">{{this.transactionService.getSelectedQty(row)}}</span>
+                                                                <i class="fa fa-plus-circle"
+                                                                    (click)="this.productMidLayerService.updateCart(row, i, this.transactionService.getSelectedQty(row), 1)"></i>
+                                                            </div>
+                                                        </div>
+                                                        <hr>
+                                                    </div>
+                                                </div>
+                                                <!-- Search Box ends -->
+                                            </div>
+                                        </div>
+                                        <a style="line-height: 40px;margin-right: 6px;" *ngIf="showSearchIcon" title="Search" (click)="showSearch()">
+                                            <!-- <span class="material-icons" style="margin-top: 15px;">
+                                                search
+                                                </span> -->
+                                            <img style="width: 18px;height: 18px;margin-top: 15px;" src="assets/images/searchSVG.svg" alt="">
+                                        </a>
+                                    </form>
+                               
+
+                                <li class="nav-item">
+                                    <a style="display: flex; cursor: pointer;margin-top: 12px; margin-left: -14px;">
+                                        <a class="nav-link cart" onclick="showCart()" style="display: flex; cursor: pointer;" (click)="refreshCartAmountDetail()" title="Cart">
+                                            <!-- <span class="material-icons">
+                                                shopping_cart
+                                                </span> -->
+                                            <img src="assets\images\Cart.svg" style="width: 20px;height: 20px;color:#210">
+                                            <span *ngIf="this.userProfileService.numberOfProductsInCart>0" class="cartvalue ">{{this.userProfileService.numberOfProductsInCart}}</span>
+                                        </a>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item" *ngIf="this.commonService.isSubscriberLoggedIn() == 0">
+                                    <a class="login" [routerLink]="['/collections/login']" title="Profile" style="display: flex; cursor: pointer;margin-top: 18px;">
+                                        <!-- <span class="material-icons">
+                                            person_outline
+                                            </span> -->
+                                        <img src="assets\images\Login.svg" style="width: 21px;height: 21px;color: #210;">
+                                    </a>
+                                </li>
+
+
+                                <li class="dropdown nav-item" *ngIf="this.commonService.isSubscriberLoggedIn()">
+
+                                    <a class="" style="display: flex; cursor: pointer;margin-top: 18px;color: #210;border: none;">
+                                        <!-- <span class="material-icons">
+                                            person_outline
+                                            </span> -->
+                                        <img src="assets/images/Login.svg" style="width: 21px;height: 21px;">
+                                    </a>
+
+                                    <div class="dropdown-content profileDropdown">
+                                        <a [routerLink]="['/collections/personaldetails']"><i aria-hidden="true"
+                                                class="fa fa-user"></i>
+                                            My Profile
+                                        </a>
+                                        <a ng-reflect-router-link="myorders" [routerLink]="['/collections/myorders']">
+                                            <i aria-hidden="true" class="fa fa-first-order"></i>My Orders</a>
+                                        <a ng-reflect-router-link="/wishlist" [routerLink]="['/collections/wishlist']">
+                                            <i aria-hidden="true" class="fa fa-heart"></i> My Wishlist
+                                        </a>
+                                        <a (click)="inviteToMyApplication();openDialog();">
+                                            <i class="fa fa-users" aria-hidden="true"></i> Invite
+                                        </a>
+                                        <a readonly="" *ngIf="this.commonService.isSubscriberLoggedIn() && this.commonService.showWallet">
+                                            <!-- Checklist-2 -->
+                                            <i class="fas fa-wallet" aria-hidden="true"></i> Wallet {{this.commonService.STORE_CURRENCY_SYMBOL}} {{this.walletMethodsService.subscriberWallerDetailsObject.WALLET_MONEY}}
+                                        </a>
+
+                                    
+                                    </div>
+                                </li>
+
+                                <li class="nav-item" *ngIf="this.commonService.showDownloadApp">
+                                    <a [routerLink]="['/collections/download-app']" style="display: flex;letter-spacing: 0.5px; margin-left: 8px; color: black; cursor: pointer;margin-top: 20px;">
+                                        Download App
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class=" firstrow" style="background: url('assets/images/vel.png'); display: none;">
+                <div class="container">
+                    <ul style="display: flex; justify-content: flex-end">
+                        <li _ngcontent-kcj-c1="">
+                            <a ng-reflect-router-link="bulk-order" href="#/bulk-order">
+                                <img src="assets/images/bulk-order.svg" style="height: 13px;"> Party/Bulk Order </a>
+                        </li>
+                        <li _ngcontent-kcj-c1=""><span style="color: #fff;"> | </span>
+                            <a ng-reflect-router-link="download-app" href="#/download-app">
+                                <img src="assets/images/download-app.svg" style="height: 13px;"> Download App </a>
+                        </li>
+
+                        <li _ngcontent-kcj-c1=""><a ng-reflect-router-link="myorders" [routerLink]="['/collections/myorders']"> | <i class="fa fa-user" style="margin: 0px 5px;"
+                                    aria-hidden="true"></i> My Orders </a></li>
+
+                        <li _ngcontent-kcj-c1=""><a style="cursor: pointer"> | <img src="assets/images/invite_icon.jpeg"
+                                    style="height: 13px;"> Invite </a></li>
+
+
+                        <li _ngcontent-kcj-c1="">
+                            <a style="cursor: pointer" [routerLink]="['/collections/personaldetails']"> | <i
+                                    class="fa fa-user" style="margin: 0px 5px;" aria-hidden="true"></i> My Profile </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <!--cart-->
+    <div class="cartbox">
+        <div class="cartboxheader">
+            <div class="row">
+                <div class="col-lg-6 col-md-6">
+                    <i class="fa fa-angle-left left color" onclick="hideCart()"></i>
+                    <span style="text-align: center;">Shopping Cart</span>
+                </div>
+
+                <div class="col-lg-6 col-md-6" style="margin-top: 4px;text-align: right;">
+                    <a class="viewCart" style="text-decoration: none;color: #000;" onclick="hideCart()" routerLink="/collections/viewcart">
+                        <i class="fa fa-eye" aria-hidden="true"></i>
+                        <span style="text-align: center;">View Cart</span></a>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="this.transactionService.transactionDetailsArray.length > 0">
+            <div class="productlist">
+                <div class="productscroll">
+
+                    <div class="cartProductDiv" *ngFor="let row of this.transactionService.transactionDetailsArray; let i = index;">
+                        <mat-card *ngIf="row.TRANSACTION_DETAIL_TYPE_CODE == 1" class="cartproduct mat-card">
+                            <div style="display:flex;">
+                                <!-- Final Checklist -->
+                                <a [routerLink]="['/collections/product-view', row.PRODUCT_ID, row.PRODUCT_DETAIL_ID, row.PRODUCT_CATEGORY_NAME, row.PRODUCT_NAME]" target="_blank">
+                                    <img style="height: 75px;width: 75px; margin-right:5px;object-fit: cover;" src="{{row.PRODUCT_IMAGE_FILE_PATH}}" onerror="this.src='assets/images/noProductToShowInThisCategory.jpg'" alt="Product Image">
+                                </a>
+
+                                <a [routerLink]="['/collections/product-view', row.PRODUCT_ID, row.PRODUCT_DETAIL_ID, row.PRODUCT_CATEGORY_NAME, row.PRODUCT_NAME]" target="_blank" class="defaultFontColorAndLink" style="text-decoration:none">
+                                    <span class="title">
+                                        {{row.PRODUCT_NAME | limitTo : 40}}
+                                        <ng-container>
+                                            <p class="variants">
+                                                <ng-container *ngIf="row.SIZE_LABEL != 'null' && row.SIZE != 'null'">
+                                                    <span>{{row.SIZE_LABEL}} : {{row.SIZE}}</span>
+                                    </ng-container>
+                                    <ng-container *ngIf="row.PRODUCT_COLOR_LABEL != 'null' && row.PRODUCT_COLOR != 'null'">
+                                        <span>{{row.PRODUCT_COLOR_LABEL}} : {{row.PRODUCT_COLOR}}</span>
+                                    </ng-container>
+                                    <ng-container *ngIf="row.MATERIAL_LABEL != 'null' && row.MATERIAL != 'null'">
+                                        <span>{{row.MATERIAL_LABEL}} : {{row.MATERIAL}}</span>
+                                    </ng-container>
+                                    </p>
+                                    </ng-container>
+                                    </span>
+                                </a>
+                                <!-- //Final Checklist -->
+                                <i class="fa fa-trash-o" (click)="removeFromCart(i)"></i>
+                            </div>
+                            <h6 *ngIf="row.ADD_ON_DETAIL && row.ADD_ON_DETAIL.length > 0" style="cursor: pointer;font-weight: 600 !important;" (click)="fetchProduct(row)" onclick="hideCart()">
+                                Customize
+                            </h6>
+                            <hr>
+                            <span>
+                                <i class="fa fa-minus buttoncart background hoverClass" (click)="reduceQuantity(i)"></i>
+                                <span style="margin:0px 6px; font-size: 16px;">{{row.PRODUCT_QUANTITY}}</span>
+                            <!-- if AddOn Product  -->
+                            <ng-container *ngIf="row.ADD_ON_DETAIL && row.ADD_ON_DETAIL.length > 0; else elseBlock">
+                                <i class="fa fa-plus buttoncart background hoverClass" (click)="openCustomizationConfirmationPopup(row)" onclick="hideCart()"></i>
+                            </ng-container>
+                            <!-- else -->
+                            <ng-template #elseBlock>
+                                <i class="fa fa-plus buttoncart background hoverClass" (click)="increaseQuantity(i)"></i>
+                            </ng-template>
+                            </span>
+                            <span style="float: right;"><b>{{this.commonService.STORE_CURRENCY_SYMBOL}}
+                                    {{getProductFinalPrice(row)}}</b>
+                                <ng-container *ngIf="row.ADD_ON_DETAIL && row.ADD_ON_DETAIL.length > 0">
+                                    <small>(inclusive of addon price)</small>
+                                </ng-container>
+                            </span>
+                        </mat-card>
+                    </div>
+                    <!-- <i class="fas fa-plus"></i> -->
+
+                    <!-- Invoice Details  -->
+                    <div *ngIf="this.transactionService.transactionDetailsArray.length > 0" class="totalvalue">
+                        <!-- <div class="cartboxheader">
+                            <i class="fa fa-angle-left left" onclick="hideCart()"></i>
+                            <span style="text-align: center;">Payment Details</span>
+                        </div> -->
+                        <ul class="pricetotal">
+                            <li>
+                                <span>Invoice Amount</span>
+                                <span style="float: right;">{{this.commonService.STORE_CURRENCY_SYMBOL}}
+                                    {{this.transactionService.transactionArray[0].INVOICE_AMOUNT}}</span>
+                            </li>
+                            <li>
+                                <span>Delivery Charges</span>
+                                <span style="float: right;">{{this.commonService.STORE_CURRENCY_SYMBOL}}
+                                    {{this.transactionService.getDeliveryCharges()}}</span>
+                            </li>
+                            <li>
+                                <span>GST
+                                    <!-- {{this.transactionService.transactionDetailsArray | json}} -->
+                                </span>
+                                <span style="float: right;">{{this.commonService.STORE_CURRENCY_SYMBOL}}
+                                    {{this.transactionService.getGstAmount()}}</span>
+                            </li>
+
+                            <li>
+                                <span>CGST</span>
+                                <span style="float: right;">{{this.commonService.STORE_CURRENCY_SYMBOL}}
+                                    {{this.transactionService.getSGstOrCGstAmount()}}</span>
+                            </li>
+
+                            <li>
+                                <span>SGST</span>
+                                <span style="float: right;">{{this.commonService.STORE_CURRENCY_SYMBOL}}
+                                    {{this.transactionService.getSGstOrCGstAmount()}}</span>
+                            </li>
+
+                            <li *ngIf="this.transactionService.transactionArray[0].INVOICE_DISCOUNT_AMOUNT>0">
+                                <span>Invoice Discount Amount</span>
+                                <span style="float: right;">{{this.commonService.STORE_CURRENCY_SYMBOL}}
+                                    {{this.transactionService.transactionArray[0].INVOICE_DISCOUNT_AMOUNT}}</span>
+                            </li>
+                            <li *ngIf="this.transactionService.getPromoCodeDiscountAmount()>0">
+                                <span>Promocode Discount</span>
+                                <span style="float: right;">{{this.commonService.STORE_CURRENCY_SYMBOL}}
+                                    {{this.transactionService.getPromoCodeDiscountAmount()}}</span>
+                            </li>
+                            <li>
+                                <span><b>Grand Total</b></span>
+                                <span style="float: right;"><b>{{this.commonService.STORE_CURRENCY_SYMBOL}}
+                                        {{this.transactionService.transactionArray[0].INVOICE_FINAL_AMOUNT}}</b></span>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- Invoice Details ends -->
+                </div>
+            </div>
+        </div>
+
+        <div class="proceedbtn" *ngIf="this.transactionService.transactionDetailsArray.length > 0">
+            <div class="row" style="margin: 0px;">
+                <div class="col-md-6">
+                    <h4 style="padding-top:6px;">Grand Total <br><b style=" font-size: 12px;" class="color">{{this.commonService.STORE_CURRENCY_SYMBOL}}
+                            {{this.transactionService.transactionArray[0].INVOICE_FINAL_AMOUNT}}</b></h4>
+                </div>
+                <div class="col-md-6 background proceed" (click)="checkoutAPI()" onclick="hideCart()">
+                    <a>PROCEED</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- If No Products in the Cart -->
+        <div *ngIf="this.transactionService.transactionDetailsArray.length == 0" style="text-align: center; margin-top:50px;">
+            <img src="assets/images/empty-cart.svg" width="30%">
+            <div class="emptyCartText"> Your Shopping Cart is Empty </div>
+            <input type="button" class="checkbutton background" onclick="hideCart();" (click)="continueShopping()" value="Continue Shopping">
+        </div>
+        <!-- If No Products in the Cart ends -->
+    </div>
+    <!--Cart-->
+    <div class="overlaycart" onclick="hideCart()" style="display: none;"></div>
+
+    <!-- Order Review -->
+    <div class="orderreview" *ngIf="this.flagsService.orderStatusCodePopUp">
+        <span>
+            <h4><b>Rate Your Experience</b></h4>
+        </span>
+        <div class="rating" style="cursor: pointer">
+            <div class="subRating" [style.background]="updateSelectedBackgroundColor(1)" (click)="updateOrderStatus(1);">
+                <img src="assets/images/emoji-1.png">
+            </div>
+            <div class="subRating" [style.background]="updateSelectedBackgroundColor(2)" (click)="updateOrderStatus(2);">
+                <img src="assets/images/emoji-2.png">
+            </div>
+            <div class="subRating" [style.background]="updateSelectedBackgroundColor(3)" (click)="updateOrderStatus(3);">
+                <img src="assets/images/emoji-3.png">
+            </div>
+            <div class="subRating" [style.background]="updateSelectedBackgroundColor(4)" (click)="updateOrderStatus(4);">
+                <img src="assets/images/emoji-4.png">
+            </div>
+            <div class="subRating" [style.background]="updateSelectedBackgroundColor(5)" (click)="updateOrderStatus(5);">
+                <img src="assets/images/emoji-5.png">
+            </div>
+        </div>
+        <!--rating-->
+        <label>Any Comments?</label>
+        <textarea class="form-control" placeholder="Please enter your comment here" [(ngModel)]="comments"></textarea>
+
+        <div class="ml-20 mt-5">
+            <button class="btn btn-primary mr-2" (click)="insertTransactionReview()">Submit</button>
+            <button class="btn btn-primary" (click)="rateLater()"> Remind me later</button>
+        </div>
+    </div>
+    <!-- Order Review ends -->
+
+    <!-- Dialog -->
+</div>
+
+<!-- <div *ngIf="this.flagsService.showHeaderFlag == false && secondaryHeader()">
+    <div class="row header2" style=" margin:0px; background: #2874f0; box-shadow: 0px 2px 5px #ccc; padding:10px; position:fixed; z-index:4; top:0; left:0; width: 100%;">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between;">
+                <div class="logo">
+                    <a [routerLink]="['/']">
+                        <img src="{{storeLogo}}" alt="{{storeName}}" class="mobilelogo">
+                    </a>
+                </div>
+                <div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style=" margin:0px; box-shadow: 0px 2px 5px #ccc; padding:10px; position:fixed; z-index:4; top:69px; left:0; width: 100%;" class="test-mode-display-div" *ngIf="isStoreInTestingMode()">
+        <p class="test-mode-display-p">{{storeStatusTitleAndDesc}}</p>
+    </div>
+</div> -->

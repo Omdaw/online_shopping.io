@@ -1,0 +1,33 @@
+.badge
+{
+    border-radius: 20px;
+    padding:5px 10px;
+    margin-right: 10px;
+    border:2px solid #fff;
+}
+.icons
+{
+    display: flex;
+}
+.icons div{
+    margin-right: 15px;
+}
+
+.buttons
+{
+    display:flex;
+    justify-content: flex-end;
+}
+hr{
+    margin:10px -15px;
+}
+
+.customer-header-image {
+
+    background-image: url('/assets/images/user.png');
+    background-size: cover;
+}
+
+.example-full-width {
+    width: 100%;
+} 

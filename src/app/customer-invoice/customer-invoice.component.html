@@ -1,0 +1,273 @@
+<!-- http://localhost:4200/#/customer-invoice/2051 -->
+<div class="containerWidth">
+    <div class="services-breadcrum">
+        <div class="container top-containe" style="padding: 12px;">
+
+            <div class="succOrderMsg">
+                <span>Thank you, your order is successful.</span>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <span style="font-size:20px; color:#000; font-weight:bold;">Order - # {{invoiceId}}</span>
+                    <span style="margin-left: 5px;">{{orderPlacedDate}}</span>
+                    <!-- <span class="badge badge-secondary"><i class="fa fa-circle"></i> {{headerPaymentStatusName}} </span>
+               <span class="badge badge-warning"><i class="fa fa-circle"></i> {{headerDeliveryStatusName}} </span> -->
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-8" style="margin-bottom: 5%;margin-top: 1%;">
+                    <mat-card>
+                        <div class="table-responsive mycustab">
+                            <table class="table table-bordered table-hover">
+                                <thead style="border-top: 1px solid #dee2e6;">
+                                    <tr>
+                                        <th colspan="2" style="text-align: center; font-size: 15px;" scope="col">Product
+                                        </th>
+                                        <th colspan="2" style="text-align: center; font-size: 15px;" scope="col">Price
+                                        </th>
+                                        <th style="text-align: center; font-size: 15px;" scope="col">Quantity</th>
+                                        <th style="text-align: center; font-size: 15px;" scope="col">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody *ngFor="let transactionDetail of transactionDetailArrayObj; let i = index;">
+                                    <ng-container *ngIf="checkIfProduct(transactionDetail)">
+                                    <tr >
+                                        <td><img [src]="transactionDetail.productImageFilePath"
+                                                onerror="this.src='assets/images/noProductToShowInThisCategory.jpg'"
+                                                style="float:left;width: 80px;height: 80px;">
+                                            <span style="font-size: 12px" matBadge="{{transactionDetail.productQuantity}}"></span>
+                                        </td>
+                                    
+                                        <td style="color: #074888">
+                                            {{transactionDetail.productName | limitTo:25}}
+                                            <p>
+                                                <ng-container *ngIf="transactionDetail.SIZE_LABEL != 'null' && transactionDetail.SIZE != 'null'">
+                                                    {{transactionDetail.SIZE_LABEL}} : {{transactionDetail.SIZE}}
+                                                </ng-container>
+                                                <ng-container
+                                                    *ngIf="transactionDetail.PRODUCT_COLOR_LABEL != 'null' && transactionDetail.PRODUCT_COLOR != 'null'">
+                                                    {{transactionDetail.PRODUCT_COLOR_LABEL}} : {{transactionDetail.PRODUCT_COLOR}}
+                                                </ng-container>
+                                                <ng-container *ngIf="transactionDetail.MATERIAL_LABEL != 'null' && transactionDetail.MATERIAL != 'null'">
+                                                    {{transactionDetail.MATERIAL_LABEL}} : {{transactionDetail.MATERIAL}}
+                                                </ng-container>
+                                            </p>
+                                        </td>
+                                        <td> {{this.commonService.STORE_CURRENCY_SYMBOL}}{{transactionDetail.productFinalPrice}}
+                                        </td>
+                                        <td><i style="font-size: 11px;" class="fa fa-times"></i></td>
+                                        <td style="text-align: center;">{{transactionDetail.productQuantity}}</td>
+                                        <td style="text-align: center;">
+                                            {{this.commonService.STORE_CURRENCY_SYMBOL}}{{transactionDetail.productFinalPrice.toFixed(2) * transactionDetail.productQuantity}}
+                                        </td>
+                                    </tr>
+
+                                    <!-- addon products  -->
+                                    <ng-container *ngIf="transactionDetail.ADD_ON_DETAIL && transactionDetail.ADD_ON_DETAIL.length > 0">
+                                        <tr>
+                                            <td>&nbsp;</td>
+                                            <th colspan="5"> Addons </th>
+                                        </tr>
+                                        <tr>
+                                            <td>&nbsp;</td>
+                                            <td colspan="5">
+                                                <table class="timetable_sub">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>SL No.</th>
+                                                            <th>Product</th>
+                                                            <th>Quantity</th>
+                                                            <th>Product Name</th>
+                                                            <th>GST</th>
+                                                            <th>
+                                                                Price<br>
+                                                                <p style="font-size: 10px;">(inclusive of Tax)</p>
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <!-- Row Start-->
+                                                        <tr class="rem1" *ngFor="let addonproduct of transactionDetail.ADD_ON_DETAIL;">
+                                                            <td class="invert">{{i+1}}</td>
+                                                            <td class="invert-image">
+                                                                <a
+                                                                    [routerLink]="['/product-view', addonproduct.PRODUCT_ID, addonproduct.PRODUCT_DETAIL_ID, addonproduct.PRODUCT_CATEGORY_NAME, addonproduct.PRODUCT_NAME]">
+                                                                    <!--//Checklist-3 (Point-1)-->
+                                                                    <img src="{{addonproduct.PRODUCT_IMAGE_FILE_PATH}}"
+                                                                        onerror="this.src='assets/images/noProductToShowInThisCategory.jpg'"
+                                                                        alt="Loading Product Image" style="height: 100px;width: 100px;"
+                                                                        class="img-responsive myorderimg">
+                                                                </a>
+                                                            </td>
+                                                            <td class="invert">
+                                                                <div class="quantity">
+                                                                    <div class="quantity-select">
+                                                                        <div class="entry value">
+                                                                            <span>{{addonproduct.PRODUCT_QUANTITY}}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td class="invert">
+                                                                {{addonproduct.PRODUCT_NAME}}
+                                                                <p class="variants">
+                                                                    <ng-container *ngIf="addonproduct.SIZE_LABEL != 'null' && addonproduct.SIZE != 'null'">
+                                                                        <span>{{addonproduct.SIZE_LABEL}} : {{addonproduct.SIZE}}</span>
+                                                                    </ng-container>
+                                                                    <ng-container
+                                                                        *ngIf="addonproduct.PRODUCT_COLOR_LABEL != 'null' && addonproduct.PRODUCT_COLOR != 'null'">
+                                                                        <span>{{addonproduct.PRODUCT_COLOR_LABEL}} : {{addonproduct.PRODUCT_COLOR}}</span>
+                                                                    </ng-container>
+                                                                    <ng-container
+                                                                        *ngIf="addonproduct.MATERIAL_LABEL != 'null' && addonproduct.MATERIAL != 'null'">
+                                                                        <span>{{addonproduct.MATERIAL_LABEL}} : {{addonproduct.MATERIAL}}</span>
+                                                                    </ng-container>
+                                                                </p>
+                                                            </td>
+                                                            <td class="invert">
+                                                                {{(addonproduct.PRODUCT_GST_AMOUNT * addonproduct.PRODUCT_QUANTITY)|number:'1.0-2'}}</td>
+                                                            <td class="invert">{{getProductFinalPrice(addonproduct)|number:'1.0-2'}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </ng-container>
+                                    <!-- addon products ends -->
+
+                                    </ng-container>
+                                </tbody>
+                            </table>
+                        </div>
+                    </mat-card>
+
+                    <br>
+                    <mat-card>
+                        <br>
+                        <table style="border-collapse:separate; border-spacing:0 10px; width: 100%;">
+                            <colgroup>
+                                <col width="80%">
+                                <col width="20%">
+                            </colgroup>
+
+                            <tr>
+                                <td>Invoice amount of <span>{{transactionProductCount}} </span>items </td>
+                                <td style="display: flex;" *ngIf="invoiceFinalAmount != undefined">
+                                    <span>{{this.commonService.STORE_CURRENCY_SYMBOL}}</span> {{invoiceFinalAmount.toFixed(2)}}
+                                </td>
+                            </tr>
+                            <tr *ngIf="deliveryCharge > 0">
+                                <td>Delivery Charges</td>
+                                <td> <span>{{this.commonService.STORE_CURRENCY_SYMBOL}}</span> {{deliveryCharge.toFixed(2)}}
+                                </td>
+                            </tr>
+                            <tr *ngIf="invoiceDiscountAmount>0">
+                                <td>Invoice Discount Amount</td>
+                                <td> <span>{{this.commonService.STORE_CURRENCY_SYMBOL}}</span> {{invoiceDiscountAmount.toFixed(2)}}
+                                </td>
+                            </tr>
+                            <tr *ngIf="promoCodeDiscountAmount>0">
+                                <td>Promocode Discount</td>
+                                <td> <span>{{this.commonService.STORE_CURRENCY_SYMBOL}}</span> {{promoCodeDiscountAmount.toFixed(2)}} </td>
+                            </tr>
+
+                            <tr>
+                                <td>Invoice Amount</td>
+                                <td> <span>{{this.commonService.STORE_CURRENCY_SYMBOL}}</span> {{invoiceAmount}} </td>
+                            </tr>
+
+                            <tr *ngIf="gst!=undefined">
+                                <td>GST</td>
+                                <td style="display: flex;"> <span>{{this.commonService.STORE_CURRENCY_SYMBOL}}</span> {{gst.toFixed(2)}} </td>
+                            </tr>
+
+                            <tr *ngIf="gst!=undefined">
+                                <td>SGST</td>
+                                <td> <span>{{this.commonService.STORE_CURRENCY_SYMBOL}}</span> {{(gst / 2).toFixed(2) }}
+                                </td>
+                            </tr>
+
+                            <tr *ngIf="gst!=undefined">
+                                <td>CGST</td>
+                                <td> <span>{{this.commonService.STORE_CURRENCY_SYMBOL}}</span> {{(gst / 2).toFixed(2) }}
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="2">
+                                    <hr>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td> <b> Grand Total </b> </td>
+                                <td *ngIf="invoiceFinalAmount!=undefined"> <b style="display: flex;">
+                                        <span>{{this.commonService.STORE_CURRENCY_SYMBOL}}</span>
+                                        {{invoiceFinalAmount.toFixed(2)}} </b> </td>
+                            </tr>
+                            <!-- <tr>
+                  <td colspan="2"> <hr> </td>
+               </tr> -->
+
+                        </table>
+
+                        <small *ngIf="deliverySlot && deliverySlot != ''">Delivery Slot : {{deliverySlot}}</small>
+                    </mat-card>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <button class="btn selectedFilter background" style="margin-top: 5%;" [routerLink]="['/']">Continue
+                        Shopping</button>
+                    <br>
+                    <br>
+
+                    <mat-card class="mymat" style="margin-bottom: 10%;">
+
+                        <p> Customer <span style="float: right;"><img src="assets/images/user.png"
+                                    style="width: 30%; float: right;"></span> </p>
+
+
+                        <p style="color:blue;">{{subscriberName}}<br>
+
+                        </p>
+                        <hr>
+                        <p><b>CONTACT INFORMATION</b>
+
+                        </p>
+                        <p> {{subscriberEmailId}} </p>
+                        <p> {{subscriberMobileNr}} </p>
+                        <hr>
+
+                        <div *ngIf="deliveryTypeId == 1">
+                            <p *ngIf="checkDeliveryAddress()"><b>SHIPPING ADDRESS</b>
+
+                            </p>
+                            <p> {{addressLabel}} </p>
+                            <p> {{contactName}} </p>
+                            <p> {{contactMobileNr}} </p>
+                            <p> {{addressLine1}} </p>
+                            <p> {{addressLine2}} </p>
+
+                            <hr>
+                        </div>
+
+                        <!-- <p>
+               </p><b>BILLING ADDRESS</b>
+               </p>
+               <p> {{storeAddressLine1}} </p>
+               <p> {{storeAddressLine2}} </p> -->
+                    </mat-card>
+
+                    <!-- <button class="btn selectedFilter" style="color: #fff;background-color: #000;border-color: #000;margin-top: 5%;"
+               [routerLink]="['/']" >Continue Shopping</button>  -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- </div> -->

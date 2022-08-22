@@ -1,0 +1,26 @@
+<div id="wrapper">
+    <div id="dialog">
+
+        <h3>Please enter the 6-digit verification code we sent via SMS:</h3>
+
+        <div id="form">
+
+            <div class="row">
+                <div class="col-md-12 col-lg-12">
+                    <input type="text" class="form-control" (keypress)="this.commonService.numberOnly($event)" maxlength="6" style="width: 100%;" [(ngModel)]="mobileOtp">
+                </div>
+            </div>
+
+
+            <button class="background" (click)="verifyMobileOtp()">Verify</button>
+        </div>
+
+        <div class="resendOtp">
+            Didn't receive the code?<br />
+            <a style="cursor: pointer;text-decoration: underline;" (click)="this.emailandphonenumberverifiationService.resendOtpToMobileNumber();">Send code again</a><br />
+        </div>
+
+        <flash-messages style="width: 100%;"></flash-messages>
+
+    </div>
+</div>

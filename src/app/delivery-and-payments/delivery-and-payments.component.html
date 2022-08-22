@@ -1,0 +1,268 @@
+<div class="containerWidth">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-sm-8 col-xs-12" style="margin-bottom: 10px;">
+        <div class="deliverybox1">
+          <span (click)="showDeliveryAddress()"> <i class="fa fa-map-marker"></i> Delivery</span>
+          <span *ngIf="displayAddressView&&displayeliveryAddressDiv"><button (click)="addNewAddress()">Add New
+              Address</button></span>
+          <!--innerrow-->
+          <br><br>
+          <div *ngIf="displayeliveryAddressDiv">
+
+            <div *ngIf="displayAddressView">
+              <div class="row" *ngFor="let row of deliveryAddressesArray; let i = index;">
+                <div class="col-md-4 col-sm-4 col-xs-12" *ngFor="let address of row">
+                  <div class="deliveryaddressbox1"
+                    [ngClass]="{'active' : address.SUBSCRIBER_ADDRESS_ID == selectedAddressId }"
+                    (mouseover)="showDeleteEditIcons(address.SUBSCRIBER_ADDRESS_ID)"
+                    (mouseleave)="hideDeleteEditIcons(address.SUBSCRIBER_ADDRESS_ID)">
+
+                    <div style="float: right;">
+
+                      <mat-icon class="icon" *ngIf="displayEditIcon[address.SUBSCRIBER_ADDRESS_ID]" style="margin: 5px;"
+                        (click)="editDeliveryAddress(address)">edit</mat-icon>
+                      <mat-icon class="icon" *ngIf="displayDeleteIcon[address.SUBSCRIBER_ADDRESS_ID]"
+                        (click)="deleteDeliveryAddress(address.ADDRESS_ID, address.SUBSCRIBER_ADDRESS_ID )">delete
+                      </mat-icon>
+
+                    </div>
+                    <div class="detailsclass">
+                      <div *ngIf="address.ADDRESS_LABEL != '' && address.ADDRESS_LABEL != 'null'"><b>
+                          {{address.ADDRESS_LABEL}} </b></div>
+                      <div *ngIf="address.CONTACT_NAME != '' && address.CONTACT_NAME != 'null'" class="details">
+                        {{address.CONTACT_NAME}}</div>
+                      <div *ngIf="address.ADDRESS_LINE1 != '' && address.ADDRESS_LINE1 != 'null'" class="details">
+                        {{address.ADDRESS_LINE1}}</div>
+                      <div *ngIf="address.ADDRESS_LINE2 != '' && address.ADDRESS_LINE2 != 'null'" class="details">
+                        {{address.ADDRESS_LINE2}}</div>
+                      <div *ngIf="address.ADDRESS_AREA_NAME != '' && address.ADDRESS_AREA_NAME != 'null'"
+                        class="details">{{address.ADDRESS_AREA_NAME}}</div>
+                      <div *ngIf="address.ADDRESS_CITY_NAME != '' && address.ADDRESS_CITY_NAME != 'null'"
+                        class="details">{{address.ADDRESS_CITY_NAME}}</div>
+                      <div *ngIf="address.ADDRESS_COUNTRY_NAME != '' && address.ADDRESS_COUNTRY_NAME != 'null'"
+                        class="details">{{address.ADDRESS_COUNTRY_NAME}}</div>
+                    </div>
+                    <button
+                      (click)="updateDeliveryAddressInTransaction(address.SUBSCRIBER_ADDRESS_ID);setAddress(address.SUBSCRIBER_ADDRESS_ID)"
+                      class="background">Deliver Here</button>
+                  </div>
+                </div>
+                <!--innercol1-->
+
+              </div>
+              <!--innerrow-->
+            </div>
+
+            <div *ngIf="displayAddressAdd" class="addaddressdata" style="background: #fff; padding:10px;">
+              <form>
+                <div class="row">
+                  <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                      <label>Address Line1</label>
+                      <input type="text" class="form-control" placeholder="Address Line 1" [(ngModel)]="addressLine1"
+                        name="addressLine1" #ngAddress1="ngModel" (input)="validateForm(ngAddress1)" required>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                      <label>Address Line2</label>
+                      <input type="text" class="form-control" placeholder="Address Line 2" [(ngModel)]="addressLine2"
+                        name="addressLine2" #ngAddress2="ngModel" (input)="validateForm(ngAddress2)" required>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-4 col-sm-4 col-xs-12">
+                    <div class="form-group">
+                      <label>Address Label</label>
+                      <input type="text" class="form-control" placeholder="Address Label" [(ngModel)]="addressLabel"
+                        name="addressLabel" (input)="validateForm(ngAddress1)" required>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-sm-4 col-xs-12">
+                    <div class="form-group">
+                      <label>Contact Name</label>
+                      <input type="text" class="form-control" placeholder="Contact Name" [(ngModel)]="contactName"
+                        name="contactName" (input)="validateForm(ngAddress1)" required>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-sm-4 col-xs-12">
+                    <div class="form-group">
+                      <label>Mobile</label>
+                      <input type="text" class="form-control" placeholder="Mobile Number" [(ngModel)]="mobileNumber"
+                        name="mobileNumber" (input)="validateForm(ngAddress1)" required>
+                    </div>
+                  </div>
+
+                </div>
+                <!--row1-->
+
+                <div class="row">
+                  <!-- <div class="col-md-4 col-sm-4 col-xs-12">
+          <div class="form-group">
+            <label>Lattitude</label>
+            <input type="text" class="form-control" pplaceholder="Lattitude" [(ngModel)]="lattitude" name="lattitude" (input)="validateForm(ngAddress1)" required>
+          </div>
+        </div> -->
+
+                  <!-- <div class="col-md-4 col-sm-4 col-xs-12">
+          <div class="form-group">
+          <label>Longitude</label>
+          <input type="text" class="form-control" placeholder="Longitude" [(ngModel)]="longitude" name="longitude" (input)="validateForm(ngAddress1)" required>
+          </div>
+        </div> -->
+
+                  <div class="col-md-4 col-sm-4 col-xs-12">
+                    <div class="form-group">
+                      <label>Pincode</label>
+                      <input type="number" class="form-control" (keypress)="numberOnly($event)" placeholder="Pincode"
+                        [(ngModel)]="addressPin" name="pincode" (input)="validateForm(ngAddress1)" required>
+                    </div>
+                  </div>
+
+                </div>
+                <!--row1-->
+
+                <div class="row">
+                  <div class="col-md-12 col-sm-12 col-lg-6">
+                    <input type="button" class="btn btn-primary" style="margin-right: 5px;"
+                      (click)="createDeliveryAddress()" [disabled]="saveButtonStatus" value="Submit">
+                    <input type="button" class="btn btn-primary" (click)="viewAddresses()" value="Cancel">
+                    <!-- <input type="button" style="margin-left: 5px;" class="btn btn-primary" (click)="putTestData()"  value="Put Test Data">  -->
+                  </div>
+                </div>
+                <!--row1-->
+              </form>
+
+            </div>
+            <!--addaddrssdata-->
+          </div>
+          <!--Delivery thing Ends here-->
+        </div>
+        <!--deliverybox1-->
+        <br>
+        <div class="deliverybox2" style="padding-bottom: 40px;">
+          <span (click)="showPayments()"> <i class="fa fa-cc-amex"></i> Payments</span>
+
+          <!-- <br><br> -->
+
+
+          <div class="row">
+
+            <div *ngIf="displayPayments" style="padding: 5px;">
+
+              <mat-radio-group aria-label="Select an option" appearance="outline" class="example-radio-group"
+                [(ngModel)]="selectedPaymentGatewayId" name="selectedPaymentGatewayId">
+
+                <div *ngFor="let payment of paymentGatewaysArray">
+                  <mat-radio-button [value]="payment.PAYMENT_GATEWAY_TYPE_CODE" class="example-radio-button"
+                    [disabled]="this.flagsService.completelyWalletPaymentFlag">
+                    {{payment.PAYMENT_GATEWAY_TYPE_NAME}}
+                  </mat-radio-button>
+                  <br>
+                </div>
+
+              </mat-radio-group>
+
+            </div>
+
+          </div>
+
+
+
+
+          <button *ngIf="displayPayments&&selectedPaymentGatewayId!=3" (click)="onPaymentSubmit();"
+            [disabled]="selectedPaymentGatewayId==0" class="background">Submit </button>
+
+          <!-- <div *ngIf="displayPayments&&selectedPaymentGatewayId==3" > -->
+          <!-- <div id="paypal-checkout-btn"></div> -->
+          <!-- </div> -->
+
+        </div>
+        <!--deliverybox2-->
+      </div>
+      <!--col1-->
+      <div class="col-md-4 col-sm-8 col-xs-12">
+
+        <div class="row" style="background: #f7f7f7; padding:10px;">
+          <h5><b>Order Summary</b></h5><br>
+          <h6>Have a voucher code</h6><br>
+
+          <span>
+            <input type="text" [disabled]="disablePromocodeInputAndApplyButton" class="form-control"
+              [(ngModel)]="promocode" placeholder="Enter Voucher code" style="border:1px solid #ccc; width:100%;">
+            <span class="apply" (click)="applyPromocode()">Apply</span>
+          </span>
+
+          <br>
+          <!-- Displaying Promocode-->
+
+          <div class="promocode-display" *ngIf="promocodeDetailsObject.PROMO_CODE">
+            <p> Applied Promocode</p>
+            <mat-card class="promocode-card">
+              <mat-card-content>
+                {{promocodeDetailsObject.PROMO_CODE}}
+                <i class="fa fa-times" style="float: right;" (click)="cancelPromocode();"></i>
+              </mat-card-content>
+            </mat-card>
+
+          </div>
+
+          <span style="color:red;">{{invalidPromocodeNotification}}</span>
+          <!-- Displaying Promocode Ends here-->
+
+          <hr>
+          <span class="list">Your Wallet Balance</span>
+          <span style="float: right;" class="list"> {{this.commonService.STORE_CURRENCY_SYMBOL}}
+            {{this.wallerMethods.subscriberWallerDetailsObject.WALLET_MONEY}}</span>
+          <br>
+
+          <hr>
+
+          <button style="width: 100%;" *ngIf="displayAppyWalletButton" class="btn btn-primary"
+            (click)="applyWalletMoney()">Apply Wallet Money</button>
+          <button style="width: 100%;" *ngIf="displayAppyWalletButton == false" class="btn btn-primary"
+            (click)="cancelWalletMoney()">Cancel Wallet Money</button>
+          <br>
+
+          <hr>
+          <span class="list">Basket</span>
+          <span style="float: right;" class="list"> {{this.commonService.STORE_CURRENCY_SYMBOL}}
+            {{this.userProfileService.invoiceTotal}}</span>
+          <br>
+
+          <hr>
+
+
+          <span class="list">Total Amount Payable</span>
+          <span style="float: right;" class="list" *ngIf="promocodeDetailsObject.PROMO_CODE_DISCOUNT_AMOUNT == 0">
+            {{this.commonService.STORE_CURRENCY_SYMBOL}} {{this.userProfileService.invoiceTotal}}</span>
+          <span style="float: right;" class="list" *ngIf="promocodeDetailsObject.PROMO_CODE_DISCOUNT_AMOUNT">
+            {{this.commonService.STORE_CURRENCY_SYMBOL}}
+            {{this.userProfileService.invoiceTotal - promocodeDetailsObject.PROMO_CODE_DISCOUNT_AMOUNT}}</span>
+
+          <br>
+          <span class="list">Your Total Saving</span>
+          <span style="float: right;" class="list" *ngIf="promocodeDetailsObject.PROMO_CODE_DISCOUNT_AMOUNT == 0">
+            {{this.commonService.STORE_CURRENCY_SYMBOL}} {{this.userProfileService.invoiceDiscount}}</span>
+          <span style="float: right;" class="list" *ngIf="promocodeDetailsObject.PROMO_CODE_DISCOUNT_AMOUNT">
+            {{this.commonService.STORE_CURRENCY_SYMBOL}}
+            {{this.userProfileService.invoiceDiscount + promocodeDetailsObject.PROMO_CODE_DISCOUNT_AMOUNT}}</span>
+
+        </div>
+        <!--row-->
+
+      </div>
+      <!--col1-->
+    </div>
+    <!--row-->
+
+  </div>
+  <!--container-->
+</div>

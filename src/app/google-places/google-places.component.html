@@ -1,0 +1,34 @@
+<div class="addressSearchInputCls"></div>
+<div class="containerWidth">
+        <!--map start-->
+        <div style="margin-top: 10px;height: 400px; ">
+
+                <mat-progress-bar *ngIf="this.mapsService.progressBar" mode="indeterminate"></mat-progress-bar>
+
+                <agm-map style="height: 100%; width: 100%;" [latitude]="this.mapsService.lattitude"
+                        [longitude]="this.mapsService.longitude" [zoom]="this.mapsService.zoom">
+                        <agm-marker [latitude]="this.mapsService.lattitude" [longitude]="this.mapsService.longitude">
+                                <agm-info-window>
+                                        <strong>InfoWindow content</strong>
+                                </agm-info-window>
+                        </agm-marker>
+                        <agm-circle [latitude]="this.mapsService.lattitude" [longitude]="this.mapsService.longitude">
+                        </agm-circle>
+                </agm-map>
+
+                <mat-progress-bar *ngIf="this.mapsService.progressBar" mode="indeterminate"></mat-progress-bar>
+        </div>
+        <!--map end-->
+
+        <br>
+
+        <div>
+
+                <input placeholder="Search your location" class="input" type="text" (change)="addressSelected($event)"
+                        [(ngModel)]="autocompleteInput" #addresstext
+                        style="padding: 12px 20px; border: 1px solid #ccc; width: 100%;">
+                <span matPrefix class="search-icon"><i class="fa fa-search"></i>&nbsp;</span>
+                <span matSuffix (click)="locateMe()" class="locateme-btn">| <i class="fa fa-location-arrow"></i> Locate
+                        me</span>
+        </div>
+</div>

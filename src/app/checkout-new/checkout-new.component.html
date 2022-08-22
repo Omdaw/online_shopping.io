@@ -1,0 +1,1193 @@
+<div class="checkOutNewPage">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12" *ngIf="displayInMobile">
+                <mat-card class="box">
+                    <div class="row orderDetails">
+                        <div class="col-md-10 col-sm-9 col-9">
+                            <h4>Order Details</h4>
+                        </div>
+                        <div class="col-md-2 col-sm-3 col-3" style="text-align: right;">
+                            <button class="toggleBtn" (click)="collapseOrderDetails()" data-toggle="collapse" data-target="#orderDetails">
+                                <i class="fa fa-chevron-{{collapseIcon1}}"></i>
+                                <!-- <span class="material-icons">{{collapseIcon1}}</span> -->
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="orderDetails" class="collapse">
+                        <h6>Have a Promo Code</h6><br>
+                        <span>
+                            <input type="text" [disabled]="disablePromocodeInputAndApplyButton"
+                                class="form-control promo" [(ngModel)]="promocode"
+                                placeholder="Enter your Promo Code here">
+                            <span class="apply background" (click)="applyPromocode()">Apply</span>
+                        </span>
+                        <br>
+                        <div *ngIf="this.transactionService.transactionDetailsArray.length==0">
+                            <h4 style="font-weight: 600 !important;">No Products in the Cart</h4>
+                        </div>
+                        <div class="row" *ngIf="this.transactionService.transactionDetailsArray.length>0">
+                            <div class="col-md-10 col-sm-9 col-9">
+                                <h4 style="font-weight: bold !important;">Show Products</h4>
+                            </div>
+                            <div class="col-md-2 col-sm-3 col-3" style="text-align: right;">
+                                <button class="toggleBtn" style="outline: none; border: none;" (click)="collapse()" data-toggle="collapse" data-target="#showProducts">
+                                    <i class="fa fa-chevron-{{collapseIcon}}"></i>
+                                    <!-- <span class="material-icons">{{collapseIcon}}</span> -->
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="showProdContainer">
+                            <div id="showProducts" class="cartProductDiv collapse {{showProducts}}" *ngFor="let row of this.transactionService.transactionDetailsArray; let i = index;">
+                                <mat-card *ngIf="row.TRANSACTION_DETAIL_TYPE_CODE == 1" class="cartproduct" style="padding: 8px 0px;">
+                                    <div style="display:flex;">
+                                        <!-- Final Checklist -->
+                                        <a [routerLink]="['/collections/product-view', row.PRODUCT_ID, row.PRODUCT_DETAIL_ID, row.PRODUCT_CATEGORY_NAME, row.PRODUCT_NAME]" target="_blank">
+                                            <img src="{{row.PRODUCT_IMAGE_FILE_PATH}}" onerror="this.src='assets/images/noProductToShowInThisCategory.jpg'" alt="Product Image">
+                                        </a>
+
+                                        <span class="title defaultFontColorAndLink">
+                                        <a [routerLink]="['/collections/product-view', row.PRODUCT_ID, row.PRODUCT_DETAIL_ID, row.PRODUCT_CATEGORY_NAME, row.PRODUCT_NAME]" target="_blank"
+                                            class="defaultFontColorAndLink">
+                                            {{row.PRODUCT_NAME | limitTo: 40}}
+                                        </a>
+                                        <p class="variants">
+                                            <ng-container *ngIf="row.SIZE_LABEL != 'null' && row.SIZE != 'null'">
+                                                <span>{{row.SIZE_LABEL}} : {{row.SIZE}}</span>
+                                        </ng-container>
+                                        <ng-container *ngIf="row.PRODUCT_COLOR_LABEL != 'null' && row.PRODUCT_COLOR != 'null'">
+                                            <span>{{row.PRODUCT_COLOR_LABEL}} : {{row.PRODUCT_COLOR}}</span>
+                                        </ng-container>
+                                        <ng-container *ngIf="row.MATERIAL_LABEL != 'null' && row.MATERIAL != 'null'">
+                                            <span>{{row.MATERIAL_LABEL}} : {{row.MATERIAL}}</span>
+                                        </ng-container>
+                                        </p>
+                                        </span>
+                                        <!-- //Final Checklist -->
+                                        <i class="fa fa-trash-o" (click)="removeFromCart(i)" style="font-size: 14px;"></i>
+                                    </div>
+                                    <hr>
+                                    <span> <i class="fa fa-minus buttoncart background" (click)="reduceQuantity(i)"></i>
+                                    <span style="margin:0px 6px; font-size: 16px;">{{row.PRODUCT_QUANTITY}}</span>
+                                    <!-- if AddOn Product  -->
+                                    <ng-container *ngIf="row.ADD_ON_DETAIL && row.ADD_ON_DETAIL.length > 0; else elseBlock">
+                                        <i class="fa fa-plus buttoncart background hoverClass" (click)="openCustomizationConfirmationPopup(row)" onclick="hideCart()"></i>
+                                    </ng-container>
+                                    <!-- else -->
+                                    <ng-template #elseBlock>
+                                        <i class="fa fa-plus buttoncart background hoverClass" (click)="increaseQuantity(i)"></i>
+                                    </ng-template>
+                                    </span>
+                                    <span style="float: right;"><b>{{this.commonService.STORE_CURRENCY_SYMBOL}}
+                                        {{getProductFinalPrice(row).toFixed(2)}}</b>
+                                        <ng-container *ngIf="row.ADD_ON_DETAIL && row.ADD_ON_DETAIL.length > 0" >
+                                            <small>(inclusive of addon price)</small>
+                                        </ng-container>
+                                </span>
+                                </mat-card>
+                            </div>
+                        </div>
+
+                        <!-- Displaying Promocode-->
+                        <div class="promocode-display" *ngIf="promocodeDetailsObject.PROMO_CODE">
+                            <p> Applied Promocode</p>
+                            <mat-card class="promocode-card">
+                                <mat-card-content>
+                                    {{promocodeDetailsObject.PROMO_CODE}}
+                                    <i class="fa fa-times" style="float: right;" (click)="cancelPromocode();"></i>
+                                </mat-card-content>
+                            </mat-card>
+                        </div>
+                        <span style="color:red;">{{invalidPromocodeNotification}}</span>
+                        <!-- Displaying Promocode Ends here-->
+
+                        <hr>
+                        <!-- wallet related  -->
+                        <div *ngIf="this.commonService.isSubscriberLoggedIn()&&this.walletMethodsService.subscriberWallerDetailsObject.WALLET_MONEY>0">
+                            <span class="list">Your Wallet Balance</span>
+                            <span style="float: right;" class="list"> {{this.commonService.STORE_CURRENCY_SYMBOL}}
+                                {{this.walletMethodsService.subscriberWallerDetailsObject.WALLET_MONEY}}</span>
+                            <br>
+
+                            <hr>
+
+                            <button style="width: 100%;" *ngIf="displayAppyWalletButton" class="btn  selectedFilter" (click)="applyWalletMoney()" style="color: #fff;">Apply Wallet Money</button>
+                            <button style="width: 100%;" *ngIf="displayAppyWalletButton == false" class="btn selectedFilter" (click)="cancelWalletMoney()" style="color: #fff;">Cancel
+                                Wallet Money</button>
+                            <br>
+                            <hr>
+                        </div>
+                        <!-- wallet related ends  -->
+
+                        <div>
+                            <!-- invoice total  -->
+                            <h5>Invoice Amount<span style="float: right;">{{this.commonService.STORE_CURRENCY_SYMBOL}}
+                                    {{this.transactionsService.transactionArray[0].INVOICE_AMOUNT}}</span></h5>
+
+                            <!-- Delivery charges  -->
+                            <h5>Delivery Charges<span style="float: right;">{{this.commonService.STORE_CURRENCY_SYMBOL}}
+                                    {{this.getDeliveryCharge()}}</span></h5>
+
+                            <!-- GST  -->
+                            <h5>GST<span style="float: right;">{{this.commonService.STORE_CURRENCY_SYMBOL}}
+                                    {{this.transactionsService.getGstWithDeliveryTimingSlotPrice(this.getDeliveryCharge())
+                                    }}</span>
+                            </h5>
+                            <h5>CGST<span style="float: right;">{{this.commonService.STORE_CURRENCY_SYMBOL}}
+                                    {{this.transactionsService.getSgstWithDeliveryTimingSlotPrice(this.getDeliveryCharge())}}</span>
+                            </h5>
+                            <h5>SGST<span style="float: right;">{{this.commonService.STORE_CURRENCY_SYMBOL}}
+                                    {{this.transactionsService.getSgstWithDeliveryTimingSlotPrice(this.getDeliveryCharge())}}</span>
+                            </h5>
+
+                            <!-- Convenience Fees (If applicable) -->
+                            <h5 *ngIf="this.transactionsService.getConvinienceFee() > 0">Convenience Fee<span style="float: right;">{{this.commonService.STORE_CURRENCY_SYMBOL}}
+                                    {{this.transactionsService.getConvinienceFee()}}</span></h5>
+
+                            <!-- invoice level discount -->
+                            <h5 *ngIf="this.transactionsService.transactionArray && this.transactionsService.transactionArray.length > 0 && this.transactionsService.transactionArray[0].INVOICE_DISCOUNT_AMOUNT>0">
+                                Invoice Discount Amount<span style="float: right;">{{this.commonService.STORE_CURRENCY_SYMBOL}}
+                                    {{this.transactionsService.transactionArray[0].INVOICE_DISCOUNT_AMOUNT }}</span>
+                            </h5>
+                            <!-- promocode discount  -->
+                            <h5 *ngIf="this.transactionsService.getPromoCodeDiscountAmount()>0">Promocode Discount<span style="float: right;">{{this.commonService.STORE_CURRENCY_SYMBOL}}
+                                    {{this.transactionsService.getPromoCodeDiscountAmount()}}</span></h5>
+
+                            <!-- Wallet money  -->
+                            <h5 *ngIf="this.transactionsService.getAppliedWalletMoney() > 0 && this.commonService.showWallet">
+                                Applied Wallet Money
+                                <span style="float: right;">{{this.commonService.STORE_CURRENCY_SYMBOL}}
+                                    {{this.transactionsService.getAppliedWalletMoney()}}</span>
+                            </h5>
+                            <!-- Final Price  -->
+                        </div>
+
+                        <div>
+                            <br>
+                            <hr style="border-top: 1px solid black;">
+
+                            <span class="list totalAmount">Total Amount Payable</span>
+                            <span class="list totalAmount" style="float: right" *ngIf="promocodeDetailsObject.PROMO_CODE_DISCOUNT_AMOUNT == 0">
+                                {{this.commonService.STORE_CURRENCY_SYMBOL}}
+                                {{this.transactionsService.transactionArray[0].INVOICE_FINAL_AMOUNT
+                                + this.getDeliveryCharge()
+                                +
+                                this.transactionsService.getGSTAmountOfDeliverySlotCharges(this.getDeliveryCharge())}}</span>
+                            <span class="list totalAmount" style="float: right;" *ngIf="promocodeDetailsObject.PROMO_CODE_DISCOUNT_AMOUNT">
+                                {{this.commonService.STORE_CURRENCY_SYMBOL}}
+                                {{this.transactionsService.transactionArray[0].INVOICE_FINAL_AMOUNT}}</span>
+
+                            <br>
+
+                            <div *ngIf="this.userProfileService.invoiceDiscount > 0 || promocodeDetailsObject.PROMO_CODE_DISCOUNT_AMOUNT > 0">
+                                <span class="list">Your Total Saving</span>
+                                <span style="float: right;" class="list" *ngIf="promocodeDetailsObject.PROMO_CODE_DISCOUNT_AMOUNT == 0">
+                                    {{this.commonService.STORE_CURRENCY_SYMBOL}}
+                                    {{this.userProfileService.invoiceDiscount}}</span>
+                                <span style="float: right;" class="list" *ngIf="promocodeDetailsObject.PROMO_CODE_DISCOUNT_AMOUNT">
+                                    {{this.commonService.STORE_CURRENCY_SYMBOL}}
+                                    {{this.userProfileService.invoiceDiscount +
+                                    promocodeDetailsObject.PROMO_CODE_DISCOUNT_AMOUNT}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </mat-card>
+            </div>
+
+            <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
+
+
+                <!--login and signup design start-->
+                <div class="box hideInMobile">
+                    <mat-card style="box-shadow: none;">
+                        <h4><i class="fas fa-user"></i> Log In Or Sign Up
+                            <span *ngIf="this.commonService.isSubscriberLoggedIn()" style="float: right"><button
+                                    class="deliverycontinue background"
+                                    (click)="showLoggedInDetails()">Details</button></span>
+                        </h4>
+                        <p *ngIf="this.commonService.isSubscriberLoggedIn() && displayLoggedInDetails == false">
+                            {{this.commonService.getLoggedInEmailFromLocalStorage()}} </p>
+
+                        <div *ngIf="displayLoggedInDetails">
+                            <p> Name: {{this.commonService.getLoggedInNameFromLocalStorage()}} </p>
+                            <ng-container *ngIf="this.commonService.getLoggedInEmailFromLocalStorage() != ''">
+                                <p> Email : {{this.commonService.getLoggedInEmailFromLocalStorage()}} </p>
+                            </ng-container>
+                            <p> Mobile : {{this.commonService.getLoggedInMobileFromLocalStorage()}} </p>
+                            <button class="deliverycontinue background" (click)="showDeliveryAddress();hideLoggedInDetails();">Next</button>
+                        </div>
+
+                        <div class="row" *ngIf="displayLoginOrSignUpDiv">
+                            <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12">
+
+                                <!--Signup Form-->
+                                <div *ngIf="!displayGuestCheckIn && displayLoginFlag==false && !displayOtpCheckIn">
+                                    
+                                    <!-- new-checklist-1-soln-1 -->
+
+                                    <!-- <mat-form-field class="example-full-width" appearance="outline">
+                                        <mat-label>Referral Code</mat-label>
+                                        <input matInput placeholder="Enter Referral Code" [(ngModel)]="referralCode" (keyup)="onValueIn()">
+                                    </mat-form-field>
+                                    <br> -->
+                                    <form>
+                                        <!-- Firstname -->
+                                        <mat-form-field class="example-full-width" appearance="outline">
+                                            <mat-label>First Name</mat-label>
+                                            <input matInput placeholder="Enter First Name" name="fname" [(ngModel)]="fName" required #ngSignUpFname="ngModel" (input)="signupFormValidation(ngSignUpFname)">
+                                        </mat-form-field>
+                                        <!-- Lastname -->
+                                        <mat-form-field class="example-full-width" appearance="outline">
+                                            <mat-label>Last Name</mat-label>
+                                            <input type="text" matInput placeholder="Enter Last Name" name="lname" [(ngModel)]="lName" #ngSignUpLname="ngModel" (input)="signupFormValidation(ngSignUpLname)">
+                                        </mat-form-field>
+                                        <!-- Mobile number -->
+                                        <mat-form-field class="example-full-width" appearance="outline">
+                                            <mat-label>10 digit Mobile Number</mat-label>
+                                            <input type="text" matInput placeholder="Enter 10 digit Mobile Number" name="mobile" required size="10" [pattern]="this.commonService.mobNumberPattern" [(ngModel)]="subscriberMobileNo" (keypress)="this.commonService.numberOnly($event)" #ngSignUpMobileNo="ngModel"
+                                                (input)="signupFormValidation(ngSignUpMobileNo)">
+                                        </mat-form-field>
+                                        <!-- Email -->
+                                        <mat-form-field class="example-full-width" appearance="outline">
+                                            <mat-label>Email Address</mat-label>
+                                            <input type="email" email matInput placeholder="Enter Email Address" name="signupEmail" [(ngModel)]="signupEmail" #ngSignupEmail="ngModel" (input)="signupFormValidation(ngSignupEmail)" required>
+                                        </mat-form-field>
+                                        <!-- Password -->
+                                        <mat-form-field class="example-full-width" appearance="outline">
+                                            <mat-label>Password</mat-label>
+                                            <input matInput type="password" required placeholder="Enter Password" [(ngModel)]="signupPassword" name="signupPassword" #ngSignupPassword="ngModel" (input)="signupFormValidation(ngSignupPassword);validatePassAndConfirmPassword();;">
+
+                                        </mat-form-field>
+                                        <!-- Confirm Password  -->
+                                        <mat-form-field class="example-full-width" appearance="outline">
+                                            <mat-label>Confirm Password</mat-label>
+                                            <input matInput type="password" required placeholder="Confirm Password" [(ngModel)]="signupConfirmPassword" name="signupConfirmPassword" #ngSignupConfirmPassword="ngModel" (input)="signupFormValidation(ngSignupConfirmPassword);validatePassAndConfirmPassword();">
+                                        </mat-form-field>
+
+                                        <p style="color: red;" *ngIf="pwdMatchError">Password and Confirm Password does not match</p>
+
+                                        <div class="">
+                                            <div class="button">
+                                                <button style="position: relative;left: 50%; transform: translate(-50%);" (click)="signup()" class="background">Sign Up</button>
+                                            </div>
+                                            <br>
+                                            <div>
+                                                <p>Have an account? <span (click)="showLogin()" class="color signInOutLinks">
+                                                        Login</span></p>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <div>
+                                        <a [routerLink]="['/collections/reset-password']">Forgot Password?</a>
+                                    </div>
+                                </div>
+                                <!--signup Form end-->
+
+
+                                <!--login design start-->
+                                <div *ngIf="!displayGuestCheckIn && displayLoginFlag  
+                                && this.commonService.showPersonalEmailLogin && !displayOtpCheckIn">
+                                    <!-- Login Form -->
+                                    <form>
+                                        <mat-form-field class="example-full-width" appearance="outline">
+                                            <mat-label>Email Address</mat-label>
+                                            <input type="email" email matInput placeholder="Enter Email Address" name="loginEmail" [(ngModel)]="loginEmail" #ngLoginEmail="ngModel" (input)="loginFormValidation(ngLoginEmail)" required>
+                                        </mat-form-field>
+                                        <!--input1-->
+                                        <mat-form-field class="example-full-width" appearance="outline">
+                                            <mat-label>Password</mat-label>
+                                            <input matInput type="password" required placeholder="Enter Password" [(ngModel)]="loginPassword" name="loginPassword" #ngLoginPassword="ngModel" (input)="loginFormValidation(ngLoginPassword)">
+                                        </mat-form-field>
+                                        <!--input2-->
+                                        <div class="">
+                                            <div class="button">
+                                                <button style="position: relative;left: 50%; transform: translate(-50%);" (click)="login()" class="commonBt background" type="submit">Login</button>
+                                            </div>
+                                            <br>
+                                            <div>
+                                                <p>Don't have an account? <span (click)="showSignup()" class="color signInOutLinks">
+                                                        Sign Up</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <div *ngIf="!displayOtpCheckIn">
+                                        <a [routerLink]="['/collections/reset-password']">Forgot Password?</a>
+                                    </div>
+                                </div>
+                                <!-- Login Form ends -->
+
+                                <!-- OTP CheckIn Starts  -->
+                                <div *ngIf="displayOtpCheckIn">
+                                    <form>
+                                        <mat-form-field class="example-full-width" appearance="outline">
+                                            <mat-label>Firstname</mat-label>
+                                            <input type="text" matInput placeholder="Enter First Name" name="otpFirstname" [(ngModel)]="otpFirstname" #ngOtpFirstname="ngModel" (input)="otpLoginFormValidation(ngOtpFirstname)" required>
+                                        </mat-form-field>
+                                        <!--input1-->
+                                        <mat-form-field class="example-full-width" appearance="outline">
+                                            <mat-label>Mobile Number</mat-label>
+                                            <input matInput type="text" required placeholder="Enter Mobile Number" [(ngModel)]="otpMobileNumber" name="otpMobileNumber" #ngOtpMobileNumber="ngModel" (input)="otpLoginFormValidation(ngOtpMobileNumber)">
+                                        </mat-form-field>
+                                        <!--input2-->
+                                        <div class="button">
+                                            <div><button (click)="otpCheckIn()" class="background" type="submit">Login</button></div>
+                                            <div><button (click)="displayOtpCheckIn = false" class="background">Cancel</button></div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- OTP CheckIn Ends  -->
+
+                                <!-- Guest CheckIn start -->
+                                <div *ngIf="displayGuestCheckIn">
+                                    <form>
+                                        <mat-form-field class="example-full-width">
+                                            <input matInput placeholder="FirstName" required name="guestName" [(ngModel)]="guestName" #ngGuestName="ngModel" (input)="validateGuestCheckInForm(ngGuestName)" required>
+                                        </mat-form-field>
+                                        <mat-form-field class="example-full-width">
+                                            <input matInput placeholder="Email ID" required name="guestEmail" [(ngModel)]="guestEmail" #ngGuestEmail="ngModel" (input)="validateGuestCheckInForm(ngGuestEmail)" [email]="true">
+                                        </mat-form-field>
+                                        <mat-form-field class="example-full-width">
+                                            <input matInput type="text" (keypress)="this.commonService.numberOnly($event)" maxlength="10" placeholder="Mobile Number" [(ngModel)]="guestMobileNumber" required name="guestMobileNumber" [pattern]="this.commonService.mobNumberPattern" #ngGuestMobile="ngModel"
+                                                (input)="validateGuestCheckInForm(ngGuestMobile);">
+                                        </mat-form-field>
+                                        <flash-messages></flash-messages>
+                                        <div style="display: flex; justify-content: center;">
+
+                                            <div class="button">
+                                                <button style="position: relative;left: 50%; transform: translate(-50%);margin:0 5px;" (click)="guestCheckIn()" class="commonBt background" type="submit">Continue</button>
+                                            </div>
+
+                                            <div class="button">
+                                                <button style="position: relative;left: 50%; transform: translate(-50%);margin:0 5px;" (click)="hideGuestCheckIn()" class="commonBt background" type="button">Cancel</button>
+                                            </div>
+
+
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- Guest CheckIn ends  -->
+
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-12 col-lg-12">
+                                        <flash-messages style="width: 100%;"></flash-messages>
+                                    </div>
+                                </div>
+                                <!--login design end-->
+
+                            </div>
+
+
+                            <!--innercol2-->
+                            <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                <!--socailiconlist design start-->
+                                <h4 class="loginThrough">
+                                    <span class="mobOr">OR</span> &nbsp; Login Through</h4>
+                                <div class="socailiconlist webSocialLoginBtn">
+                                    <div class="row" style="margin-top: 10px;">
+
+                                        <!-- Facebook -->
+                                        <div class="col-md-6 col-sm-6 col-6" style="text-align: center;">
+                                            <button *ngIf="this.commonService.showFacebookLogin" class="facebook" (click)="this.socialSignupService.singIn('Facebook');">
+                                                <i class="fa fa-facebook"></i>
+                                            </button>
+                                        </div>
+
+                                        <!-- Google -->
+                                        <div class="col-md-6 col-sm-6 col-6" style="text-align: center;">
+                                            <button *ngIf="this.commonService.showGoogleSignIn" class="google" (click)="this.socialSignupService.singIn('Google');">
+                                                <i class="fa fa-google-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <!-- //login-with-otp-enable-and-disable -->
+                                    <div class="row" style="margin-top: 10px;" *ngIf="this.commonService.showOtpLogin">
+                                        <!-- OTP CheckIn -->
+                                        <div class="col-md-12 col-sm-12 col-12" style="text-align: center;" *ngIf="!displayOtpCheckIn">
+                                            <button (click)="displayOtpCheckIn = true" class="deliverycontinue background">
+                                                Login with OTP
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="socailiconlist mobSocialLoginBtn">
+                                    <div class="row" style="margin-top: 10px;">
+
+                                        <!-- Facebook -->
+                                        <div class="col-md-6 col-sm-2 col-2" style="text-align: center;">
+                                            <button *ngIf="this.commonService.showFacebookLogin" class="facebook" (click)="this.socialSignupService.singIn('Facebook');">
+                                                <i class="fa fa-facebook"></i>
+                                            </button>
+                                        </div>
+
+                                        <!-- Google  -->
+                                        <div class="col-md-6 col-sm-2 col-2" style="text-align: center;">
+                                            <button *ngIf="this.commonService.showGoogleSignIn" class="google" (click)="this.socialSignupService.singIn('Google');">
+                                                <i class="fa fa-google-plus"></i>
+                                                <!-- Google Plus -->
+                                            </button>
+                                        </div>
+
+                                        <!-- OTP CheckIn -->
+                                        <div class="col-md-12 col-sm-8 col-8" style="text-align: center;" *ngIf="!displayOtpCheckIn">
+                                            <button (click)="displayOtpCheckIn = true" class="deliverycontinue background">
+                                                OTP Check-In
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <!--socailiconlist design end-->
+                            </div>
+                            <!--innercol2-->
+                            <br>
+                        </div>
+                        <!--innerrow-->
+                    </mat-card>
+                </div>
+                <!--login and signup design end-->
+
+
+                <!--delivery design start-->
+                <div class="box">
+                    <mat-card style="cursor: pointer; box-shadow: none;">
+                        <h4>
+                            <span class="fa fa-location"></span>
+                            <button [disabled]="!this.commonService.isSubscriberLoggedIn()" style="font-weight: 600;padding: 0%;border: none;background: none; outline: none;">
+                                <span id="deliveryAddr" data-toggle="modal" data-target="#pleaseLogin">Delivery Address
+                                </span>
+                            </button>
+
+                            <!-- The Modal -->
+                            <div *ngIf="!this.commonService.isSubscriberLoggedIn()">
+                                <div class="modal" id="pleaseLogin">
+                                    <div class="modal-dialog modal-sm">
+                                        <div class="modal-content">
+                                            <!-- Modal Header -->
+                                            <div class="row">
+                                                <div class="col-md-9">&nbsp;</div>
+                                                <div class="col-md-3" style="padding: 3px 30px 0 0;">
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                </div>
+                                            </div>
+                                            <div class="modal-body">
+                                                Please Login
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <span style="float: right;" *ngIf="displayChangeDeliveryAddress()">
+                                <button class="deliverycontinue background " (click)="this.transactionService.cancelDeliverySlot();showDeliveryAddress()"> Change
+                                </button>
+                            </span>
+
+                              <!-- new-checklist-1-soln-6 -->
+                            <div class="addressbox selectedDiv my-2" *ngIf="displayChangeDeliveryAddress()">
+                                <i class="fa fa-check-circle color"></i>
+                                <p *ngIf="selectedDeliveryAddressObject.ADDRESS_LABEL != '' && selectedDeliveryAddressObject.ADDRESS_LABEL != 'null'">
+                                    <b>{{selectedDeliveryAddressObject.ADDRESS_LABEL}} </b>
+                                </p>
+                                <p *ngIf="selectedDeliveryAddressObject.CONTACT_NAME != '' && selectedDeliveryAddressObject.CONTACT_NAME != 'null'">
+                                    {{selectedDeliveryAddressObject.CONTACT_NAME}} </p>
+                                <p *ngIf="selectedDeliveryAddressObject.ADDRESS_LINE1 != '' && selectedDeliveryAddressObject.ADDRESS_LINE1 != 'null'">
+                                    {{selectedDeliveryAddressObject.ADDRESS_LINE1}} </p>
+                                <p *ngIf="selectedDeliveryAddressObject.ADDRESS_LINE2 != '' && selectedDeliveryAddressObject.ADDRESS_LINE2 != 'null'">
+                                    {{selectedDeliveryAddressObject.ADDRESS_LINE2}} </p>
+                                <p *ngIf="selectedDeliveryAddressObject.ADDRESS_AREA_NAME != '' && selectedDeliveryAddressObject.ADDRESS_AREA_NAME != 'null'">
+                                    {{selectedDeliveryAddressObject.ADDRESS_AREA_NAME}} </p>
+                                <p *ngIf="selectedDeliveryAddressObject.ADDRESS_CITY_NAME != '' && selectedDeliveryAddressObject.ADDRESS_CITY_NAME != 'null'">
+                                    {{selectedDeliveryAddressObject.ADDRESS_CITY_NAME}} </p>
+                                <!-- checklist-potlighar -->
+                                <p *ngIf="selectedDeliveryAddressObject.ADDRESS_STATE_NAME != '' && selectedDeliveryAddressObject.ADDRESS_STATE_NAME != 'null'">
+                                        {{selectedDeliveryAddressObject.ADDRESS_STATE_NAME}} </p>
+                                <p *ngIf="selectedDeliveryAddressObject.ADDRESS_COUNTRY_NAME != '' && selectedDeliveryAddressObject.ADDRESS_COUNTRY_NAME != 'null'">
+                                    {{selectedDeliveryAddressObject.ADDRESS_COUNTRY_NAME}}</p>
+                                <p *ngIf="selectedDeliveryAddressObject.ADDRESS_PINCODE != '' && selectedDeliveryAddressObject.ADDRESS_PINCODE != 'null'">
+                                    {{selectedDeliveryAddressObject.ADDRESS_PINCODE}}
+                                </p>
+                                <p *ngIf="selectedDeliveryAddressObject.CONTACT_MOBILE_NR != '' && selectedDeliveryAddressObject.CONTACT_MOBILE_NR != 'null'">
+                                    {{selectedDeliveryAddressObject.CONTACT_MOBILE_NR}}
+                                </p>
+                            </div>
+
+
+
+                            <span style="float: right;" *ngIf="displayDeliveryAddressDiv&&displayAddressFlag" (click)="showAddaddress()"><i class="fa fa-plus"></i> Add New Address</span>
+                            <span style="float: right;" *ngIf="displayDeliveryAddressDiv&&displayAddressFlag==false" (click)="hideAddress()"><i class="fa fa-angle-left"></i> Back</span>
+                        </h4>
+                        <div *ngIf="displayDeliveryAddressDiv">
+                            <div *ngIf="displayAddressFlag">
+                                <!--done delivery Address design start-->
+                                <h5 *ngIf="deliveryAddressesArray.length > 0">Personal Address</h5>
+
+                                <h6 *ngIf="deliveryAddressesArray.length == 0">
+                                    Please add delivery address.
+                                </h6>
+
+                                <!-- new-checklist-1-soln-6 -->
+                                <div *ngFor="let row of deliveryAddressesArray; let i = index;">
+                                    <div class="addressbox delivery-address-box my-2" *ngFor="let address of row" [ngClass]="getSelectedDeliveryAddress(address)" (click)="updateSelectedDeliveryAddressId(address);updateSelectedDeliveryAddressObject(address)">
+                                        <i class="fa fa-check-circle color" *ngIf="checkDeliveryAddress(address)"></i>
+                                        <div *ngIf="address.ADDRESS_LABEL != '' && address.ADDRESS_LABEL != 'null'">
+                                            <b>{{address.ADDRESS_LABEL}} </b>
+                                        </div>
+                                        <div *ngIf="address.CONTACT_NAME != '' && address.CONTACT_NAME != 'null'">
+                                            {{address.CONTACT_NAME}}
+                                        </div>
+                                        <span *ngIf="address.ADDRESS_LINE1 != '' && address.ADDRESS_LINE1 != 'null'">
+                                            {{address.ADDRESS_LINE1}}
+                                        </span>
+                                        <span *ngIf="address.ADDRESS_LINE2 != '' && address.ADDRESS_LINE2 != 'null'">
+                                            {{address.ADDRESS_LINE2}}
+                                        </span>
+                                        <div *ngIf="address.ADDRESS_AREA_NAME != '' && address.ADDRESS_AREA_NAME != 'null'">
+                                            {{address.ADDRESS_AREA_NAME}}</div>
+                                        <div *ngIf="address.ADDRESS_CITY_NAME != '' && address.ADDRESS_CITY_NAME != 'null'">
+                                            {{address.ADDRESS_CITY_NAME}}</div>
+                                        <div *ngIf="address.ADDRESS_STATE_NAME != '' && address.ADDRESS_STATE_NAME != 'null'">
+                                            {{address.ADDRESS_STATE_NAME}}</div>
+                                        <div *ngIf="address.ADDRESS_COUNTRY_NAME != '' && address.ADDRESS_COUNTRY_NAME != 'null'">
+                                            {{address.ADDRESS_COUNTRY_NAME}}
+                                        </div>
+                                        <div *ngIf="address.ADDRESS_PINCODE != '' && address.ADDRESS_PINCODE != 'null'">
+                                            {{address.ADDRESS_PINCODE}}
+                                        </div>
+                                        <span *ngIf="address.CONTACT_MOBILE_NR != '' && address.CONTACT_MOBILE_NR != 'null'">
+                                            {{address.CONTACT_MOBILE_NR}}
+                                        </span>
+                                        <br>
+
+                                        <!-- <span style="float: right;" *ngIf="displayDeliveryAddressDiv&&displayAddressFlag" (click)="showAddaddress()"><i class="fa fa-plus"></i> Add New Address</span>
+                            <span style="float: right;" *ngIf="displayDeliveryAddressDiv&&displayAddressFlag==false" (click)="hideAddress()"><i class="fa fa-angle-left"></i> Back</span>
+                        </h4>
+                        <div *ngIf="displayDeliveryAddressDiv">
+                            <div *ngIf="displayAddressFlag">
+                                <h5>Personal Address</h5>
+
+                                <div *ngFor="let row of deliveryAddressesArray; let i = index;">
+                                    <div class="addressbox delivery-address-box my-2" *ngFor="let address of row" [ngClass]="getSelectedDeliveryAddress(address)" (click)="updateSelectedDeliveryAddressId(address);updateSelectedDeliveryAddressObject(address)">
+                                        <i class="fa fa-check-circle color" *ngIf="checkDeliveryAddress(address)"></i>
+                                        <div *ngIf="address.ADDRESS_LABEL != '' && address.ADDRESS_LABEL != 'null'">
+                                            <b>
+                                                {{address.ADDRESS_LABEL}} </b> -->
+                                    </div>
+                                </div>
+
+                                <br>
+                                <!-- new-checklist-1-soln-5 -->
+                                <button class="deliverycontinue background"  [hidden]="deliveryAddressesArray.length == 0" (click)="checkSubscriberHasEmailAndUpdateDeliveryAddress();">Continue</button>
+                            </div>
+                            <!--done delivery Address design end-->
+                            <!--Add delivery Address design start-->
+                            <div *ngIf="displayAddressFlag==false">
+                                <!--addddressbox start-->
+                                <!-- new-checklist-1-soln-6 -->
+                                <div class="addaddressbox">
+                                    <!-- <app-google-places></app-google-places> -->
+
+                                    <!-- <br> -->
+                                    <form>
+                                        <div class="row">
+                                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                                <mat-form-field class="example-full-width" appearance="outline">
+                                                    <mat-label>House no.</mat-label>
+                                                    <input matInput placeholder="House no." [(ngModel)]="addressLine1" name="addressLine1" #ngAddress1="ngModel" (input)="validateForm(ngAddress1)" required>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+
+                                        <!-- checklist-potlighar -->
+                                        <div class="row">
+                                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                                <mat-form-field class="example-full-width" appearance="outline">
+                                                    <mat-label>Address </mat-label>
+                                                    <input matInput placeholder="Address" [(ngModel)]="addressLine2" name="addressLine2" #ngAddress2="ngModel" (input)="validateForm(ngAddress2)" required>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                                <div class="form-group">
+                                                    <mat-form-field class="example-full-width" appearance="outline">
+                                                        <mat-label>Contact Name</mat-label>
+                                                        <input matInput placeholder="Contact Name" [(ngModel)]="contactName" name="contactName" (input)="validateForm(ngAddress1)" required>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                                <div class="form-group">
+                                                    <mat-form-field class="example-full-width" appearance="outline">
+                                                        <mat-label>Mobile</mat-label>
+                                                        <input matInput placeholder="Mobile Number" [(ngModel)]="mobileNumber" name="mobileNumber" maxlength="10" [pattern]="this.commonService.mobNumberPattern" (keypress)="this.commonService.numberOnly($event)" (input)="validateForm(ngAddress1)" required>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                                <div class="form-group">
+                                                    <mat-form-field class="example-full-width" appearance="outline">
+                                                        <mat-label>Pincode</mat-label>
+                                                        <input matInput (keypress)="this.commonService.numberOnly($event)" maxlength="6" placeholder="Pincode" [(ngModel)]="addressPin" name="pincode" (input)="validateForm(ngAddress1)" [pattern]="this.commonService.pinCodePattern" required>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- </div> -->
+
+                                        <!-- checklist-potlighar -->
+                                        <div class="row">
+                                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                                <div class="form-group">
+                                                    <mat-form-field class="example-full-width" appearance="outline">
+                                                        <mat-label>City</mat-label>
+                                                        <input matInput placeholder="City" [(ngModel)]="cityName" name="cityName" (input)="validateForm(ngAddress1)" required>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                                <div class="form-group">
+                                                    <mat-form-field class="example-full-width" appearance="outline">
+                                                        <mat-label>State</mat-label>
+                                                        <input matInput placeholder="State" [(ngModel)]="stateName" name="stateName" (input)="validateForm(ngAddress1)" required>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                                <div class="form-group">
+                                                    <mat-form-field class="example-full-width" appearance="outline">
+                                                        <mat-label>Country</mat-label>
+                                                        <input matInput placeholder="Country" [(ngModel)]="countryName" name="countryName" (input)="validateForm(ngAddress1)" required>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!--input3-->
+                                        <h5>Address Label</h5>
+                                        <!--locationplace start-->
+                                        <div class="locationplace">
+                                            <div class="placebox" [ngClass]="getDeliveryAddressClass(1)" (click)="updateAddressLabel(1)">
+                                                <i class=" fa fa-home"></i> Home
+                                            </div>
+                                            <div class="placebox" [ngClass]="getDeliveryAddressClass(2)" (click)="updateAddressLabel(2)">
+                                                <i class=" fa fa-building"></i> Office
+                                            </div>
+                                            <div class="placebox" [ngClass]="getDeliveryAddressClass(3)" (click)="updateAddressLabel(3)">
+                                                <i class=" fa fa-archive"></i> Others
+                                            </div>
+                                        </div>
+
+                                        <div *ngIf="addressLabelCode == 3">
+                                            <br>
+                                            <h5>Custom Label</h5>
+                                            <mat-form-field appearance="outline" style="width: 100%;">
+                                                <input matInput placeholder="eg: Bea plave" [(ngModel)]="customLabel" name="customLabel">
+                                            </mat-form-field>
+                                        </div>
+                                        <!--locationplace end-->
+                                        <br>
+                                        <flash-messages style="width: 100%;"></flash-messages>
+                                        <br>
+                                        <div class="button">
+                                            <div>
+                                                <!-- new-checklist-1-soln-6  -->
+                                                <button (click)="getCountryStateCityIdAndSave();" type="submit" [disabled]="addDeliveryAddressValidation()&&formDisable" class="background">Save &
+                                                    Continue</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <!--addddressbox end-->
+                            </div>
+                            <!--Add delivery Address design end-->
+                        </div>
+                    </mat-card>
+                </div>
+                <!--delivery design end-->
+
+                <div class="box" *ngIf="subscriberEmailAddressDiv">
+                    <mat-card style="cursor: pointer; box-shadow: none;">
+                        <form>
+                            <div class="form-group">
+                                <input type="email" class="form-control" 
+                                [(ngModel)]="subscriberEmailId" aria-describedby="emailHelp"
+                                    placeholder="Please Enter Your Email ID.">
+                            </div>
+                    
+                            <button type="button" (click)="updateSubscriberEmailId()" 
+                            class="btn btn-primary mb-4 background">Submit</button>
+                            <br>
+                            <small>Note: Since you have logged in as Mobile otp User/Facebook User we are taking Your Email Id to send all the updates 
+                                regarding your current order. </small>
+                        </form>
+                    </mat-card>
+                </div>
+
+
+                <!--delivery timing slots design start-->
+                <div class="box" *ngIf="this.commonService.deliverySlotFlag">
+                    <mat-card style="cursor: pointer; box-shadow: none;">
+                        <h4>
+                            <button [disabled]="!displayChangeDeliveryAddress()" style="padding: 0%;border: none;background: none; outline: none;">
+                                <span>Delivery Options </span>
+                            </button>
+                        </h4>
+
+                        <!-- this is to display the selected delivery slot -->
+                        <span *ngIf="displayChangeDeliveryAddress() && !displayDeliveryTimingSlotsDiv">
+                            <!-- {{datesArray[dayIndex]}}  {{timeOfTheDay[dayIndex][timeIndex].START_TIME}} - {{timeOfTheDay[dayIndex][timeIndex].END_TIME}} 
+                                              <ng-container *ngIf="timeOfTheDay[dayIndex][timeIndex].DELIVERY_CHARGES > 0">
+                                              ({{this.commonService.STORE_CURRENCY_SYMBOL}} {{timeOfTheDay[dayIndex][timeIndex].DELIVERY_CHARGES}})
+                                              </ng-container> -->
+                            {{selectedDeliveryOption}}
+                            {{selectedDeliverySlotDay}}
+                            {{selectedDeliverySlotTime}}
+                            <button class="deliverycontinue background float-right" (click)="this.transactionService.cancelDeliverySlot();showDeliveryTimingSlots()">
+                                Change
+                            </button>
+                        </span>
+                        <!-- this is to select delivery slot -->
+                        <ng-container *ngIf="displayDeliveryTimingSlotsDiv">
+
+                            <mat-radio-group class="example-radio-group" (change)="updateSelectedDeliveryOption()" 
+                            (ngModelChange)="updateSelectedDeliveryOption()" [(ngModel)]="deliveryOptionCode">
+                                <!-- Delivery Options-->
+                                <ng-container *ngIf="deliveryOptions.NORMAL_DELIVERY == 'true'">
+                                    <!-- Normal -->
+
+                                    <mat-radio-button value="1">
+                                        {{this.commonService.STORE_CURRENCY_SYMBOL}} {{deliveryOptions.NORMAL_DELIVERY_COST}} {{deliveryOptions.NORMAL_DELIVERY_DESC}}
+                                    </mat-radio-button>
+
+                                    <!-- timing slots for Normal Delivery or Express Delivery if enabled from back end  -->
+                                    <ng-container *ngIf="deliveryOptionCode == 1 && deliveryTimingSlots.length > 0">
+                                        <div style="padding: 12px;">
+                                            Please select your available Timing slot
+                                            <mat-radio-group class="example-radio-group" [(ngModel)]="timingSlotId">
+                                                <!-- Delivery slots-->
+                                                <ng-container *ngFor="let timingSlot of deliveryTimingSlots">
+                                                    <!-- <input type="radio" 
+                                                (click)="updateSelectedDeliverySlotTime(formatTime(timingSlot.FROM)+'-'+formatTime(timingSlot.TO))" 
+                                                [(ngModel)]="timingSlotId" name="timingSlotId"
+                                                [value]="timingSlot.DELIVERY_SLOT_ID"> -->
+                                                    <mat-radio-button [value]="timingSlot.DELIVERY_SLOT_ID">
+                                                        {{formatTime(timingSlot.FROM)}} - {{formatTime(timingSlot.TO)}}
+                                                    </mat-radio-button>
+                                                </ng-container>
+                                            </mat-radio-group>
+                                        </div>
+                                    </ng-container>
+
+                                </ng-container>
+
+                                <!-- express  -->
+                                <ng-container *ngIf="deliveryOptions.EXPRESS_DELIVERY == 'true'">
+                                    <mat-radio-button value="2">
+                                        {{this.commonService.STORE_CURRENCY_SYMBOL}} {{deliveryOptions.EXPRESS_DELIVERY_COST}} {{deliveryOptions.EXPRESS_DELIVERY_DESC}}
+                                    </mat-radio-button>
+
+                                    <!-- timing slots for Normal Delivery or Express Delivery if enabled from back end  -->
+                                    <ng-container *ngIf="deliveryOptionCode == 2 && deliveryTimingSlots.length > 0">
+                                        <div style="padding: 12px;">
+                                            Please select your available Timing slot
+                                            <mat-radio-group class="example-radio-group" [(ngModel)]="timingSlotId">
+                                                <!-- Delivery slots-->
+                                                <ng-container *ngFor="let timingSlot of deliveryTimingSlots">
+                                                    <!-- <input type="radio" 
+                                                    (click)="updateSelectedDeliverySlotTime(formatTime(timingSlot.FROM)+'-'+formatTime(timingSlot.TO))" 
+                                                    [(ngModel)]="timingSlotId" name="timingSlotId"
+                                                    [value]="timingSlot.DELIVERY_SLOT_ID"> -->
+                                                    <mat-radio-button [value]="timingSlot.DELIVERY_SLOT_ID">
+                                                        {{formatTime(timingSlot.FROM)}} - {{formatTime(timingSlot.TO)}}
+                                                    </mat-radio-button>
+                                                </ng-container>
+                                            </mat-radio-group>
+                                        </div>
+                                    </ng-container>
+
+                                </ng-container>
+
+                                <ng-container *ngIf="deliveryOptions.NORMAL_DELIVERY == 'false' && deliveryOptions.EXPRESS_DELIVERY == 'false' && deliveryOptions.DELIVERY_SLOT == 'true'">
+                                    <mat-radio-button value="3">
+                                        Delivery Timing Slot
+                                    </mat-radio-button>
+                                </ng-container>
+                            </mat-radio-group>
+
+                            <!-- delivery timing slots -->
+                            <div class="row" *ngIf="deliveryOptionCode == 3">
+
+                                <!-- Desktop -->
+                                <ng-container *ngIf="!displayInMobile">
+                                    <div class="col-lg-3 col-md-3 col-sm-12">
+                                        <div class="btn-group-vertical">
+
+                                            <ng-container *ngFor="let date of datesArray;let i = index;">
+                                                <button [ngClass]="{'background': dayIndex == i, 'btn-light': dayIndex != i}" (click)="updateDayIndex(i);updateSelectedDeliverySlotDay(date+''+daysArray[i]);" class="btn">
+                                                    {{date}} {{daysArray[i]}}
+                                                </button>
+                                            </ng-container>
+
+                                        </div>
+                                    </div>
+                                </ng-container>
+                                <!-- //Desktop -->
+
+                                <!-- Mobile -->
+                                <ng-container *ngIf="displayInMobile">
+                                    <div class="col-lg-3 col-md-3 col-sm-12">
+                                        <select [(ngModel)]="dayIndex" class="form-control" (change)="timeIndex = 0;updateDeliveryTimingSlotId();">
+                                            <option *ngFor="let date of datesArray; let i = index;" [value]="i">{{date}}
+                                                ({{daysArray[i]}})</option>
+                                        </select>
+                                    </div>
+                                </ng-container>
+                                <!-- //Mobile -->
+
+                                <div class="col-lg-9 col-md-9 p-2 col-sm-12">
+
+                                    <ng-container *ngIf="timeOfTheDay[dayIndex] && timeOfTheDay[dayIndex].length == 0">
+                                        There are no slots availble for the Day.
+                                    </ng-container>
+
+                                    <ng-container *ngFor="let time of timeOfTheDay[dayIndex]; let i = index;">
+                                        <button [ngClass]="{'background': timeIndex == i, 'btn-light': timeIndex != i}" (click)="updateTimeIndex(i); updateSelectedDeliverySlotTime(formatTime(time.START_TIME) +'-'+ formatTime(time.END_TIME))" class="btn m-2 w-100">
+                                            {{formatTime(time.START_TIME)}} - {{formatTime(time.END_TIME)}}
+                                            <ng-container *ngIf="time.DELIVERY_CHARGES > 0">
+                                                ({{this.commonService.STORE_CURRENCY_SYMBOL}} {{time.DELIVERY_CHARGES}})
+                                            </ng-container>
+                                        </button>
+                                    </ng-container>
+                                </div>
+
+
+
+                            </div>
+                            <!-- delivery timing slots ends -->
+                            <div class="row p-2">
+                                <button class="deliverycontinue background" (click)="showPayments();" [disabled]="validateDeliveryOptions()">Continue</button>
+                            </div>
+                        </ng-container>
+
+                    </mat-card>
+                </div>
+                <!--delivery timing slots design end-->
+
+
+                <!--payment details box start-->
+                <div class="box">
+                    <mat-card style="cursor: pointer; box-shadow: none;">
+                        <button [disabled]="!displayPaymentsDiv" style="margin-left: -8px;border: none;background: none;outline: none;">
+                            <h4 data-toggle="modal" data-target="#pleaseLogin">Payment Methods</h4>
+                        </button>
+                        <div class="row" *ngIf="displayPaymentsDiv">
+                            <div class="col-lg-4 col-md-5 col-sm-5 col-xs-12" style="margin-bottom: 20px;">
+                                <!-- required for floating -->
+
+                                <ul class="nav nav-pills mb-3 sideways" role="tablist" style="display: block;" *ngFor="let payment of paymentGatewaysArray">
+                                    <li [ngClass]="getPaymentsClass(payment.PAYMENT_GATEWAY_TYPE_CODE)" (click)="updatePaymentsId(payment.PAYMENT_GATEWAY_TYPE_CODE)" class="nav-item" role="presentation" style="margin-bottom: 10px;">
+                                        <a style="border-left: 2px solid #ff5722;color: #000;" class="nav-link" data-toggle="pill" href="#home-v" role="tab" aria-controls="pills-home" aria-selected="true">
+                                            {{payment.PAYMENT_GATEWAY_TYPE_NAME}}
+                                        </a>
+                                    </li>
+                                </ul>
+
+                                <!-- <ul class="nav nav-pills mb-3 sideways" role="tablist" style="display: block;">
+                                    <li  [ngClass]="getPaymentsClass(123)" (click)="updatePaymentsId(123)" class="nav-item" role="presentation" style="margin-bottom: 10px;">
+                                        <a style="border-left: 2px solid #ff5722;color: #000;" class="nav-link" data-toggle="pill" href="#home-v" role="tab" aria-controls="pills-home" aria-selected="true">
+                                            Razorpay
+                                        </a>
+                                    </li>
+                                </ul> -->
+
+                            </div>
+                            <div class="col-lg-8 col-md-7 col-sm-7 col-xs-12">
+                                <!-- Tab panes -->
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="home-v">
+                                        <div class="button">
+                                            <div>
+                                                <button (click)="onPaymentSubmit();" class="background">PLACE ORDER
+                                                    {{this.commonService.STORE_CURRENCY_SYMBOL}}
+                                                    {{this.transactionsService.transactionArray[0].INVOICE_FINAL_AMOUNT
+                                                    + this.getDeliveryCharge()
+                                                    + this.transactionsService.getGSTAmountOfDeliverySlotCharges(this.getDeliveryCharge())
+                                                }}</button>
+
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </mat-card>
+                </div>
+                <br>
+                <!--payment details box end-->
+            </div>
+            <!--outercol1-->
+
+            <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12" *ngIf="!displayInMobile">
+                <mat-card class="box">
+                    <a [routerLink]="['/']"><button class="deliverycontinue background">Continue Shopping</button></a>
+                </mat-card>
+
+                <mat-card class="box">
+
+                    <h4>Have a Promo Code</h4>
+                    <span>
+                        <input type="text" [disabled]="disablePromocodeInputAndApplyButton" class="form-control promo"
+                            [(ngModel)]="promocode" placeholder="Enter your Promo Code here">
+                        <span class="apply background" (click)="applyPromocode()">Apply</span>
+                    </span>
+                    <br>
+
+                    <div *ngIf="this.transactionService.transactionDetailsArray.length==0">
+                        <h4 style="font-weight: 600 !important;">No Products in the Cart</h4>
+                    </div>
+                    <div class="row" *ngIf="this.transactionService.transactionDetailsArray.length>0">
+                        <div class="col-md-10 col-sm-9 col-9">
+                            <h4 style="font-weight: bold;">Show Products</h4>
+                        </div>
+                        <div class="col-md-2 col-sm-3 col-3">
+                            <button class="toggleBtn" (click)="collapse()" data-toggle="collapse" data-target="#showProducts">
+                                <i class="fa fa-chevron-{{collapseIcon}}"></i>
+                                <!-- <span class="material-icons">{{collapseIcon}}</span> -->
+                            </button>
+                        </div>
+                    </div>
+                    <div class="showProdContainer">
+                        <div id="showProducts" class="cartProductDiv collapse {{showProducts}}" *ngFor="let row of this.transactionService.transactionDetailsArray; let i = index;">
+                            <mat-card *ngIf="row.TRANSACTION_DETAIL_TYPE_CODE == 1" class="cartproduct" style="padding: 8px 0px;">
+                                <div style="display:flex;">
+                                    <!-- Final Checklist -->
+                                    <a [routerLink]="['/collections/product-view', row.PRODUCT_ID, row.PRODUCT_DETAIL_ID, row.PRODUCT_CATEGORY_NAME, row.PRODUCT_NAME]" target="_blank">
+                                        <img style="height: 75px;width: 75px; margin-right:10px;" src="{{row.PRODUCT_IMAGE_FILE_PATH}}" onerror="this.src='assets/images/noProductToShowInThisCategory.jpg'" alt="Product Image">
+                                    </a>
+
+
+                                    <span class="title defaultFontColorAndLink">
+                                    <a [routerLink]="['/collections/product-view', row.PRODUCT_ID, row.PRODUCT_DETAIL_ID, row.PRODUCT_CATEGORY_NAME, row.PRODUCT_NAME]" target="_blank"
+                                        class="defaultFontColorAndLink">
+                                        {{row.PRODUCT_NAME | limitTo: 40}}
+                                    </a>
+                                    <p class="variants">
+                                        <ng-container *ngIf="row.SIZE_LABEL != 'null' && row.SIZE != 'null'">
+                                            <span>{{row.SIZE_LABEL}} : {{row.SIZE}}</span>
+                                    </ng-container>
+                                    <ng-container *ngIf="row.PRODUCT_COLOR_LABEL != 'null' && row.PRODUCT_COLOR != 'null'">
+                                        <span>{{row.PRODUCT_COLOR_LABEL}} : {{row.PRODUCT_COLOR}}</span>
+                                    </ng-container>
+                                    <ng-container *ngIf="row.MATERIAL_LABEL != 'null' && row.MATERIAL != 'null'">
+                                        <span>{{row.MATERIAL_LABEL}} : {{row.MATERIAL}}</span>
+                                    </ng-container>
+                                    </p>
+                                    </span>
+
+                                    <!-- //Final Checklist -->
+                                    <i class="fa fa-trash-o" (click)="removeFromCart(i)" style="font-size: 14px;"></i>
+                                </div>
+                                <h6 *ngIf="row.ADD_ON_DETAIL && row.ADD_ON_DETAIL.length > 0" style="cursor: pointer;font-weight: 600 !important;" (click)="fetchProduct(row)" onclick="hideCart()">
+                                    Customize
+                                </h6>
+                                <hr>
+                                <span> 
+                                <i class="fa fa-minus buttoncart background hoverClass" (click)="reduceQuantity(i)"></i>
+                                <span style="margin:0px 6px; font-size: 16px;">{{row.PRODUCT_QUANTITY}}</span>
+                                <!-- if AddOn Product  -->
+                                <ng-container *ngIf="row.ADD_ON_DETAIL && row.ADD_ON_DETAIL.length > 0; else elseBlock">
+                                    <i class="fa fa-plus buttoncart background hoverClass" (click)="openCustomizationConfirmationPopup(row)" onclick="hideCart()"></i>
+                                </ng-container>
+                                <!-- else -->
+                                <ng-template #elseBlock>
+                                    <i class="fa fa-plus buttoncart background hoverClass" (click)="increaseQuantity(i)"></i>
+                                </ng-template>
+                                </span>
+                                <span style="float: right;"><b>{{this.commonService.STORE_CURRENCY_SYMBOL}}
+                                    {{getProductFinalPrice(row).toFixed(2)}}</b>
+                                    <ng-container *ngIf="row.ADD_ON_DETAIL && row.ADD_ON_DETAIL.length > 0" >
+                                        <small>(inclusive of addon price)</small>
+                                    </ng-container>
+                            </span>
+                            </mat-card>
+                        </div>
+                    </div>
+
+                    <!-- Displaying Promocode-->
+                    <div class="promocode-display" *ngIf="promocodeDetailsObject.PROMO_CODE">
+                        <p> Applied Promocode</p>
+                        <mat-card class="promocode-card">
+                            <mat-card-content>
+                                {{promocodeDetailsObject.PROMO_CODE}}
+                                <i class="fa fa-times" style="float: right;" (click)="cancelPromocode();"></i>
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+                    <span style="color:red;">{{invalidPromocodeNotification}}</span>
+                    <!-- Displaying Promocode Ends here-->
+
+                    <hr>
+                    <!-- wallet related  -->
+
+                    <div *ngIf="this.commonService.isSubscriberLoggedIn()
+                        && this.walletMethodsService.subscriberWallerDetailsObject.WALLET_MONEY>0">
+                        <span class="list">Your Wallet Balance</span>
+                        <span style="float: right;" class="list"> {{this.commonService.STORE_CURRENCY_SYMBOL}}
+                            {{this.walletMethodsService.subscriberWallerDetailsObject.WALLET_MONEY}}</span>
+                        <br>
+
+                        <hr>
+
+                        <button style="width: 100%;" *ngIf="displayAppyWalletButton" class="btn  selectedFilter background" (click)="applyWalletMoney()">Apply Wallet Money</button>
+                        <button style="width: 100%;" *ngIf="displayAppyWalletButton == false" class="btn selectedFilter background" (click)="cancelWalletMoney()">Cancel
+                            Wallet Money</button>
+                        <br>
+                        <hr>
+                    </div>
+                    <!-- wallet related ends  -->
+
+                    <div>
+                        <!-- invoice total  -->
+                        <h5>Invoice Amount<span style="float: right;" *ngIf="this.transactionsService.transactionArray[0] != undefined">{{this.commonService.STORE_CURRENCY_SYMBOL}}
+                                {{this.transactionsService.transactionArray[0].INVOICE_AMOUNT}}</span></h5>
+
+                        <!-- Delivery charges  -->
+                        <h5>Delivery Charges<span style="float: right;">{{this.commonService.STORE_CURRENCY_SYMBOL}}
+                                {{this.getDeliveryCharge()}}</span></h5>
+
+                        <!-- GST  -->
+                        <h5>GST<span style="float: right;">{{this.commonService.STORE_CURRENCY_SYMBOL}}
+                                {{this.transactionsService.getGstWithDeliveryTimingSlotPrice(this.getDeliveryCharge())
+                                }}</span>
+                        </h5>
+                        <h5>CGST<span style="float: right;">{{this.commonService.STORE_CURRENCY_SYMBOL}}
+                                {{this.transactionsService.getSgstWithDeliveryTimingSlotPrice(this.getDeliveryCharge())}}</span>
+                        </h5>
+                        <h5>SGST<span style="float: right;">{{this.commonService.STORE_CURRENCY_SYMBOL}}
+                                {{this.transactionsService.getSgstWithDeliveryTimingSlotPrice(this.getDeliveryCharge())}}</span>
+                        </h5>
+
+                        <!-- Convenience Fees (If applicable) -->
+                        <h5 *ngIf="this.transactionsService.getConvinienceFee() > 0">Convenience Fee<span style="float: right;">{{this.commonService.STORE_CURRENCY_SYMBOL}}
+                                {{this.transactionsService.getConvinienceFee()}}</span></h5>
+
+                        <!-- invoice level discount -->
+                        <h5 *ngIf="this.transactionsService.transactionArray && this.transactionsService.transactionArray.length > 0 && this.transactionsService.transactionArray[0].INVOICE_DISCOUNT_AMOUNT>0">
+                            Invoice Discount Amount<span style="float: right;">{{this.commonService.STORE_CURRENCY_SYMBOL}}
+                                {{this.transactionsService.transactionArray[0].INVOICE_DISCOUNT_AMOUNT }}</span>
+                        </h5>
+                        <!-- promocode discount  -->
+                        <h5 *ngIf="this.transactionsService.getPromoCodeDiscountAmount()>0">Promocode Discount<span style="float: right;">{{this.commonService.STORE_CURRENCY_SYMBOL}}
+                                {{this.transactionsService.getPromoCodeDiscountAmount()}}</span></h5>
+
+                        <!-- Wallet money  -->
+                        <h5 *ngIf="this.transactionsService.getAppliedWalletMoney() > 0 && this.commonService.showWallet">
+                            Applied Wallet Money
+                            <span style="float: right;">{{this.commonService.STORE_CURRENCY_SYMBOL}}
+                                {{this.transactionsService.getAppliedWalletMoney()}}</span>
+                        </h5>
+                        <!-- Final Price  -->
+                    </div>
+
+                    <div>
+                        <br>
+                        <hr style="border-top: 1px solid rgb(95, 94, 94);">
+
+                        <span class="list totalAmount">Total Amount Payable</span>
+                        <span class="list totalAmount" style="float: right;" *ngIf="promocodeDetailsObject.PROMO_CODE_DISCOUNT_AMOUNT == 0 && this.transactionsService.transactionArray[0] != undefined ">
+                            {{this.commonService.STORE_CURRENCY_SYMBOL}}
+                            {{this.transactionsService.transactionArray[0].INVOICE_FINAL_AMOUNT
+                            + this.getDeliveryCharge()
+                            +
+                            this.transactionsService.getGSTAmountOfDeliverySlotCharges(this.getDeliveryCharge())}}</span>
+                        <span style="float: right;font-weight: bold;" class="list" *ngIf="promocodeDetailsObject.PROMO_CODE_DISCOUNT_AMOUNT"> 
+                              {{this.commonService.INR_SYMBOL}} 
+                              {{this.transactionsService.transactionArray[0].INVOICE_FINAL_AMOUNT 
+                                + this.getDeliveryCharge()
+                                + this.transactionsService.getGSTAmountOfDeliverySlotCharges(this.getDeliveryCharge())}}</span>
+
+                        <br>
+
+                        <!-- <div *ngIf="this.userProfileService.invoiceDiscount > 0 || promocodeDetailsObject.PROMO_CODE_DISCOUNT_AMOUNT > 0">
+                            <span class="list">Your Total Saving</span>
+                            <span style="float: right;" class="list" *ngIf="promocodeDetailsObject.PROMO_CODE_DISCOUNT_AMOUNT == 0">
+                                {{this.commonService.STORE_CURRENCY_SYMBOL}}
+                                {{this.userProfileService.invoiceDiscount}}</span>
+                            <span style="float: right;" class="list" *ngIf="promocodeDetailsObject.PROMO_CODE_DISCOUNT_AMOUNT">
+                                {{this.commonService.STORE_CURRENCY_SYMBOL}}
+                                {{this.userProfileService.invoiceDiscount +
+                                promocodeDetailsObject.PROMO_CODE_DISCOUNT_AMOUNT}}</span>
+                        </div> -->
+                    </div>
+
+                </mat-card>
+
+
+            </div>
+            <!--outercol2-->
+        </div>
+        <!--outerrow-->
+    </div>
+</div>
+<!--container-->
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <!-- <h4 class="modal-title">Schedule For Later</h4> -->
+            </div>
+            <div class="modal-body">
+                <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Select Time</mat-label>
+                    <mat-select>
+                        <mat-option *ngFor="let food of foods" [value]="food.value">
+                            {{food.viewValue}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div class="button">
+                    <div>
+                        <button>Schedule</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal1 -->
+<div class="modal fade" id="myModal1" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <div class="button">
+                    <div>
+                        <button style="width:100%;" class="background">Continue</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

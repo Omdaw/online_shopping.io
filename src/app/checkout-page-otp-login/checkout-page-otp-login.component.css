@@ -1,0 +1,139 @@
+/* Checkout header styles starts*/
+
+.checkoutHeader {
+    position: fixed;
+    height: 50px;
+    width: 100%;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    padding: 5px 10px;
+    background: #fff;
+    box-shadow: 0 0.5px 4px 0 #b2b2b2;
+    z-index: 2;
+}
+
+.checkoutHeader .left,
+.checkoutHeader .center {
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.checkoutHeader .left span {
+    font-size: 28px;
+    font-weight: bold;
+    color: #646262;
+}
+
+.checkoutHeader .center {
+    padding-right: 28px;
+}
+
+.checkoutHeader .center h4 {
+    font-family: Arial, Helvetica, sans-serif !important;
+    font-size: 18px !important;
+    font-weight: bold !important;
+    color: #646262;
+    margin: 0;
+}
+
+
+/* Checkout header styles ends*/
+
+.body {
+    padding: 80px 22px;
+    /* background: url('../../assets/images/backgroundImage.jpg'); */
+    /* background-position: center;
+    /* object-fit: cover; */
+}
+
+.inputField {
+    /* border: none;
+    border-bottom: 1px solid #ced4da; */
+    margin: 14px 0 3px 0;
+    border-top: none;
+    border-right: none;
+    border-left: none;
+}
+
+::placeholder {
+    font-size: 15px;
+    color: #c7c7c7;
+}
+
+.sendOtpBtn {
+    font-family: Arial, Helvetica, sans-serif !important;
+    font-size: 16px;
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
+    background: #e85826;
+    padding: 10px 0;
+    border-radius: 3px;
+    margin-top: 1em;
+    color: #fff;
+    border: 0;
+}
+
+
+/* OTP Verification Styles starts*/
+
+.verificationMsg {
+    color: #828181;
+    line-height: 1.5;
+    text-align: center;
+}
+
+.OtpFieldPart {
+    margin: 7% 0;
+}
+
+.resentOtpPart {
+    color: #4a4a4a;
+    padding-top: 1em;
+    text-align: center;
+}
+
+.resendOtp {
+    color: #e85826;
+}
+
+.verifyOtp {
+    width: 100%;
+    color: #fff;
+    padding: 1em 0;
+    background: #e85826;
+    margin-top: 2em;
+}
+
+.verifyOtp:disabled,
+.verifyOtp[disabled] {
+    background: #a5afb6;
+}
+
+
+/* OTP Verification Styles ends*/
+
+
+/* Footer styles starts */
+
+.checkoutFooter {
+    position: fixed;
+    bottom: 0%;
+    width: 100%;
+    background: #fff;
+    font-size: 12px;
+    padding: 15px 0;
+    text-align: center;
+    color: #828181;
+    line-height: 1.2;
+}
+
+.checkoutFooter a {
+    text-decoration: none;
+    color: #e85826;
+}
+
+
+/* Footer styles ends */

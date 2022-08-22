@@ -1,0 +1,20 @@
+<!-- <div class="loading"  *ngIf="processBar">
+    <mat-spinner class="loading-image"></mat-spinner>
+  </div> -->
+  <div class="box">
+      <img  [src]="imageUrl"  class="bgimage">
+      <div class="container">
+      <div class="centerDiv" >
+        <img *ngIf="storeLogoUrl!=''" [src]="storeLogoUrl" width="40%">
+        <p class="content" *ngIf="title != 'null'">{{title}}</p>
+        <p class="content-desc" *ngIf="description != 'null'">{{description}}</p>
+      </div><!--centerdiv-->
+    </div>
+      <div class="footer">
+        <p style="color: rgb(255, 255, 255);"> © {{currentYear}}
+          Powered By <a href="https://wawbiz.in/" target="blank" class="linkDecoration" >  Wawbiz </a>
+        </p>
+      </div><!--footer-->
+    </div>
+    
+  

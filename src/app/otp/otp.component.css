@@ -1,0 +1,80 @@
+#wrapper {
+    font-family: Lato;
+    font-size: 1.5rem;
+    text-align: center;
+    box-sizing: border-box;
+    color: #333;
+    margin-top: 14px;
+}
+
+#dialog {
+    border: solid 1px #ccc;
+    margin: 10px auto;
+    padding: 20px 30px;
+    display: inline-block;
+    box-shadow: 0 0 4px #ccc;
+    background-color: #fff;
+    overflow: hidden;
+    position: relative;
+    max-width: 400px;
+}
+
+h3 {
+    margin: 0 0 10px;
+    padding: 0;
+    line-height: 1.25;
+}
+
+input {
+    margin: 0 5px;
+    text-align: center;
+    line-height: 10px;
+    font-size: 30px;
+    border: none;
+    border: 1px solid #000;
+    outline: none;
+    width: 10%;
+    transition: all .2s ease-in-out;
+    background: none;
+}
+
+input:focus {
+    border-color: #ccc;
+    ;
+    box-shadow: 0 0 5px #ccc inset;
+}
+
+input::selection {
+    background: transparent;
+}
+
+button {
+    margin: 30px 0 50px;
+    width: 100%;
+    padding: 6px;
+    border-radius: 2px;
+    font-size: 15px;
+    background-color: #ccc;
+    border: none;
+    text-transform: uppercase;
+}
+
+div {
+    position: relative;
+    z-index: 1;
+}
+
+img {
+    position: absolute;
+    bottom: -70px;
+    right: -63px;
+}
+
+@media only screen and (min-device-width: 1024px) and (max-device-width: 1366px) and (orientation: portrait) {}
+
+@media(max-width:786px) {
+    .containerWidth {
+        padding: 10px;
+        padding-top: 0px;
+    }
+}

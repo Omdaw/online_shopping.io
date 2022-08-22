@@ -1,0 +1,518 @@
+<style>
+    img {
+        object-fit: cover;
+    }
+    /* new size style  */
+    
+    .rPoo01 ._37KLG6._3K7Qff {
+        margin-top: 12px;
+    }
+    
+    .rPoo01 ._37KLG6._3K7Qff {
+        margin-top: 12px;
+    }
+    
+    ._2a2WU_ {
+        margin-top: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: sp;
+    }
+    
+    .rPoo01 ._1lwQLq._3K7Qff {
+        margin-top: 8px;
+    }
+    
+    ._1lwQLq {
+        font-size: 14px;
+        margin-top: 2px;
+        font-weight: 500;
+        color: #878787;
+        width: 70px;
+        /* min-width: 110px; */
+        padding-right: 10px;
+        position: relative;
+    }
+    
+    .fUBI-_ {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    
+    .fUBI-_ ._3hSwtk._2UBURg {
+        margin: 0 10px 0 0;
+        cursor: pointer;
+        padding-top: 8px;
+    }
+    
+    .fUBI-_ ._3hSwtk {
+        display: inline-flex;
+        position: relative;
+    }
+    
+    li {
+        list-style: none;
+    }
+    
+    .fUBI-_ ._3hSwtk ._1TJldG._2I_hq9,
+    .fUBI-_ ._3hSwtk ._2VtE5i._2I_hq9 {
+        font-size: 14px;
+        font-weight: bold;
+    }
+    
+    .fUBI-_ ._3hSwtk ._1TJldG._2UBURg {
+        /* border: 2px dashed #c2c2c2; */
+        min-width: 34px;
+        height: 30px;
+        border-radius: 30px;
+        font-size: 13px;
+        color: #000;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .13);
+    }
+    
+    .fUBI-_ ._3hSwtk ._1TJldG._1wX7_H {
+        min-width: 34px;
+        /* border: 2px solid #c2c2c2; */
+        color: #000;
+        ;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .13);
+    }
+    
+    .selectedVariant {
+        min-width: 46px;
+        /* border: 2px solid #000 !important; */
+        color: #ff1744 !important;
+    }
+    
+    .fUBI-_ ._3hSwtk ._1TJldG {
+        padding: 6px 5px;
+        border-radius: 30px;
+        position: relative;
+    }
+    
+    .fUBI-_ ._3hSwtk ._1TJldG,
+    .fUBI-_ ._3hSwtk ._2VtE5i {
+        background: #fff;
+        font-weight: 500;
+        text-align: center;
+    }
+    
+    ._3gDSOa._2RN9ef ._35Y7Yo {
+        fill: #000;
+        opacity: .2;
+        stroke: transparent;
+    }
+    
+    ._35Y7Yo {
+        fill: #c2c2cc;
+    }
+    /* image carousel style  */
+    
+    #zoom_05 {
+        width: 100%;
+        height: 300px;
+    }
+    
+    @media(max-width:1124px) {
+        .mycarousel {
+            margin-top: 2% !important;
+        }
+    }
+    
+    .carousel-inner {
+        position: relative;
+        width: 100%;
+        min-height: 300px;
+    }
+    
+    .carousel-control.right {
+        right: 0;
+        left: auto;
+        background-image: none !important;
+        background-repeat: repeat-x;
+    }
+    
+    .carousel-control.left {
+        left: 0;
+        right: auto;
+        background-image: none !important;
+        background-repeat: repeat-x;
+    }
+    
+    #carousel-example-generic {
+        margin: 20px auto;
+        width: 100%;
+    }
+    
+    #carousel-custom {
+        margin: 40px;
+        width: 485px;
+        margin-top: -2px;
+    }
+    
+    #carousel-custom .carousel-indicators {
+        margin: 22px 0 0;
+        overflow: auto;
+        position: static;
+        /* text-align: left; */
+        text-align: -webkit-center;
+        white-space: nowrap;
+        width: 100%;
+        overflow: hidden;
+    }
+    
+    #carousel-custom .carousel-indicators li {
+        background-color: transparent;
+        -webkit-border-radius: 0;
+        border-radius: 0;
+        display: inline-block;
+        height: auto;
+        margin: 0 !important;
+        width: auto;
+    }
+    
+    #carousel-custom .carousel-indicators li img {
+        display: block;
+        opacity: 0.5;
+    }
+    
+    #carousel-custom .carousel-indicators li.active img {
+        opacity: 1;
+    }
+    
+    #carousel-custom .carousel-indicators li:hover img {
+        opacity: 0.75;
+    }
+    
+    #carousel-custom .carousel-outer {
+        position: relative;
+    }
+    
+    .carousel-indicators li img {
+        height: 66px;
+        width: 52px;
+        padding: 2px;
+    }
+    
+    .containerSize {
+        height: 430px;
+        overflow-y: auto;
+    }
+    
+    .buttons {
+        margin: 5px 0 12px 0;
+    }
+    /* //image carousel style  */
+</style>
+
+<ng-container *ngIf="displayVarianceBox">
+    <div class="containerSize container-fluid">
+        <div class="row">
+            <div class="col-md-6 col-12 col-sm-12">
+                <!-- Image code37  -->
+                <div id="addonImageControls" class="carousel slide myproslide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        <div *ngFor="let row of productsDetailObject.PRODUCT_IMAGE;let i = index;" [ngClass]="getClassName(i)">
+                            <img class="zoom" [src]="row.PRODUCT_IMAGE_FILE_PATH" alt='' data-zoom-image="assets/images/mytatalapi.jpeg" id="zoom_05" onError="this.src='assets/images/noProductToShowInThisCategory.jpg';" />
+                        </div>
+                        <div *ngIf="productsDetailObject.PRODUCT_IMAGE.length<1">
+                            <img class="zoom" alt='' data-zoom-image="assets/images/mytatalapi.jpeg" id="zoom_05" src="assets/images/noProductToShowInThisCategory.jpg" />
+                        </div>
+                    </div>
+                    <ng-container *ngIf="productsDetailObject.PRODUCT_IMAGE.length > 1">
+
+                        <a class="carousel-control-prev" href='#addonImageControls' data-slide='prev'>
+                            <i style="font-size: 40px;font-weight: bold;color: #ff1744;" class="fa fa-angle-left" aria-hidden="true"></i>
+                        </a>
+
+                        <a class="carousel-control-next" href='#addonImageControls' data-slide='next'>
+                            <i style="font-size: 40px;font-weight: bold;color: #ff1744;" class="fa fa-angle-right" aria-hidden="true"></i>
+                        </a>
+
+                    </ng-container>
+
+                    <!-- small images -->
+                    <ng-container *ngIf="productsDetailObject.PRODUCT_IMAGE && productsDetailObject.PRODUCT_IMAGE.length > 1">
+                        <div id='addonImageControls' style="top: 35px" class='carousel slide' data-ride='carousel'>
+                            <ol class='carousel-indicators mCustomScrollbar meartlab'>
+                                <li data-target='#addonImageControls' style="margin: 5px 10px;" *ngFor="let row of productsDetailObject.PRODUCT_IMAGE;let i = index;" attr.data-slide-to='{{i}}' [ngClass]="getImageCarouselClassName(i)">
+                                    <img style="display: block;" [src]="row.PRODUCT_IMAGE_FILE_PATH" />
+                                </li>
+                            </ol>
+                        </div>
+                    </ng-container>
+
+                </div>
+                <!-- //Image code  -->
+
+            </div>
+
+            <div class="col-md-6 col-12 col-sm-12">
+
+                <div class="row des mytopsec">
+                    <div class="col-md-12">
+
+                        <h5 style="display: none;" *ngIf="productObject.PRODUCT_CATEGORY_NAME != '' && productObject.PRODUCT_CATEGORY_NAME != 'undefined'">
+                            {{productObject.PRODUCT_CATEGORY_NAME}}</h5>
+
+                        <!-- Final Checklist -->
+                        <h6 style="display: none;" *ngIf="productObject.PRODUCT_BRAND_NAME != '' && productObject.PRODUCT_BRAND_NAME != 'undefined'
+      && productObject.PRODUCT_BRAND_NAME != 'Undefined'">
+                            {{productObject.PRODUCT_BRAND_NAME}}</h6>
+                        <!-- //Final Checklist -->
+
+                        <div class="row mytopsec">
+                            <div class="col-lg-9 col-9">
+                                <h4 *ngIf="productObject.PRODUCT_NAME != '' && productObject.PRODUCT_NAME != 'undefined'">
+                                    {{productObject.PRODUCT_NAME}}</h4>
+                            </div>
+                            <div class="col-lg-3 col-3">
+                                <span class="">
+                                    <div style="cursor: pointer;" class="wishlistD"
+                                        *ngIf="this.myWishlistService.isThisProductsInMyWishlist(productsDetailObject)==false"
+                                        (click)="this.myWishlistService.addToMyWishlist(productsDetailObject)">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="_2oLiqr" width="24" height="24"
+                                            viewBox="0 0 20 16">
+                                            <path
+                                                d="M8.695 16.682C4.06 12.382 1 9.536 1 6.065 1 3.219 3.178 1 5.95 1c1.566 0 3.069.746 4.05 1.915C10.981 1.745 12.484 1 14.05 1 16.822 1 19 3.22 19 6.065c0 3.471-3.06 6.316-7.695 10.617L10 17.897l-1.305-1.215z"
+                                                fill="var(--theme-color)" class="_35Y7Yo" stroke="#FFF"
+                                                fill-rule="evenodd" opacity=".9"></path>
+                                        </svg>
+                                    </div>
+
+                                    <div style="cursor: pointer;" class="wishlistD"
+                                        *ngIf="this.myWishlistService.isThisProductsInMyWishlist(productsDetailObject)"
+                                        (click)="this.myWishlistService.deleteMyWishlist(productsDetailObject)">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="_2oLiqr" width="24" height="24"
+                                            viewBox="0 0 20 16">
+                                            <path
+                                                d="M8.695 16.682C4.06 12.382 1 9.536 1 6.065 1 3.219 3.178 1 5.95 1c1.566 0 3.069.746 4.05 1.915C10.981 1.745 12.484 1 14.05 1 16.822 1 19 3.22 19 6.065c0 3.471-3.06 6.316-7.695 10.617L10 17.897l-1.305-1.215z"
+                                                fill="var(--theme-color)" class="_35Y7Yo" stroke="#FFF"
+                                                fill-rule="evenodd" opacity=".9" style="fill:var(--theme-color);">
+                                            </path>
+                                        </svg>
+                                    </div>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="row productprice" style="margin-left:0;margin-right: 0;">
+                            <span class="myprice" style="font-size: 17px;font-weight: 500;color: #212121;">
+                                {{this.commonService.STORE_CURRENCY_SYMBOL}}{{this.productMidLayerService.getProductPrice(productsDetailObject)}}
+                            </span> &nbsp;
+                            <del class="mydel" style="font-size: 17px;color: #929299" *ngIf="this.productMidLayerService.showScratchPrice(productsDetailObject)">
+                                {{this.commonService.STORE_CURRENCY_SYMBOL}}{{this.productMidLayerService.getScratchPrice(productsDetailObject)}}</del>
+
+                            <span style="color: #ff1744;font-size: 16px;" *ngIf="this.productMidLayerService.showScratchPrice(productsDetailObject)" class="discount-percentage">(
+                                {{this.productMidLayerService.getDicountPercentage(productsDetailObject)}})
+                            </span>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row _37KLG6 _3K7Qff col-12" style="margin-bottom:10px;">
+
+                    <div class="_2a2WU_" *ngIf="sizeDropdownValues.length > 0">
+                        <span id="Size" class="_1lwQLq _3K7Qff">{{dropdownLabelsObject.SIZE_LABEL}}</span>
+                        <ul class="fUBI-_">
+                            <li class="_3hSwtk _2UBURg" id="swatch-1-size" *ngFor="let row of sizeDropdownValues" title="{{row.value}}" (click)="onSizeChange(row.value)">
+                                <a class="_1TJldG _2I_hq9 _2UBURg" style="text-decoration: none;" [ngClass]="getSizeClassName(row.value)">{{row.value}}</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="_2a2WU_" *ngIf="colorDropdownValues.length > 0">
+                        <span id="Size" class="_1lwQLq _3K7Qff">{{dropdownLabelsObject.PRODUCT_COLOR_LABEL}}</span>
+                        <ul class="fUBI-_">
+                            <li class="_3hSwtk _2UBURg" id="swatch-1-size" *ngFor="let row of colorDropdownValues" (click)="onColorChange(row.value)">
+                                <a class="_1TJldG _2I_hq9 _2UBURg" [ngClass]="getColorClassName(row.value)">{{row.value}}</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="_2a2WU_" *ngIf="materialDropdownValues.length > 0">
+                        <span id="Size" class="_1lwQLq _3K7Qff">{{dropdownLabelsObject.MATERIAL_LABEL}}</span>
+                        <ul class="fUBI-_">
+                            <li class="_3hSwtk _2UBURg" id="swatch-1-size" *ngFor="let row of materialDropdownValues" (click)="onMaterialChange(row.value)">
+                                <a class="_1TJldG _2I_hq9 _2UBURg" [ngClass]="getMaterialClassName(row.value)">{{row.value}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--row-->
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <button *ngIf="productsDetailObject.ADD_ON_PRODUCT_GROUP_MAP.length > 0" class="btn background buttons float-right" style="color: #fff" (click)="gotoNextStep()">
+                Next Step
+            </button>
+
+            <ng-container *ngIf="productsDetailObject.ADD_ON_PRODUCT_GROUP_MAP.length == 0">
+
+                <!-- update cart  -->
+                <ng-container *ngIf="this.transactionDetailObject != undefined">
+                    <button class="btn background buttons float-right" style="color: #fff" (click)="this.updateCart(0,0)">
+                        Update Cart
+                    </button>
+                </ng-container>
+
+                <ng-container *ngIf="this.transactionDetailObject == undefined">
+                    <!-- add to cart  -->
+                    <button *ngIf="this.transactionService.showAddToCartBasedOnProductDetailsObject(productsDetailObject) 
+                            && this.transactionService.showOutofStockBasedOnProductDetailsObject(productsDetailObject) == false" class="btn background buttons float-right" style="color: #fff" (click)="this.addToCart()">
+                        {{this.commonService.addToCartButtonText}}
+                    </button>
+                    <!-- update quantity  -->
+                    <div class="quantity-select float-right" *ngIf="this.transactionService.showAddToCartBasedOnProductDetailsObject(productsDetailObject)==false 
+                                  && this.transactionService.showOutofStockBasedOnProductDetailsObject(productsDetailObject) == false">
+                        <div class="entry value-minus" (click)="updateCart(this.transactionService.getSelectedQtyByProductDetailsObject(productsDetailObject), 2)">
+                            &nbsp;</div>
+                        <div class="entry value">
+                            {{this.transactionService.getSelectedQtyByProductDetailsObject(productsDetailObject)}}
+                        </div>
+                        <div class="entry value-plus active" (click)="updateCart(this.transactionService.getSelectedQtyByProductDetailsObject(productsDetailObject), 1)">
+                            &nbsp;</div>
+                    </div>
+                </ng-container>
+            </ng-container>
+
+        </div>
+    </div>
+</ng-container>
+
+<!-- addons  -->
+<ng-container class="containerSize" *ngIf="!displayVarianceBox">
+    <div class="containerSize container-fluid">
+        <div class="row">
+            <div class="col-12">
+
+                <ng-container *ngFor="let addOnGroup of productsDetailObject.ADD_ON_PRODUCT_GROUP_MAP; let groupIndex = index;">
+                    <h6 style="font-size: 16px;font-weight: 600 !important;margin-top: 1em;">
+                        {{addOnGroup.ADD_ON_PRODUCT_GROUP_NAME}}
+                        <ng-container *ngIf="addOnGroup.IS_MANDATORY == 'true'">
+                            (required)
+                        </ng-container>
+                        <ng-container *ngIf="addOnGroup.IS_MANDATORY == 'false'">
+                            (optional)
+                        </ng-container>
+                        <!-- new-checklist-1-soln-4 -->
+                        <ng-container *ngIf="addOnGroup.IS_MANDATORY == 'false' && addOnGroup.MAX_SELECTION != 'null' && addOnGroup.MAX_SELECTION > 0">
+                            (You can select Max {{addOnGroup.MAX_SELECTION}} items)
+                        </ng-container>
+                    </h6>
+
+
+                    <mat-radio-group [(ngModel)]="addOnGroup.SELECTED_PRODUCT">
+                        <ng-container *ngFor="let product of addOnGroup.ADD_ON_PRODUCT_GROUP_PRODUCT_DETAIL_MAP; let productIndex = index;">
+                            <!-- Radio buttons -->
+                            <div *ngIf="addOnGroup.IS_MULTI_SELECT == 'false'">
+                                <mat-radio-button class="example-radio-button" [value]="product">
+                                    {{product.PRODUCT_NAME}}
+                                    <!-- price -->
+                                    <ng-container *ngIf="product.SELLING_PRICE != 'null'">
+                                        {{this.commonService.STORE_CURRENCY_SYMBOL}} {{product.SELLING_PRICE}}
+                                    </ng-container>
+
+                                    <!-- size -->
+                                    <ng-container *ngIf="product.SIZE != 'null'">
+                                        ({{product.SIZE}} {{product.SIZE_LABEL}})
+                                    </ng-container>
+
+                                    <!-- color -->
+                                    <ng-container *ngIf="product.PRODUCT_COLOR != 'null'">
+                                        ({{product.PRODUCT_COLOR}} {{product.PRODUCT_COLOR_LABEL}})
+                                    </ng-container>
+
+                                    <!-- material -->
+                                    <ng-container *ngIf="product.MATERIAL != 'null'">
+                                        ({{product.MATERIAL}} {{product.MATERIAL_LABEL}})
+                                    </ng-container>
+
+                                </mat-radio-button>
+                                <a style="color: blueviolet;" (click)="openViewProductDialog(product);"> view detail</a>
+                            </div>
+                            <!-- //Radio buttons -->
+                        </ng-container>
+                    </mat-radio-group>
+
+                    <ng-container *ngFor="let product of addOnGroup.ADD_ON_PRODUCT_GROUP_PRODUCT_DETAIL_MAP; let productIndex = index;">
+
+                        <!-- checkboxes -->
+                        <div *ngIf="addOnGroup.IS_MULTI_SELECT == 'true'">
+                            <mat-checkbox [(ngModel)]="product.CHECKED" (ngModelChange)="product.CHECKED?
+                    ((addOnGroup.NO_OF_ITEMS_SELECTED==undefined)?addOnGroup.NO_OF_ITEMS_SELECTED = 1: addOnGroup.NO_OF_ITEMS_SELECTED = addOnGroup.NO_OF_ITEMS_SELECTED + 1):
+                    addOnGroup.NO_OF_ITEMS_SELECTED = addOnGroup.NO_OF_ITEMS_SELECTED - 1" [disabled]="!addOnGroup.MAX_SELECTION || (addOnGroup.MAX_SELECTION == addOnGroup.NO_OF_ITEMS_SELECTED && !product.CHECKED)">
+                                {{product.PRODUCT_NAME}}
+
+                                <!-- price -->
+                                <ng-container *ngIf="product.SELLING_PRICE != 'null'">
+                                    {{this.commonService.STORE_CURRENCY_SYMBOL}} {{product.SELLING_PRICE}}
+                                </ng-container>
+
+                                <!-- size -->
+                                <ng-container *ngIf="product.SIZE != 'null'">
+                                    ({{product.SIZE}} {{product.SIZE_LABEL}})
+                                </ng-container>
+
+                                <!-- color -->
+                                <ng-container *ngIf="product.PRODUCT_COLOR != 'null'">
+                                    ({{product.PRODUCT_COLOR}} {{product.PRODUCT_COLOR_LABEL}})
+                                </ng-container>
+
+                                <!-- material -->
+                                <ng-container *ngIf="product.MATERIAL != 'null'">
+                                    ({{product.MATERIAL}} {{product.MATERIAL_LABEL}})
+                                </ng-container>
+                            </mat-checkbox>
+                            <a style="color: blueviolet;" (click)="openViewProductDialog(product);"> view detail</a>
+                            <!-- </label> -->
+                        </div>
+                        <!-- //checkboxes -->
+
+                    </ng-container>
+                </ng-container>
+
+
+
+            </div>
+        </div>
+        <!-- row -->
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <button class="btn background buttons" style="color: #fff" (click)="gotoPreviousStep()">Previous Step</button>
+
+            <!-- update cart  -->
+            <ng-container *ngIf="this.transactionDetailObject != undefined">
+                <button class="btn background buttons float-right" style="color: #fff" (click)="this.updateCart(0,0)">
+                    Update Cart
+                </button>
+            </ng-container>
+
+
+            <ng-container *ngIf="this.transactionDetailObject == undefined">
+                <!-- add to cart  -->
+                <button *ngIf="this.transactionService.showOutofStockBasedOnProductDetailsObject(productsDetailObject) == false" class="btn background buttons float-right" style="color: #fff" (click)="this.addToCart()">
+                    {{this.commonService.addToCartButtonText}}
+                </button>
+                <!-- update quantity  -->
+                <!-- <div class="quantity-select float-right" *ngIf="this.transactionService.showAddToCartBasedOnProductDetailsObject(productsDetailObject)==false 
+                && this.transactionService.showOutofStockBasedOnProductDetailsObject(productsDetailObject) == false">
+      <div class="entry value-minus"
+        (click)="updateCart(this.transactionService.getSelectedQtyByProductDetailsObject(productsDetailObject), 2)">
+        &nbsp;</div>
+      <div class="entry value">
+        {{this.transactionService.getSelectedQtyByProductDetailsObject(productsDetailObject)}}</div>
+      <div class="entry value-plus active"
+        (click)="updateCart(this.transactionService.getSelectedQtyByProductDetailsObject(productsDetailObject), 1)">
+        &nbsp;</div>
+    </div> -->
+            </ng-container>
+
+        </div>
+    </div>
+</ng-container>

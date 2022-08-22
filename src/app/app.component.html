@@ -1,0 +1,27 @@
+
+<app-main-nav></app-main-nav>
+<app-category-nav></app-category-nav>
+<div class="content">
+    <router-outlet (activate)="onActivate($event)"></router-outlet>
+</div> 
+<app-footer></app-footer>
+
+
+<div class="whatsApp animate__animated animate__backInDown" *ngIf="commonService.storeObject && commonService.storeObject.STORE_PRIMARY_CONTACT_MOBILE_NR != undefined">
+    <a href="https://api.whatsapp.com/send?phone=91{{commonService.storeObject.STORE_PRIMARY_CONTACT_MOBILE_NR}}&text=Hello from Campion" target="_blank">
+        <img src="https://img.icons8.com/color/48/000000/whatsapp--v5.png">
+        
+       
+    </a>
+  
+</div>
+
+
+
+       
+   <div  id="google_translate_element"></div>
+
+
+
+
+

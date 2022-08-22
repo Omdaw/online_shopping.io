@@ -1,0 +1,83 @@
+<div class="checkoutLogin">
+    <div class="checkoutHeader">
+        <div class="left">
+            <span class="material-icons" [routerLink]="['/collections/checkout-new-login']">
+                navigate_before
+            </span>
+        </div>
+        <div class="center">
+            <h4>Sign up</h4>
+        </div>
+    </div>
+    <div class="body">
+        <div class="socialLogins">
+            <a class="facebook" *ngIf="this.commonService.showFacebookLogin">
+                <!-- <span>f</span> -->
+                <span><i class="fa fa-facebook" aria-hidden="true"></i></span>
+            </a>
+            <a class="google" *ngIf="this.commonService.showGoogleSignIn">
+                <div class="left">
+                    <img style="height: 14px;width: 14px;" src="https://cdn.worldvectorlogo.com/logos/google-icon.svg" alt="">
+                </div>
+                <div class="right">
+                    Sign in with Google
+                </div>
+            </a>
+        </div>
+
+        <!-- //login-with-otp-enable-and-disable -->
+        <div class="otpLoginBtn" *ngIf="this.commonService.showOtpLogin">
+            <a [routerLink]="['/collections/checkout-new-otp-login']"> Login with OTP </a>
+        </div>
+
+        <ng-container *ngIf="this.commonService.showPersonalEmailLogin">
+            <span class="or">
+            OR
+        </span>
+
+            <form #signUpForm="ngForm" class="signUpForm">
+                <input type="hidden" class="form-control inputField" [(ngModel)]="referralCode" (keyup)="onValueIn()" placeholder="Referral code">
+                <input type="text" class="form-control inputField" [class.is-invalid]="firstName.invalid && firstName.touched" #firstName="ngModel" name="fName" [(ngModel)]="fName" placeholder="First Name" required>
+                <small class="text-danger" [class.d-none]="firstName.valid || firstName.untouched">Please
+                enter your First Name.</small>
+
+                <input type="text" class="form-control inputField" placeholder="Last Name">
+                <input type="tel" class="form-control inputField" [class.is-invalid]="subMobileNo.invalid && subMobileNo.touched" #subMobileNo="ngModel" name="subscriberMobileNo" [(ngModel)]="subscriberMobileNo" required maxlength="10" (keypress)="this.commonService.numberOnly($event)"
+                    pattern="[1-9]{1}[0-9]{9}" placeholder="Mobile Number" required>
+                <small class="text-danger" *ngIf="subMobileNo.invalid && subMobileNo.touched && subMobileNo?.errors.required">Please
+                enter your Mobile Number.</small>
+                <small class="text-danger" *ngIf="subMobileNo.invalid && subMobileNo.touched && subMobileNo?.errors.pattern">Mobile Number should
+                have 10 digits.</small>
+
+                <input type="email" class="form-control inputField" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" [class.is-invalid]="email.invalid && email.touched" #email="ngModel" name="signupEmail" [(ngModel)]="signupEmail" required placeholder="Email">
+                <small class="text-danger" *ngIf="email.invalid && email.touched && email?.errors.required">Please
+                enter your Email ID.</small>
+                <small class="text-danger" *ngIf="email.invalid && email.touched && email?.errors.pattern">Please
+                enter valid Email ID.</small>
+
+                <input type="password" class="form-control inputField" [class.is-invalid]="signupPass.invalid && signupPass.touched" #signupPass="ngModel" name="signupPassword" [(ngModel)]="signupPassword" required placeholder="Password" (input)="validatePassAndConfirmPassword();">
+                <small class="text-danger" [class.d-none]="signupPass.valid || signupPass.untouched">Please
+                enter Password.</small>
+
+                <input type="password" class="form-control inputField" [class.is-invalid]="ngConfirmPassword.invalid && ngConfirmPassword.touched" placeholder="Confirm Password" [(ngModel)]="confirmPassword" id="password2" required name="confirmPassword" #ngConfirmPassword="ngModel"
+                    (input)="validatePassAndConfirmPassword();">
+                <small class="text-danger" *ngIf="ngConfirmPassword.invalid && ngConfirmPassword.touched && ngConfirmPassword?.errors.required">Please
+                enter Confirm Password.</small>
+                <small class="text-danger" *ngIf="ngConfirmPassword.touched && pwdMatchError">Password and Confirm Password should be same.</small>
+
+
+                <button type="submit" class="btn signUpBtn" [disabled]="signUpForm.form.invalid || pwdMatchError" (click)="signup()">Sign
+                up</button>
+            </form>
+
+            <p class="signUpLink">Already have an account? &nbsp;<span [routerLink]="['/collections/checkout-new-login']">Log
+                in</span>
+            </p>
+        </ng-container>
+    </div>
+
+    <div class="checkoutFooter">
+        By proceeding, you agree to our <br>
+        <a target="_blank" href="">Terms of Service</a> and <a target="_blank" href=""> Privacy Policy</a>
+    </div>
+</div>

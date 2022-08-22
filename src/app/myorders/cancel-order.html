@@ -1,0 +1,53 @@
+<style>
+    .example-radio-group {
+        display: flex;
+        flex-direction: column;
+        margin: 2px 0;
+    }
+    
+    .example-radio-button {
+        margin: 2px;
+    }
+</style>
+<div class="container" *ngIf="cancellationDetailsObject">
+    <ng-container *ngIf="cancellationDetailsObject.CANCELLATION_FEE_AMOUNT > 0">
+        The cancellation fee {{this.commonService.STORE_CURRENCY_SYMBOL}} {{cancellationDetailsObject.CANCELLATION_FEE_AMOUNT}} is applicable for cancelling this order.
+        <!-- <h6 class="my-2">
+            "Note: This cancellation fee must be paid to proceed any other transaction, in case if you are not paying now, it will be added in your next transaction.
+        </h6> -->
+    </ng-container>
+
+    <ng-container *ngIf="cancellationDetailsObject.CANCELLATION_REASON && cancellationDetailsObject.CANCELLATION_REASON.length > 0">
+        <p>Please Select Reason for cancellation</p>
+
+        <ng-container *ngFor="let reason of cancellationDetailsObject.CANCELLATION_REASON;">
+
+
+
+            <!-- <div class="radio"> -->
+            <mat-radio-group [(ngModel)]="cancellationReasonId" class="example-radio-group">
+                <mat-radio-button [value]="reason.CANCELLATION_REASON_ID" class="example-radio-button">
+                    {{reason.CANCELLATION_REASON_NAME}}
+                </mat-radio-button>
+            </mat-radio-group>
+            <!-- </div> -->
+
+        </ng-container>
+
+
+        <ng-container *ngIf="cancellationReasonId == 1">
+            <input type="text" class="my-2" [(ngModel)]="cancellationReasonComment">
+            <br />
+        </ng-container>
+
+        <button class="btn background" (click)="cancelOrder()">
+            <ng-container *ngIf="cancellationDetailsObject.CANCELLATION_FEE_AMOUNT > 0">
+                <!-- I will pay later my cancellation fee Rs. {{cancellationDetailsObject.CANCELLATION_FEE_AMOUNT}}, -->
+                Cancel my Order {{transactionObject.INVOICE_ID}}
+            </ng-container>
+            <ng-container *ngIf="cancellationDetailsObject.CANCELLATION_FEE_AMOUNT == 0">
+                Cancel my Order {{transactionObject.INVOICE_ID}}
+            </ng-container>
+        </button>
+    </ng-container>
+</div>

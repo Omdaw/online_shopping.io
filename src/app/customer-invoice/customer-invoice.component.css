@@ -1,0 +1,92 @@
+p,
+a {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.mat-badge-content {
+    background: #746065;
+}
+
+.succOrderMsg {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif !important;
+    color: #049f04;
+    font-size: 24px;
+    margin: 10px 0 18px 0;
+    text-align: center;
+}
+
+.badge {
+    border-radius: 20px;
+    padding: 5px 10px;
+    margin-right: 10px;
+    border: 2px solid #fff;
+}
+
+.icons {
+    display: flex;
+}
+
+.icons div {
+    margin-right: 15px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: flex-end;
+}
+
+hr {
+    margin: 10px -15px;
+}
+
+.customer-header-image {
+    background-image: url('/assets/images/user.png');
+    background-size: cover;
+}
+
+.example-full-width {
+    width: 100%;
+}
+
+.mat-card {
+    /* font-family: Rubik !important; */
+}
+
+th {
+    color: #000 !important;
+    font-weight: bold;
+}
+
+td {
+    color: #000 !important;
+}
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1020px) and (orientation: portrait) {
+    .mymat::-webkit-scrollbar {
+        display: none;
+    }
+    .mymat {
+        overflow-x: auto;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+}
+
+@media (max-width: 786px) {}
+
+@media (max-width: 320px) {
+    .bs-docs-example,
+    .table-bordered,
+    table.table.table-striped {
+        display: block !important;
+    }
+}
+
+.mycustab::-webkit-scrollbar {
+    display: none;
+}
+
+.mycustab {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}

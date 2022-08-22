@@ -1,0 +1,84 @@
+<style>
+      .btn
+      {
+        line-height: 20px;
+        margin-left: 10px;
+        margin-right: 0;
+        text-decoration: none;
+        cursor: pointer;
+        -webkit-transition: all ease .8s;
+        transition: all ease .8s;
+        border: 1px solid #08233e;
+        padding: 6px 23px 7px;
+        background: #08233e;
+        display: inline-block;
+        color: #fff;
+        border-radius: 4px;
+      }
+      .btn:hover
+      {
+        background: #fff;
+        color:#08233e;
+        border: 1px solid #08233e;
+      }
+      .example-full-width
+      {
+        width: 100%;
+      }
+
+      .invite-links {
+         margin: 5px;
+      }
+
+      .mat-dialog-container{
+         margin-top : -100px !important;
+         margin-left: 50px !important;
+      }
+</style>
+        
+        
+
+
+<!-- Dialog -->
+<div mat-dialog-content>
+  <i class="fa fa-times" style="float: right;cursor: pointer;" (click)="closeDialogue();"></i>
+  <div class="refertop" style="display: flex;">
+     <div style="margin-left:10px; margin-top:10px;">
+        <h4><b>Refer Your Friend!!</b></h4>
+     </div>
+  </div>
+  <hr>
+  
+<div>
+  <button mat-raised-button color="primary" onclick="copyToClipboard('androidAppLink')" (click)="copyLink()"  class="invite-links">Andriod App Link</button>
+  <button mat-raised-button color="primary" onclick="copyToClipboard('iosAppLink')"     (click)="copyLink()"  class="invite-links">IOS App Link</button>
+  <button mat-raised-button color="primary" onclick="copyToClipboard('webAppLink')"     (click)="copyLink()"  class="invite-links">Web App Link</button>
+
+   <input id="androidAppLink" style="display: none;" value="{{this.referenceMethodsService.referalLinkObject.ANDROID_APP_LINK}}" >
+   <input id="iosAppLink"     style="display: none;" value="{{this.referenceMethodsService.referalLinkObject.IOS_APP_LINK}}" >
+   <input id="webAppLink"     style="display: none;" value="{{this.referenceMethodsService.referalLinkObject.FRONT_END_APP_LINK}}" >
+
+
+</div>
+<br>
+  <div  class="row">
+     <div class="col-lg-9 col-md-9 col-sm-9 col-9">
+        <mat-form-field appearance="outline"class="example-full-width" >
+           <mat-label>Your Referal Code..</mat-label>
+           <input  matInput value="{{this.referenceMethodsService.referalLinkObject.REFERRAL_CODE}}"  #userinput readonly>
+        </mat-form-field>
+     </div>
+     <div class="col-lg-3 col-md-3 col-sm-3 col-3" style="margin-top:10px;">
+        <button class="btn" (click)="copyInputMessage(userinput)"><i class="fa fa-copy"></i> Copy</button>
+     </div>
+  </div>
+
+  <div class="row">
+     <div class="col-lg-9 col-md-9 col-sm-9 col-9">
+         <flash-messages></flash-messages>
+      </div>
+  </div>
+</div>
+
+
+              

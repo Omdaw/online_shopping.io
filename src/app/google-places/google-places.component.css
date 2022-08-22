@@ -1,0 +1,13 @@
+.locateme-btn{
+    float: right;
+    margin: -30px 10px auto auto;
+    z-index: 1;
+    position: relative;
+    background-color: #fff;
+}
+
+.search-icon{
+    margin: -34px auto auto 5px;
+    position: relative;
+    float: left;
+}

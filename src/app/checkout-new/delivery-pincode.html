@@ -1,0 +1,19 @@
+<html>
+    <body>
+
+        <div style="border:1px dashed red;padding:10px; text-align: center;" *ngIf="this.pincodeMethodsService.pincodeAvailablity==3">
+            <p style="color:red"> {{this.pincodeMethodsService.checkDeliveryLocationPincodeFailureResultObject.ERROR_MSG}}</p>
+         </div>
+
+            <div style="border:1px dashed #666; padding:10px; text-align: center;" *ngIf="this.pincodeMethodsService.pincodeAvailablity==2">
+                <p style="color:#666">Estimated Product Delivery Duration : {{this.pincodeMethodsService.checkDeliveryLocationPincodeResultObject.DELIVERY_DURATION_UNIT}} {{this.pincodeMethodsService.checkDeliveryLocationPincodeResultObject.DELIVERY_DURATION_UNIT_TYPE_NAME}}</p>
+                <p style="color:#666">Estimated Product Delivery Charges : {{this.pincodeMethodsService.checkDeliveryLocationPincodeResultObject.DELIVERY_CHARGE}}</p>
+                <p style="color:#666">Delivery Notes : {{this.pincodeMethodsService.checkDeliveryLocationPincodeResultObject.DELIVERY_NOTES}}</p>
+             </div>         
+
+        <div>
+            <button style="margin-top: 5%; margin-left:40%;" class="btn btn-primary" (click)="closeDialogue()">Close</button>
+        </div>
+
+    </body>
+</html>

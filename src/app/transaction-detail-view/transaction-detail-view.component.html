@@ -1,0 +1,146 @@
+
+<div class="container">
+   <!-- <div>
+      <span style="font-size:40px; color:#000; font-weight:bold;">Order - # {{invoiceId}}</span>
+      <span style="margin-left: 5px;">{{orderPlacedDate}}</span>
+      <span class="badge" style=" background: rgb(198, 208, 243);"><i class="fa fa-circle"></i> {{headerPaymentStatusName}} </span>
+      <span class="badge" style=" background: rgb(233, 236, 17);"><i class="fa fa-circle"></i>  {{headerDeliveryStatusName}} </span>
+   </div> -->
+   <br>
+   <!-- <div class="row">
+      <div class="col-md-8">
+         <mat-card>
+
+            <table style="border-collapse:separate; border-spacing:0 15px;">
+               <div *ngFor="let transactionDetail of transactionDetailArrayObj; let i = index;">
+                  <col width="15%">
+                  <col width="55%">
+                  <col width="9%">
+                  <col width="2%">
+                  <col width="9%">
+                  <col width="10%">
+                  <tr *ngIf="(checkIfProduct(transactionDetail) && i == 0)">
+                     <th style="text-align: center; font-size: 15px;" colspan="2"> Product </th> 
+                     <th style="text-align: center; font-size: 15px;"> Price </th> 
+                     <th style="text-align: center; font-size: 15px;"> </th> 
+                     <th style="text-align: center; font-size: 15px;"> Quantity </th> 
+                     <th style="text-align: center; font-size: 15px;"> Price </th> 
+                  </tr>
+                  <tr *ngIf="i == 0">
+                     <td colspan="6">
+                        <hr size="7" style="background-color: black;">
+                     </td>
+                  </tr>
+                  <tr *ngIf="checkIfProduct(transactionDetail)" style="vertical-align: middle;">
+                     <td style="padding: 6px;">
+                        <div> <img [src]="transactionDetail.productImageFilePath" style="float:left; width:50%;"> </div>
+                        <span style="font-size: 12px" matBadge="{{transactionDetail.productQuantity}}"></span>
+                     </td>
+                     <td style="color: #074888">{{transactionDetail.productName}}</td>
+                     <td> <span>&#x20b9;</span> {{transactionDetail.productPrice}}</td>
+                     <td><i style="font-size: 11px;" class="fa fa-times"></i></td>
+                     <td style="text-align: center;">{{transactionDetail.productQuantity}}</td>
+                     <td style="text-align: center;"> <span>&#x20b9;</span> {{transactionDetail.productFinalPrice * transactionDetail.productQuantity}}</td>
+                  </tr>
+
+               </div>
+            </table>
+         </mat-card>
+         <br>
+         <mat-card>
+
+            <br>
+
+            <table style="border-collapse:separate; border-spacing:0 10px;">
+               <col width="85%">
+               <col width="15%">
+               <tr>
+                  <td>Invoice amount of <span>{{transactionProductCount}} </span>items </td>
+                  <td> <span>&#x20b9;</span> {{invoiceFinalAmount}} </td>
+               </tr>
+               <tr>
+                  <td>Delivery Charges</td>
+                  <td> <span>&#x20b9;</span> {{deliveryCharge}} </td>
+               </tr>
+               <tr>
+                  <td>Invoice Discount Amount</td>
+                  <td> <span>&#x20b9;</span> {{invoiceDiscountAmount}} </td>
+               </tr>
+               <tr>
+                  <td>Promocode Discount</td>
+                  <td> <span>&#x20b9;</span> {{promoCodeDiscountAmount}} </td>
+               </tr>
+
+               <tr>
+                  <td>Invoice Amount</td>
+                  <td> <span>&#x20b9;</span> {{invoiceAmount}} </td>
+               </tr>
+               <tr>
+                  <td colspan="2"> <hr> </td>
+               </tr>
+               <tr>
+                  <td> <b> Grand Total </b> </td>
+                  <td> <b> <span>&#x20b9;</span> {{invoiceFinalAmount}} </b> </td>
+               </tr>
+               <tr>
+                  <td colspan="2"> <hr> </td>
+               </tr>
+               <tr>
+                  <td>GST</td>
+                  <td> <span>&#x20b9;</span> {{gst}} </td>
+               </tr>
+
+               <tr>
+                  <td>SGST</td>
+                  <td> <span>&#x20b9;</span> {{gst / 2 }} </td>
+               </tr>
+
+               <tr>
+                  <td>CGST</td>
+                  <td> <span>&#x20b9;</span> {{gst / 2 }} </td>
+               </tr>
+            </table>
+         </mat-card>
+      </div>
+      
+      <div class="col-md-4">
+
+         <mat-card>
+            
+            <p> Customer <span style="float: right;"><img src="./assets/images/user.png"
+                     style="width: 15%; float: right;"></span> </p>
+
+            
+            <p style="color:blue;">{{subscriberName}}<br>
+               
+            </p>
+            <hr>
+            <p><b>CONTACT INFORMATION</b>
+               
+            </p>
+            <p> {{subscriberEmailId}} </p>
+            <p> {{subscriberMobileNr}} </p>
+            <hr>
+            
+            <div *ngIf="deliveryTypeId == 1">
+               <p *ngIf="checkDeliveryAddress()"><b>SHIPPING ADDRESS</b>
+                  
+               </p>
+               <p> {{addressLabel}} </p>closing
+               <p> {{contactName}} </p>
+               <p> {{contactMobileNr}} </p>
+               <p> {{addressLine1}} </p>
+               <p> {{addressLine2}} </p>
+               
+               <hr>
+            </div>
+
+            <p><b>BILLING ADDRESS</b>
+               
+            </p>
+            <p> {{storeAddressLine1}} </p>
+            <p> {{storeAddressLine2}} </p>
+         </mat-card>
+      </div>
+   </div> -->
+</div>

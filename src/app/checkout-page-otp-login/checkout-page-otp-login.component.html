@@ -1,0 +1,56 @@
+<div class="checkoutLogin">
+    <div class="checkoutHeader">
+        <div class="left">
+            <span class="material-icons" [routerLink]="['/collections/checkout-new-login']">
+                navigate_before
+            </span>
+        </div>
+        <div class="center">
+            <h4>OTP Login</h4>
+        </div>
+    </div>
+
+    <div class="body">
+        <div *ngIf="sendOtpPart">
+            <form #sendOtpForm="ngForm" class="otpForm">
+                <input type="text" class="form-control inputField" [class.is-invalid]="firstName.invalid && firstName.touched" #firstName="ngModel" name="otpFirstname" [(ngModel)]="otpFirstname" placeholder="First Name" required>
+                <small class="text-danger" [class.d-none]="firstName.valid || firstName.untouched">Please
+                    enter your First Name.</small>
+
+                <input type="text" class="form-control inputField" pattern="[1-9]{1}[0-9]{9}" (keypress)="this.commonService.numberOnly($event)" [class.is-invalid]="otpMobileNo.invalid && otpMobileNo.touched" #otpMobileNo="ngModel" name="otpMobileNumber" [(ngModel)]="otpMobileNumber"
+                    required placeholder="Mobile Number">
+                <small class="text-danger" *ngIf="otpMobileNo.invalid && otpMobileNo.touched && otpMobileNo?.errors.required">Please
+                    enter your Mobile Number.</small>
+                <small class="text-danger" *ngIf="otpMobileNo.invalid && otpMobileNo.touched && otpMobileNo?.errors.pattern">Mobile Number should
+                    have 10 digits.</small>
+
+                <button type="submit" class="btn sendOtpBtn" (click)="otpCheckIn()" [disabled]="sendOtpForm.form.invalid">Send OTP</button>
+            </form>
+        </div>
+
+        <div *ngIf="enterOtpPart">
+            <div class="verificationMsg">
+                We have sent a verification code to <span style="color: #4a4a4a;">{{otpMobileNumber}}</span> via SMS. Please enter it below.
+            </div>
+            <form #enterOtpForm="ngForm">
+                <div class="OtpFieldPart">
+                    <input type="tel" class="form-control inputField" [class.is-invalid]="otpNumber.invalid && otpNumber.touched" #otpNumber="ngModel" name="otp" [(ngModel)]="mobileOtp" required placeholder="Enter OTP here" (keypress)="this.commonService.numberOnly($event)">
+                    <small class="text-danger" [class.d-none]="otpNumber.valid || otpNumber.untouched">Please
+                        enter OTP.</small>
+                </div>
+                <div class="resentOtpPart">
+                    Didn’t receive code?
+                    <div class="resendOtp" (click)="this.emailandphonenumberverifiationService.resendOtpToMobileNumber();">
+                        Resend Code
+                    </div>
+                </div>
+                <button type="submit" class="verifyOtp" (click)="verifyMobileOtp()" [disabled]="enterOtpForm.form.invalid">Verify & Login</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="checkoutFooter">
+        By proceeding, you agree to our <br>
+        <a target="_blank" href="">Terms of Service</a> and <a target="_blank" href=""> Privacy Policy</a>
+    </div>
+</div>

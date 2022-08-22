@@ -1,0 +1,49 @@
+<div class="containerWidth">
+    <div class="container" style="margin-bottom: 5%">
+        <div class="app">
+            <div><img src="assets/images/mobile_panel.png" class="downloadimg"></div>
+            <div class="app-box">
+                <span style="display: flex; justify-content: center; ">
+               <img src="{{this.commonService.storeLogo}}" style="width: 150px;" class="downloadlogo">
+            </span>
+            <h4 style="text-align: center; border-bottom: 2px solid #ddd;padding: 10px;" class="downloadtitle">Now order
+               on the go with 
+               Our app
+            </h4>
+            <br>
+            <p style="text-align: center; color:#444;">We'll text you a link, open it on your phone to
+               download the app
+            </p>
+            <form>
+               <div class="input-with-prefix">
+                  <div class="prefix">+91</div>
+                  <div class="input">
+                     <input type="text" name="contactNumber" [(ngModel)]="contactNumber" #ngContactNumber="ngModel"
+                        (input)="validateForm(ngContactNumber)" (keypress)="this.commonService.numberOnly($event)"
+                        maxlength="10" [pattern]="this.commonService.mobNumberPattern" placeholder="Enter phone number"
+                        class="ng-pristine ng-valid ng-empty ng-touched" required>
+                  </div>
+               </div>
+
+                    <flash-messages></flash-messages>
+
+                    <button type="submit" class="background" (click)="sendAppLinkSms()">
+                  <!-- <i ng-show="appDownloadLoading" class="fa fa-circle-o-notch fa-spin ng-hide"></i> -->
+                  <span ng-hide="appDownloadLoading">Text App Link</span>
+               </button>
+                </form>
+                <br>
+                <hr>
+                <h5>Available on iOS and Android</h5>
+                <div style="display: flex;" class="downapp">
+                    <a href={{androidAppLink}} target="_blank"> <img src="assets/images/1.png" style="margin-right: 10px; ">
+                    </a>
+                    <a href={{iosAppLink}} target="_blank"> <img src="assets/images/2.png"> </a>
+                </div>
+            </div>
+            <!--app-box-->
+        </div>
+        <!--app-->
+    </div>
+    <!--container-->
+</div>

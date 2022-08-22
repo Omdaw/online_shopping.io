@@ -1,0 +1,153 @@
+<div class="mobilecart">
+    <div class="cartboxheader">
+        <div class="row">
+            <div class="col-12">
+                <a style="text-decoration: none;" [routerLink]="['/']">
+                    <i class="fa fa-angle-left left color" onclick="hideCart()"></i>
+                    <span style="color: #000;">Shopping Cart</span>
+                </a>
+            </div>
+            <!-- <div class="col-md-3 col-5" style="margin-top: 4px;">
+                <a style="text-decoration: none;color: #000;" onclick="hideCart()" routerLink="/viewcart">
+                    <i style="font-size: 20px;color: rgb(153, 148, 148);" class="fa fa-eye" aria-hidden="true"></i>
+                    <span style="text-align: center;">View Cart</span></a>
+            </div> -->
+        </div>
+    </div>
+
+    <div *ngIf="this.transactionService.transactionDetailsArray.length > 0">
+        <mat-card *ngFor="let row of this.transactionService.transactionDetailsArray; let i = index;" class="cartproduct">
+
+            <div class="row">
+                <div class="col-3">
+                    <a [routerLink]="['/collections/product-view', row.PRODUCT_ID, row.PRODUCT_DETAIL_ID, row.PRODUCT_CATEGORY_NAME, row.PRODUCT_NAME]" target="_blank">
+                        <img src="{{row.PRODUCT_IMAGE_FILE_PATH}}" onerror="this.src='assets/images/noProductToShowInThisCategory.jpg'" alt="Product Image">
+                    </a>
+                </div>
+                <div class="col-7">
+                    <a style="color:#000" [routerLink]="['/collections/product-view', row.PRODUCT_ID, row.PRODUCT_DETAIL_ID, row.PRODUCT_CATEGORY_NAME, row.PRODUCT_NAME]" target="_blank" class="defaultFontColorAndLink">
+                        <span class="title">{{row.PRODUCT_NAME | limitTo: 40}}</span>
+                        <p style="color: #000;font-size: 12px;">
+                            <ng-container *ngIf="row.SIZE_LABEL != 'null' && row.SIZE != 'null'">
+                                {{row.SIZE_LABEL}} : {{row.SIZE}}
+                            </ng-container>
+                            <br>
+                            <ng-container *ngIf="row.PRODUCT_COLOR_LABEL != 'null' && row.PRODUCT_COLOR != 'null'">
+                                {{row.PRODUCT_COLOR_LABEL}} : {{row.PRODUCT_COLOR}}
+                            </ng-container>
+                            <br>
+                            <ng-container *ngIf="row.MATERIAL_LABEL != 'null' && row.MATERIAL != 'null'">
+                                {{row.MATERIAL_LABEL}} : {{row.MATERIAL}}
+                            </ng-container>
+                        </p>
+                    </a>
+                </div>
+                <div class="col-2">
+                    <i class="fa fa-trash-o" (click)="removeFromCart(i)" style="float: right;font-size: 18px;"></i>
+                </div>
+            </div>
+
+            <h6 *ngIf="row.ADD_ON_DETAIL && row.ADD_ON_DETAIL.length > 0" style="cursor: pointer;" (click)="fetchProduct(row)" onclick="hideCart()">
+                Customize
+            </h6>
+
+            <hr>
+            <span>
+                <i class="fa fa-minus buttoncart background" (click)="reduceQuantity(i)">
+                </i>
+                <span style="margin:0px 5px;">{{row.PRODUCT_QUANTITY}}</span>
+            <!-- <i class="fa fa-plus buttoncart background" (click)="increaseQuantity(i)"></i> 
+            -->
+
+            <!-- if AddOn Product  -->
+            <ng-container *ngIf="row.ADD_ON_DETAIL && row.ADD_ON_DETAIL.length > 0; else elseBlock">
+                <i class="fa fa-plus buttoncart background" (click)="openCustomizationConfirmationPopup(row)" onclick="hideCart()"></i>
+            </ng-container>
+            <!-- else -->
+            <ng-template #elseBlock>
+                <i class="fa fa-plus buttoncart background" (click)="increaseQuantity(i)"></i>
+            </ng-template>
+            </span>
+            <span style="float: right;">
+                <b>{{this.commonService.STORE_CURRENCY_SYMBOL}} {{getProductFinalPrice(row)}}</b>
+                <ng-container *ngIf="row.ADD_ON_DETAIL && row.ADD_ON_DETAIL.length > 0" >
+                    <small>(inclusive of addon price)</small>
+                </ng-container>
+            </span>
+        </mat-card>
+
+        <ul class="pricetotal">
+            <li>
+                <span>Invoice Amount</span>
+                <span style="float: right;">{{this.commonService.STORE_CURRENCY_SYMBOL}}
+                    {{this.transactionService.transactionArray[0].INVOICE_AMOUNT}}</span>
+            </li>
+            <li>
+                <span>Delivery Charges</span>
+                <span style="float: right;">{{this.commonService.STORE_CURRENCY_SYMBOL}}
+                    {{this.transactionService.getDeliveryCharges()}}</span>
+            </li>
+            <li>
+                <span>GST
+                    <!-- {{this.transactionService.transactionDetailsArray | json}} -->
+                </span>
+                <span style="float: right;">{{this.commonService.STORE_CURRENCY_SYMBOL}}
+                    {{this.transactionService.getGstAmount()}}</span>
+            </li>
+
+            <li>
+                <span>CGST</span>
+                <span style="float: right;">{{this.commonService.STORE_CURRENCY_SYMBOL}}
+                    {{this.transactionService.getSGstOrCGstAmount()}}</span>
+            </li>
+
+            <li>
+                <span>SGST</span>
+                <span style="float: right;">{{this.commonService.STORE_CURRENCY_SYMBOL}}
+                    {{this.transactionService.getSGstOrCGstAmount()}}</span>
+            </li>
+            <li *ngIf="this.transactionService.transactionArray[0].INVOICE_DISCOUNT_AMOUNT > 0">
+                <span>Invoice Discount Amount</span>
+                <span style="float: right;">{{this.commonService.STORE_CURRENCY_SYMBOL}}
+                    {{this.transactionService.transactionArray[0].INVOICE_DISCOUNT_AMOUNT}}</span>
+            </li>
+            <li *ngIf="this.transactionService.getPromoCodeDiscountAmount() > 0">
+                <span>Promocode Discount</span>
+                <span style="float: right;">{{this.commonService.STORE_CURRENCY_SYMBOL}}
+                    {{this.transactionService.getPromoCodeDiscountAmount()}}</span>
+            </li>
+            <li>
+                <span><b>Grand Total</b></span>
+                <span style="float: right;"><b>{{this.commonService.STORE_CURRENCY_SYMBOL}}
+                        {{this.transactionService.transactionArray[0].INVOICE_FINAL_AMOUNT}}</b></span>
+            </li>
+
+
+        </ul>
+
+        <div class="applybtn" style="position:fixed; bottom:0; z-index:4; width:100%;left: 0;right:0;  height:50px;">
+            <div class="row background" style="padding-top: 6px;">
+                <div class="col-6 " style="text-align: center; border-right:1px solid #f2f2f2;">
+                    <p style="color: #fff; padding:0px; font-size: 14px;">Grand Total <br><b style="color:#fff; font-size: 12px; margin-top:-10px;">{{this.commonService.STORE_CURRENCY_SYMBOL}}
+                            {{this.transactionService.transactionArray[0].INVOICE_FINAL_AMOUNT}}</b></p>
+                </div>
+                <div (click)="checkoutAPI()" class="col-6 " style="text-align: center; padding-top:12px;">
+                    <a style="color:#fff; ">PROCEED</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- If no Items in the Cart  -->
+    <div *ngIf="this.transactionService.transactionDetailsArray.length == 0" style="text-align: center;">
+        <img src="assets/images/empty-cart.svg" style=" margin-top:50px; width: 30%;">
+        <br>
+        <div style="font: 14px/1.42857 Source Sans Pro, sans-serif;"> Your Shopping Cart is Empty </div>
+        <br>
+        <input type="button" class="background" style="color:#fff; border:none; padding:6px; font-size: 16px;border-radius: 2px;" [routerLink]="['/']" value="Continue Shopping">
+    </div>
+    <!-- If no Items in the Cart  -->
+
+
+
+</div>

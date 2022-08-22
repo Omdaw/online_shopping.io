@@ -1,0 +1,28 @@
+h4
+{
+letter-spacing: 16px;
+font-weight: bold;
+color:#aaa;
+text-align: center;
+}
+p
+{
+color: #000;
+}
+th{
+text-align: center;
+}
+tr, td{
+padding: 5px;
+}
+
+@media only screen 
+and (max-device-width : 600px) 
+{
+   .container{
+       margin-top: 44%;
+   }
+}
+
+.checkbutton
+{ font-size: 12px; text-align: center; color:#fff; border:none; padding:5px; font-size: 14px;}

@@ -1,0 +1,162 @@
+.example-full-width {
+    width: 100%;
+}
+
+.loginForm {
+    width: 54%;
+    margin-left: 23%;
+}
+
+mat-form-field {
+    margin-bottom: -8px;
+}
+
+.log {
+    margin-top: 2%;
+    margin-bottom: 6%;
+}
+
+.facebook,
+.google,
+.guest {
+    /* padding:2px; */
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    border-radius: 50px;
+}
+
+.facebook {
+    border: 1px solid #327ba8;
+    margin-right: -8px;
+    margin-left: -8px;
+}
+
+.facebook:hover {
+    background-color: blue;
+    color: white;
+    transition: ease-in-out 600ms;
+}
+
+.facebook:hover i {
+    color: white;
+    transition: ease-in-out 600ms;
+}
+
+.facebook i {
+    color: #327ba8;
+    margin-right: 5px;
+    /* margin-top:5px; */
+}
+
+.google i {
+    color: #f2483f;
+    margin-right: 5px;
+    /* margin-top:5px; */
+}
+
+.google {
+    border: 1px solid #f2483f;
+}
+
+.google:hover {
+    background-color: red;
+    color: white;
+    transition: ease-in-out 600ms;
+}
+
+.google:hover i {
+    color: white;
+    transition: ease-in-out 600ms;
+}
+
+.guest i {
+    color: purple;
+    margin-right: 5px;
+    /* margin-top:2px; */
+    font-size: 16px;
+}
+
+.guest {
+    border: 1px solid purple;
+}
+
+.guest:hover {
+    background-color: purple;
+    color: white;
+    transition: ease-in-out 600ms;
+}
+
+.guest:hover i {
+    color: white;
+    transition: ease-in-out 600ms;
+}
+
+.cancel_button {
+    border: none;
+    padding: 10px 5px;
+    width: 100%;
+    font-size: 14px;
+    outline: none;
+    text-transform: uppercase;
+    font-weight: 700;
+    border-radius: 2px;
+    letter-spacing: 1px;
+    color: #fff;
+    margin: 20px 0;
+    text-align: center;
+}
+
+@media only screen and (min-device-width: 1024px) and (max-device-width: 1366px) and (orientation: landscape) {}
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) {}
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) {}
+
+@media only screen and (max-device-width: 600px) {
+    .log {
+        margin-bottom: 24%;
+    }
+    .loginForm {
+        width: 60%;
+        margin-left: 20%;
+    }
+    .cancel_button {
+        font-size: 12px !important;
+        padding: 6px !important;
+    }
+    .mobRightPadding {
+        padding-right: 6px;
+    }
+    .mobLeftPadding {
+        padding-left: 6px;
+    }
+    .socialBtns {
+        width: 70% !important;
+        margin-left: 15% !important;
+    }
+    .guest,
+    .facebook,
+    .google {
+        margin-top: 10px;
+    }
+    .facebook {
+        margin-right: 0px !important;
+        margin-left: 0px !important;
+    }
+}
+
+.guestCheckIn {
+    font-size: 20px !important;
+}
+
+h5 {
+    margin-top: 7px !important;
+    margin-bottom: 6px !important;
+}
+
+@media only screen and (max-device-width: 320px) {
+    .cancel_button {
+        font-size: 10px !important;
+    }
+}

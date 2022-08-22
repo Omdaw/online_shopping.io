@@ -1,0 +1,135 @@
+@import "~bootstrap/dist/css/bootstrap.css";
+.containerWidth {
+    overflow: auto;
+}
+
+.example-card {
+    margin: 0 0 15px !important;
+}
+
+.example-card-content {
+    padding: 5px;
+}
+
+.timetable_sub th,
+td {
+    font-size: 14px;
+}
+
+.noOrdersMsg {
+    font-size: 28px;
+}
+
+.cancelOrderBtn,
+.viewOrderBtn {
+    margin: 5px;
+}
+
+.viewOrderBtn {
+    padding: 5px 0;
+    border-radius: 4px;
+}
+
+.myorderbutton {
+    background: #2874f0;
+    color: #fff;
+    box-shadow: none;
+    border: 1px solid #2874f0;
+    padding: 8px 12px;
+    border-radius: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-align: center;
+    width: 196px;
+}
+
+.row {
+    margin: 0px;
+    padding: 10px;
+}
+
+.myordercontainer {
+    margin-top: 2%;
+    margin-bottom: 6%;
+    padding-left: 15%;
+    padding-right: 15%;
+}
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1366px) {}
+
+@media only screen and (min-device-width: 1024px) and (max-device-width: 1366px) {}
+
+@media only screen and (max-device-width: 600px) {
+    .myordercontainer {
+        margin-top: 3%;
+    }
+    .noOrdersMsg {
+        font-size: 24px;
+    }
+    .oderpage div {
+        padding: 0 8px;
+    }
+    .example-card {
+        width: 100%;
+    }
+    .quantity {
+        width: 50px !important;
+    }
+    .myordercontainer {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+    .cancelOrderBtn {
+        margin: 0px !important;
+        margin-top: 5px !important;
+        font-size: 13px;
+        padding: 4px;
+    }
+    .viewOrderBtn {
+        margin-left: 1px;
+        padding: 1px 0 !important;
+    }
+}
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1020px) {}
+
+.row {
+    padding: 0px;
+}
+
+.h5,
+h5 {
+    font-size: 14px;
+}
+
+.h3,
+h3 {
+    font-size: 18px;
+}
+
+.mycustab::-webkit-scrollbar {
+    display: none;
+}
+
+.mycustab {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+@media (max-width: 768px) {
+    tr td{
+        padding: 10px !important;
+    }
+}
+
+@media (max-width: 320px) {
+    .bs-docs-example,
+    .table-bordered,
+    table.table.table-striped {
+        display: block !important;
+    }
+}
+
+.row {
+    margin-right: -15px !important;
+    margin-left: -15px !important;
+}

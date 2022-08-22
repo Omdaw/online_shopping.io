@@ -1,0 +1,110 @@
+
+
+p,
+small {
+    color: white;
+}
+
+ul {
+    margin-bottom: 0.8em;
+}
+
+footer {
+    padding: 10px;
+    background: #fff;
+    font-family: 'SourceSansPro-Regular', sans-serif;
+}
+
+.footerBox {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.footer-grids {
+    text-align: left;
+}
+
+.footer-grids li {
+    color: #fff;
+}
+
+.footer-grids li i {
+    color: #fff
+}
+
+.footer-grids li a {
+    color: #fff;
+    font-size: 13px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.w3l-socialmk li i {
+    color: #3f414d;
+}
+
+.copy-right {
+    padding: 11px 0 50px 0;
+}
+
+.copy-right p {
+    /* color: #000; */
+    font-size: 13px;
+}
+
+.copy-right p a {
+    /* color: #3f414d; */
+}
+
+.socialicon a {
+    padding: 4px;
+    margin: 5px;
+    display: inline-block;
+    background-color: #fff;
+    border-radius: 2px;
+}
+
+.socialicon img {
+    /* margin-right: 20px; */
+    width: 19px;
+}
+
+@media only screen and (device-width: 768px) {
+    .mailGrid {
+        padding-left: 0px !important;
+        padding-right: 2px !important;
+    }
+    .mailGrid li a {
+        font-size: 11px !important;
+    }
+}
+
+@media only screen and (max-device-width: 600px) {
+    .footerStyleInMob {
+        /* margin-bottom: -50px; */
+    }
+    .footerBox {
+        flex-direction: column !important;
+    }
+    .socialicon img {
+        width: 20px;
+    }
+    .footer-grids h3 {
+        text-align: center;
+    }
+    .footer-grids li {
+        text-align: center;
+    }
+    .footer-grids.w3l-socialmk {
+        text-align: center;
+    }
+}
+
+@media (min-width: 1200px) {
+    /* .container,
+    .container-lg,
+    .container-md,
+    .container-sm,
+    .container-xl {
+        max-width: 1222px;
+    } */
+}

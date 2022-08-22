@@ -1,0 +1,59 @@
+<div class="containerWidth">
+  <div class="services-breadcrum" style="background:transparent">
+    <div class="agile_inner_breadcrumb">
+      <div class="container">
+        <ul class="w3_short">
+          <li>
+            <a class="_1KHd47" routerLink='/'>Home</a>
+            <i class="fa fa-angle-right left color breadcrumbIcon"></i>
+          </li>
+          <li>
+            <a class="_1KHd48">{{blogDetails.BLOG_TITLE}}</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- welcome -->
+  <div class="welcome">
+    <div class="container">
+      <!-- tittle heading -->
+      <h3 class="tittle-w3l">{{blogDetails.BLOG_TITLE}}
+        <span class="heading-style">
+          <i></i>
+          <i></i>
+          <i></i>
+        </span>
+      </h3>
+
+      <div class="w3l-welcome-info">
+        <div class="clearfix"> </div>
+      </div>
+      <div class="w3l-welcome-text">
+        <div *ngFor="let blogPost of blogDetails.BLOG_POST">
+
+          <p class="blogTitle">
+            <a class="blogTitle" [routerLink]="['/collections/blog-post', blogPost.BLOG_ID, blogPost.BLOG_TITLE]" target="_blank">
+              {{blogPost.BLOG_TITLE}} </a>
+          </p>
+
+          <img style="width: 60%;" [src]="blogPost.BLOG_IMAGE_FILE_PATH"
+            onError="this.src='./assets/images/profile1.png';" draggable="false">
+
+          <p *ngIf="blogPost.BLOG_EXCERPT != 'null'" [innerHTML]="blogPost.BLOG_EXCERPT"> </p>
+
+          <div style="display: flex;">
+            <a class="button-nav" style="text-decoration: none;"
+              [routerLink]="['/collections/blog-post', blogPost.BLOG_ID, blogPost.BLOG_TITLE]" target="_blank"> Read More </a>
+          </div>
+
+          <hr>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <br>
+</div>

@@ -1,0 +1,29 @@
+<div class="loading" *ngIf="this.bannerService.processBar">
+    <mat-spinner class="loading-image"></mat-spinner>
+</div>
+
+<!-- Hero Baner Carousel Start  -->
+<div *ngIf="this.bannerService.headerBanners.length > 0" id="carouselExampleControls" style="margin-bottom: 3%;" class="myherobanner carousel slide m-top" data-ride="carousel">
+    <div class="carousel-inner">
+
+        <div *ngFor="let row of this.bannerService.headerBanners; let i = index;" class="carousel-item carousel-item{{i}}" [ngClass]="getHeaderBannerClassName(i)">
+            <a *ngIf="row.BANNER_LINK_FLAG" [routerLink]="['/banner-products/', row.BANNER_ID, row.BANNER_TITLE]">
+                <img class="slide-image myhero mx-auto d-block" [style.height.px]="getHeroBannerHeightInPixels(row.SECTION_HEIGHT_IN_PERCENTAGE)" [style.width.%]="getBannerWidthInPercentage(row)" src="{{row.BANNER_IMAGE_FILE_PATH}}" alt="Loading Header Banner">
+            </a>
+            <img class="slide-image myhero mx-auto d-block" [style.height.px]="getHeroBannerHeightInPixels(row.SECTION_HEIGHT_IN_PERCENTAGE)" [style.width.%]="getBannerWidthInPercentage(row)" src="{{row.BANNER_IMAGE_FILE_PATH}}" alt="Loading Header Banner" *ngIf="row.BANNER_LINK_FLAG==0">
+        </div>
+
+    </div>
+    <ng-container *ngIf="this.bannerService.headerBanners.length > 1">
+        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev" style="color: #000;">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next" style="color: #000;">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </ng-container>
+
+</div>
+<!-- Hero Baner Carousel End  -->

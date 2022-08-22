@@ -1,0 +1,60 @@
+<div class="checkoutLogin">
+    <div class="checkoutHeader">
+        <div class="left">
+            <span class="material-icons" [routerLink]="['/']">
+                navigate_before
+            </span>
+        </div>
+        <div class="center">
+            <h4>Log in</h4>
+        </div>
+    </div>
+    <div class="body">
+        <div class="socialLogins">
+            <a class="facebook" *ngIf="this.commonService.showFacebookLogin" (click)="this.socialSignupService.singIn('Facebook');">
+                <!-- <span>f</span> -->
+                <span><i class="fa fa-facebook" aria-hidden="true"></i></span>
+            </a>
+            <a class="google" *ngIf="this.commonService.showGoogleSignIn" (click)="this.socialSignupService.singIn('Google');">
+                <div class="left">
+                    <img style="height: 14px;width: 14px;" src="https://cdn.worldvectorlogo.com/logos/google-icon.svg" alt="">
+                </div>
+                <div class="right">
+                    Sign in with Google
+                </div>
+            </a>
+        </div>
+
+        <!-- //login-with-otp-enable-and-disable -->
+        <div class="otpLoginBtn" *ngIf="this.commonService.showOtpLogin">
+            <a [routerLink]="['/collections/checkout-new-otp-login']"> Login with OTP </a>
+        </div>
+
+        <ng-container *ngIf="this.commonService.showPersonalEmailLogin">
+            <span class="or">
+                OR
+            </span>
+
+            <form #sendOtpForm="ngForm" class="otpForm">
+                <input type="email" class="form-control inputField" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" [class.is-invalid]="email.invalid && email.touched" #email="ngModel" name="emailId" [(ngModel)]="loginEmail" required placeholder="Email">
+                <small class="text-danger" *ngIf="email.invalid && email.touched && email?.errors.required">Please
+                    enter your Email ID.</small>
+                <small class="text-danger" *ngIf="email.invalid && email.touched && email?.errors.pattern">Please
+                        enter valid Email ID.</small>
+
+                <input type="password" class="form-control inputField" [class.is-invalid]="passwd.invalid && passwd.touched" #passwd="ngModel" name="password" [(ngModel)]="loginPassword" required placeholder="Password">
+                <small class="text-danger" [class.d-none]="passwd.valid || passwd.untouched">Please
+                    enter your Password.</small>
+
+                <button type="submit" class="btn sendOtpBtn" (click)="login()" [disabled]="sendOtpForm.form.invalid">Login</button>
+            </form>
+
+            <p class="signInLink">Don't have an account? &nbsp;<span [routerLink]="['/collections/checkout-new-signup']">Sign up</span></p>
+        </ng-container>
+    </div>
+
+    <div class="checkoutFooter">
+        By proceeding, you agree to our <br>
+        <a target="_blank" href="">Terms of Service</a> and <a target="_blank" href=""> Privacy Policy</a>
+    </div>
+</div>

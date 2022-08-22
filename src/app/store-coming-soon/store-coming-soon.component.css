@@ -1,0 +1,93 @@
+html , body{
+    height: 100%;
+}
+.bgimage
+{
+    position: fixed;
+    cursor: default;
+    width: 100%;
+    top:0;
+    left:0;
+    height:100%;
+}
+
+.centerDiv{
+    position: absolute;
+    top: 25%;
+    text-align: center;
+    transform: translate(50%, 50%);
+}
+.content{
+    margin-top: 15px;
+    font-family: cursive;
+    color: rgb(255, 255, 255);
+    font-size: 40px;
+    text-transform: uppercase;
+}
+.content-desc{
+    color: rgb(230, 230, 230);
+    font-size: 18px;
+}
+
+.footer {
+    position: fixed;
+    display: flex;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+    padding: 5px;
+    /* background: #347DAD; */
+}
+
+.linkDecoration{
+    text-decoration: none;
+    margin-left: 2px;
+    color: #fff;
+}
+
+.linkDecoration:hover{
+    text-decoration: underline;
+}
+@media only screen
+and (min-device-width : 1024px)
+and (max-device-width : 1366px)
+and (orientation : portrait)
+{
+    .centerDiv
+    {
+        transform: translate(30%, 50%);
+    }
+}
+@media only screen
+and (min-device-width : 768px)
+and (max-device-width : 1020px)
+and (orientation : portrait)
+{
+    .centerDiv
+    {
+        transform: translate(15%, 50%);
+    }
+}
+@media only screen
+and (min-device-width : 768px)
+and (max-device-width : 1024px)
+and (orientation : landscape)
+{
+    .centerDiv
+    {
+        transform: translate(30%, 50%);
+    }
+}
+@media only screen
+and (max-device-width : 600px)
+{
+    .centerDiv
+    {
+        transform: translate(0%, 50%);
+    }
+    .content
+    {
+        font-size: 25px;
+    }
+}

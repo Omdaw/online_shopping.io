@@ -1,0 +1,146 @@
+
+
+
+<div *ngIf="this.flagsService.showFooterFlag">
+    <div class="footerStyleInMob" style="background: var(--theme-color);text-align: center;">
+        <div style="border-top: 1px solid #ccc;">
+            <div class="container">
+                <!-- footer third section -->
+                <div class="footer-info w3-agileits-info">
+                    <!-- footer categories -->
+                    <div class="footerBox">
+                        <!-- address  -->
+                        <div class="footer-grids mailGrid" *ngIf="(storeObject && storeObject.SHOW_STORE_ADDRESS && storeObject.SHOW_STORE_ADDRESS == 'true' && isThisStringHasValue(storeAddress))||isThisStringHasValue(storeContactNumber)||isThisStringHasValue(storeEmailAddress)" [ngClass]="getFooterAddressAndFollowUsDivClass()">
+                            <div class="footer-col-container">
+                                <h3>Get in Touch</h3>
+                                <ul>
+                                    <li *ngIf="isThisStringHasValue(storeAddress) && storeObject.SHOW_STORE_ADDRESS && storeObject.SHOW_STORE_ADDRESS == 'true'">
+                                        <i class="fa fa-map-marker" style="margin-right: 1px;"></i> {{storeAddress}}
+                                    </li>
+                                    <li *ngIf="isThisStringHasValue(storeContactNumber)">
+                                        <i class="fa fa-mobile" style="margin-right: 1px;"></i> {{storeContactNumber}}
+                                    </li>
+                                    <li *ngIf="isThisStringHasValue(storeEmailAddress)">
+                                        <i class="fa fa-envelope-o" style="margin-right: 1px;"></i>
+                                        <a href="mailto:{{storeEmailAddress}}"> {{storeEmailAddress}}</a>
+                                        <!-- Final Checklist-->
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- address ends -->
+
+                        <!-- Quick Links -->
+                       
+                        <div class="footer-grids " [ngClass]="getFooterQuickLinkAndBlogAndPagesDivClass()" *ngIf="quickLinksArray && quickLinksArray.length > 0">
+                            <div class="footer-col-container">
+                                <h3>Quick Links</h3>
+                                <ul>
+                                    <li *ngFor="let row of quickLinksArray;">
+                                        <ng-container *ngIf="row.QUICK_LINK != 'null' && row.QUICK_LINK!= '' && row.QUICK_LINK!= null; else elseBlock">
+                                            <a [href]="row.QUICK_LINK" target="_blank">{{row.QUICK_LINK_NAME}}</a>
+                                        </ng-container>
+                                        <ng-template #elseBlock>
+                                            <a [routerLink]="['/collections/quick-link', row.QUICK_LINK_ID, row.QUICK_LINK_NAME]" target="_blank">{{row.QUICK_LINK_NAME}}</a>
+                                        </ng-template>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- Quick Links ends -->
+
+                        <!-- Blogs  -->
+                        <div class="footer-grids" [ngClass]="getFooterQuickLinkAndBlogAndPagesDivClass()" *ngIf="blogsArray && blogsArray.length > 0">
+                            <div class="footer-col-container">
+                                <h3>Blogs</h3>
+                                <ul>
+                                    <li *ngFor="let row of blogsArray;">
+                                        <a [routerLink]="['/collections/blog', row.BLOG_ID, row.BLOG_TITLE]" target="_blank">{{row.BLOG_TITLE}}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- Blogs ends -->
+
+                        <!-- Pages  -->
+                        <div class="footer-grids" [ngClass]="getFooterQuickLinkAndBlogAndPagesDivClass()" *ngIf="pagesArray && pagesArray.length > 0">
+                            <div class="footer-col-container">
+                                <h3>Pages</h3>
+                                <ul>
+                                    <li *ngFor="let row of pagesArray;">
+                                        <a [routerLink]="['/collections/page', row.PAGE_ID, row.PAGE_TITLE]" target="_blank">{{row.PAGE_TITLE}}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- Pages ends -->
+
+                        <!-- Social Icons -->
+                        <div class="footer-grids w3l-socialmk" [ngClass]="getFooterAddressAndFollowUsDivClass()" *ngIf="socialMediaDetailsArray && socialMediaDetailsArray.length > 0">
+                            <div class="footer-col-container">
+                                <h3>Follow Us on</h3>
+                                <span class="socialicon">
+                                    <a *ngFor="let row of socialMediaDetailsArray" target="_blank"
+                                        href="{{row.SOCIAL_MEDIA_LINK}}"><img
+                                            src="{{row.SOCIAL_MEDIA_IMAGE_FILE_PATH}}"></a>
+                                </span>
+                            </div>
+
+                            <div class="row">
+                                <!-- Newsletter  -->
+                                <div class="col-md-12 col-sm-12 col-12">
+                                    <div class="">
+                                        <h3>Let's Keep In Touch</h3>
+                                    </div>
+                                    <ng-container *ngIf="newsletterDisplayStatus">
+                                        <div class="">
+                                            <input class="form-control w-100" [(ngModel)]="customerNewsletterEmailID" type="email" placeholder="Enter Your Email">
+                                        </div>
+                                        <div class="mt-2">
+                                            <button class="btn btn-primary w-100" (click)="createNewsletterAPI()">SIGN
+                                                UP</button>
+                                        </div>
+                                        <div class="">
+                                            <small>
+                                                By providing my email, I accept <a target="_blank"
+                                                    href="{{store_privacy_policy_url}}">
+                                                    <span style="text-decoration: underline;">{{storeName}}
+                                                    Privacy Policy</span></a>
+                                            </small>
+                                        </div>
+                                    </ng-container>
+                                    <ng-container *ngIf="!newsletterDisplayStatus">
+                                        <div class="">
+                                            <small>
+                                                {{newsletterSuccessMsg}}
+                                            </small>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                                <!-- Newsletter ends -->
+                            </div>
+                        </div>
+                        <!-- Social Icons ends -->
+
+                    </div>
+                    <!-- row ends  -->
+
+                    <div class="clearfix"></div>
+                </div>
+                <!-- //footer third section -->
+            </div>
+            <!-- //footer -->
+            <!-- copyright --> 
+            <div class="copy-right">
+                <p><span><a target="_blank" href="{{store_terms_and_conditions_url}}">Terms & Conditions</a></span> |
+                    <span><a target="_blank" href="{{store_privacy_policy_url}}"> Privacy Policy</a></span></p>
+                <p>
+                    &copy; {{currentYear}}
+                    <a target="_blank" href="{{wabiz_domain_url}}"> {{this.commonService.poweredByText}} </a>
+                    <!-- Checklist-2 -->
+                </p>
+            </div>
+            <!-- //copyright -->
+        </div>
+    </div>
+</div>

@@ -1,0 +1,56 @@
+<div class="containerWidth">
+    <div class="container">
+        <br>
+        <div class="row">
+
+            <div class="col-lg-3 col-md-4 col-sm-6 col-6" style="padding-left: 8px;padding-right: 8px;" *ngFor="let product of this.myWishlistService.wishListProductsArray">
+                <div class="archive">
+                    <i class="fa fa-times" (click)="this.myWishlistService.deleteMyWishlist(product.PRODUCT_DETAIL)" style="cursor: pointer;"></i>
+                    <div class="productimg" [routerLink]="['/collections/product-view', product.PRODUCT_DETAIL.PRODUCT_ID, product.PRODUCT_DETAIL.PRODUCT_DETAIL_ID]">
+                        <img src="{{getProductImageName(product)}}" style="width:100%;" onerror="this.src='assets/images/noProductToShowInThisCategory.jpg'">
+                    </div>
+                    <div class="producttitle">
+                        <h4>
+                            <a [routerLink]="['/collections/product-view', product.PRODUCT_DETAIL.PRODUCT_ID, product.PRODUCT_DETAIL.PRODUCT_DETAIL_ID]">
+                                    {{product.PRODUCT_DETAIL.PRODUCT_NAME| limitTo:40}}
+                            </a>
+                        </h4>
+                        <!--//Checklist-3 (Point-1)-->
+                        <div style="display:flex; justify-content: space-between;">
+                            <div class="price-details" style="display:flex;align-items:center">
+                                <h5 class="actualprice" *ngIf="product.PRODUCT_DETAIL">
+                                    {{this.commonService.STORE_CURRENCY_SYMBOL}} {{this.productMidLayerService.getProductPrice(product.PRODUCT_DETAIL)}}
+                                </h5>
+                                <del *ngIf="this.productMidLayerService.getScratchPrice(product.PRODUCT_DETAIL) > 0">
+                                        {{this.productMidLayerService.getDicountPercentage(product.PRODUCT_DETAIL)}}</del>
+                            </div>
+
+                        </div>
+                        <!--div1-->
+
+                        <div class="wish-btn">
+                            <button *ngIf="showOutOfStock(product.PRODUCT_DETAIL)" class="addtocart">Out of
+                                    Stock</button>
+                            <button *ngIf="showOutOfStock(product.PRODUCT_DETAIL)==false" class="addtocart background movetoCartBtn hoverClass" (click)="moveToCart(product.PRODUCT_DETAIL)">Move to
+                                    cart</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- If No Products in wishlist/favourites -->
+            <div class="col-lg-12 col-md-12 col-sm-12 col-12 no-product-div" style="background: #fff;" *ngIf="this.myWishlistService.wishListProductsArray.length == 0">
+                <div style="text-align: center;">
+                    <img class="wishimg" src="assets/images/wishlist.png" style="width: 280px;height: 280px;">
+                    <br>
+                    <span class="info">No Items in the Wishlist</span>
+                    <p> Add now, Buy Later. <br> Save your favourite items here </p>
+                    <button [routerLink]="['/']" class="btn btn-primary background">START SHOPPING</button>
+                </div>
+            </div>
+            <!-- If No Products in wishlist/favourites ends here-->
+
+        </div>
+
+    </div>
+</div>

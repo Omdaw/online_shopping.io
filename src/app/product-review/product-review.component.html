@@ -1,0 +1,96 @@
+<!-- Progress Bar -->
+<div class="loading" *ngIf="processBar">
+  <mat-spinner class="loading-image"></mat-spinner>
+</div>
+<!-- Progress Bar ends -->
+
+<div style="background-color: #fff !important; width: 100%; height: 100%;">
+  <div class="container">
+    <mat-card class="mat-elevation-z5">
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+          <h3>Ratings & Reviews</h3>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12" style="text-align: right;">
+
+          <p style="font-weight: 600;">{{productName}}
+            <span> <img class="imageSize" [src]="productImage"
+                onerror="this.src='assets/images/noProductToShowInThisCategory.jpg'"> </span>
+          </p>
+
+        </div>
+      </div>
+
+      <div class="horizontalLine"></div>
+
+      <div class="reviewContent">
+        <div class="row">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+            <p class="fieldTitle"> <b>Ratings</b> </p>
+            <button class="ratingsStar" #ratingButton mat-icon-button *ngFor="let ratingId of ratingArr;index as i"
+              [id]="'star_'+i" (click)="onClick(i+1)" [color]="getColor(i)">
+              <mat-icon>
+                {{showIcon(i)}}
+              </mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <div class="row">
+
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+            <p class="fieldTitle"> <b>Review this Product</b> </p>
+
+            <mat-form-field class="fullWidth">
+              <textarea matInput #ngcomments="ngModel" placeholder="Description/ Comments on Product"
+                        [(ngModel)]="comments" name="Comments"></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="imageInput" (click)="reviewFileUpload.click()">
+              <span class="material-icons">
+                add_a_photo
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" style="margin-top: 10%; padding-right: 25px;">
+          <mat-grid-list cols="3" rowHeight="2:1" [gutterSize]="'15px'" style="margin-top: 3%;">
+            <mat-grid-tile *ngFor="let rowIndex of reviewImageArrayObj; let i = index;" style="top: 5% !important;"
+                           (mouseover)="showDeleteButton(i)" (mouseleave)="hideDeleteButton(i)">
+              <img style="width: -webkit-fill-available; height: -webkit-fill-available;" [src]="rowIndex.reviewImageFilePath"
+                  onError="this.src='./assets/images/image-not-found.jpg';" draggable="false">
+              <mat-grid-tile-footer>
+                <button mat-icon-button style="left: 95%;" *ngIf="rowIndex.showDeleteButton" (click)="deleteImage(i)">
+                    <i class="material-icons" style="color: rgb(255, 255, 255); font-size: 25px;">
+                      delete_outline </i>
+                </button>
+              </mat-grid-tile-footer>
+            </mat-grid-tile>
+          </mat-grid-list>
+        </div>
+
+        <form name="bannerInputForm" class="example-full-width">
+          <input placeholder="File" style="display: none" #reviewFileUpload type="file"
+                 [(ngModel)]="reviewFile" name="When To Schedule" accept="image/*" multiple max="2"
+                 (change)="loadSelectedFile($event)" ngModel>
+        </form>
+
+      </div>
+      
+      <br>
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 buttonContainer">
+          <button mat-raised-button class="background submitButton" (click)="saveData()" [disabled]="disableSaveButton">Submit</button>
+        </div>
+      </div>
+    </mat-card>
+    <br><br><br>
+  </div>
+</div>

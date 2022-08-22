@@ -1,0 +1,42 @@
+.container{
+    
+}
+
+.fullWidth {
+    width: 100%;
+}
+
+.horizontalLine {
+    border-top: 1px solid #ccc;
+    border-bottom: 10px;
+}
+
+.imageSize {
+    height: 100%;
+    width: 10%;
+}
+
+.reviewContent {
+    margin-left: 20px;
+}
+
+.fieldTitle {
+    margin-top: 2%;
+}
+
+.buttonContainer {
+    text-align: right;
+}
+
+.submitButton {
+    color: rgb(255, 255, 255);
+    margin-top: 5%;
+}
+
+.imageInput{
+    padding: 20px;
+    position: absolute;
+    background: rgb(197, 197, 197);
+    cursor: pointer;
+    margin-top: 20px;
+}

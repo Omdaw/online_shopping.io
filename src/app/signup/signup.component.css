@@ -1,0 +1,67 @@
+.example-full-width {
+    width: 100%;
+}
+
+.log {
+    margin-top: 2%;
+    margin-bottom: 6%;
+    width: 54%;
+    margin-left: 23%;
+}
+
+mat-form-field {
+    margin-bottom: -8px;
+}
+
+.cancel_button {
+    border: none;
+    padding: 10px 8px;
+    font-size: 14px;
+    width: 100%;
+    outline: none;
+    text-transform: uppercase;
+    font-weight: 700;
+    border-radius: 2px;
+    letter-spacing: 1px;
+    color: #fff;
+    margin: 20px 0;
+    text-align: center;
+}
+
+@media only screen and (min-device-width: 1024px) and (max-device-width: 1366px) and (orientation: landscape) {}
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) {}
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) {}
+
+@media only screen and (max-device-width: 600px) {
+    .cancel_button {
+        font-size: 12px !important;
+        padding: 6px !important;
+    }
+    .mobRightPadding {
+        padding-right: 6px;
+    }
+    .mobLeftPadding {
+        padding-left: 6px;
+    }
+    .log {
+        width: 60%;
+        margin-left: 20%;
+        margin-bottom: 20%;
+    }
+}
+
+h3 {
+    margin-top: 0px;
+}
+
+a {
+    cursor: pointer;
+}
+
+@media only screen and (max-device-width: 320px) {
+    .cancel_button {
+        font-size: 10px !important;
+    }
+}

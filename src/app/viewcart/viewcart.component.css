@@ -1,0 +1,218 @@
+body {
+    background-color: #f1f3f6 !important
+}
+
+.services-breadcrum {
+    background: #fff;
+}
+
+.page-head_agile_info_w3l {
+    min-height: 0 !important;
+    margin-top: 60px !important;
+}
+
+.buttoncart {
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.prodCartLeft {
+    text-align: center;
+}
+
+.w3_short {
+    margin-top: 15px;
+}
+
+.prodesc {
+    color: #000 !important;
+    font-size: 17px;
+}
+
+
+/* .prodesc:hover {
+    color: #55484b !important;
+} */
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) {
+    .page-head_agile_info_w3l {
+        margin-top: 12px !important;
+    }
+    .mycontainer {
+        margin-top: 17% !important;
+    }
+}
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) {
+    .mypincheck {
+        padding: 0 15px 0 15px !important;
+        display: inherit !important;
+    }
+    .page-head_agile_info_w3l {
+        margin-top: 12px !important;
+    }
+    .mycontainer {
+        margin-top: 17% !important;
+    }
+}
+
+@media only screen and (min-device-width: 1024px) and (max-device-width: 1366px) and (orientation: portrait) and (-webkit-min-device-pixel-ratio: 2) {
+    .mycontainer {
+        margin-top: 17% !important;
+    }
+    .mypincheck {
+        padding: 0 15px 0 15px !important;
+        display: inherit !important;
+    }
+}
+
+.table>tbody>tr>td,
+.table>tfoot>tr>td {
+    vertical-align: middle;
+}
+
+@media screen and (max-width: 600px) {
+    .mycart {
+        margin-top: 8%;
+    }
+    table#cart tbody td .form-control {
+        width: 20%;
+        display: inline !important;
+    }
+    .actions .btn {
+        /* width:36%; */
+        width: 100%;
+        /* margin:1.5em 0; */
+        margin-top: -22px;
+    }
+    .actions .btn-info {
+        float: left;
+    }
+    .actions .btn-danger {
+        float: right;
+    }
+    table#cart thead {
+        display: none;
+    }
+    table#cart tbody td {
+        display: block;
+        padding: .6rem;
+        min-width: 320px;
+    }
+    table#cart tbody tr td:first-child {
+        background: #333;
+        color: #fff;
+    }
+    table#cart tbody td:before {
+        content: attr(data-th);
+        font-weight: bold;
+        display: inline-block;
+        width: 8rem;
+    }
+    table#cart tfoot td {
+        display: block;
+    }
+    table#cart tfoot td .btn {
+        display: block;
+    }
+}
+
+.table-hover>tbody>tr:hover {
+    background-color: transparent;
+}
+
+@media(max-width: 3450px) {
+    .desknav {
+        display: block;
+    }
+    .mobnav {
+        display: none;
+    }
+}
+
+@media(max-width: 786px) {
+    .myplacebtn {
+        min-width: 100% !important;
+    }
+    .mycontainer {
+        margin-top: 17% !important;
+    }
+    .qty {
+        margin: 5px !important;
+        width: 35% !important;
+    }
+    .desknav {
+        display: none;
+    }
+    .mobnav {
+        display: block;
+    }
+    .mymobcheckout {
+        padding-right: 8px !important;
+        padding-left: 8px !important;
+    }
+    .myremove {
+        margin-bottom: 20px !important;
+    }
+    p {
+        margin-top: 4px !important;
+        margin-bottom: 0rem !important;
+    }
+    .myjumbo {
+        padding-bottom: 43px !important;
+    }
+    .mycart {
+        padding-bottom: 10px !important;
+    }
+}
+
+@media(max-width: 411px) {
+    .mycontainer {
+        margin-top: 30% !important;
+    }
+}
+
+@media(max-width: 360px) {
+    .mycontainer {
+        margin-top: 32% !important;
+    }
+}
+
+@media(max-width: 320px) {
+    .mycontainer {
+        margin-top: 37% !important;
+    }
+}
+
+td,
+th {
+    border: 1px solid #ccc;
+    color: #000 !important;
+}
+
+.h5,
+h5 {
+    font-size: 14px !important;
+}
+
+@media (min-width: 576px) {
+    .jumbotron {
+        padding: 1em 0 0.2em 0;
+        margin: 0;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container,
+    .container-lg,
+    .container-md,
+    .container-sm,
+    .container-xl {
+        max-width: 1222px !important;
+    }
+}
+
+.mycol:hover {
+    color: #000;
+    font-weight: bold !important;
+}

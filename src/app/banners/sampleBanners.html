@@ -1,0 +1,1837 @@
+<div class="loading" *ngIf="this.bannerService.processBar">
+    <mat-spinner class="loading-image"></mat-spinner>
+</div>
+
+
+<!-- Hero Baner Carousel Start  -->
+<!-- <div *ngIf="this.bannerService.headerBanners.length > 0" id="carouselExampleControls" style="margin-bottom: 3%;"
+  class="myherobanner carousel slide m-top" data-ride="carousel">
+  <div class="carousel-inner">
+
+    <div *ngFor="let row of this.bannerService.headerBanners; let i = index;" class="carousel-item carousel-item{{i}}"
+      [ngClass]="getHeaderBannerClassName(i)">
+      <a *ngIf="row.BANNER_LINK_FLAG" [routerLink]="['/banner-products/', row.BANNER_ID]">
+        <img class="slide-image myhero mx-auto d-block"
+          [style.height.px]="getHeroBannerHeightInPixels(row.SECTION_HEIGHT_IN_PERCENTAGE)"
+          [style.width.%]="getBannerWidthInPercentage(row)" src="{{row.BANNER_IMAGE_FILE_PATH}}"
+          alt="Loading Header Banner">
+      </a>
+      <img class="slide-image myhero mx-auto d-block"
+        [style.height.px]="getHeroBannerHeightInPixels(row.SECTION_HEIGHT_IN_PERCENTAGE)"
+        [style.width.%]="getBannerWidthInPercentage(row)" src="{{row.BANNER_IMAGE_FILE_PATH}}"
+        alt="Loading Header Banner" *ngIf="row.BANNER_LINK_FLAG==0">
+    </div>
+
+  </div>
+  <ng-container *ngIf="this.bannerService.headerBanners.length > 1">
+    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev"
+      style="color: #000;">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next"
+      style="color: #000;">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </ng-container>
+
+</div> -->
+<!-- Hero Baner Carousel End  -->
+<div class="bannersContainer">
+    <ng-container *ngFor="let parentBannerObject of this.bannerService.allBannersArray; let allBannersIndex = index;">
+
+        <!-- Banner Title -->
+        <ng-container *ngIf="parentBannerObject.BANNER_STYLE_TYPE_CODE == 1 
+    && parentBannerObject.BANNER_TITLE != 'null' 
+    && parentBannerObject.CHILD_BANNER 
+    && parentBannerObject.CHILD_BANNER.length > 0">
+
+            <div class="gap-bw-banner">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="parentBannerObject.BANNER_TYPE_CODE != 5 && 3 > parentBannerObject.NO_OF_BANNERS_IN_ROW; else elseBlock">
+                    <h1 class="mybanhead" [style.margin-left.%]="getMarginLeftForTitle(parentBannerObject)">
+                        {{parentBannerObject.BANNER_TITLE}}
+                    </h1>
+                </div>
+            </div>
+
+        </ng-container>
+
+        <!-- Image Banners -->
+        <!-- Full Image Banner-->
+        <ng-container *ngIf="parentBannerObject.FULL_IMAGE_BANNERS.length > 0">
+
+            <!-- List  Style-->
+            <ng-container *ngIf="parentBannerObject.BANNER_STYLE_TYPE_CODE == 1">
+                <div class="row" *ngFor="let row of parentBannerObject.FULL_IMAGE_BANNERS;">
+                    <div class="col-lg-12 ">
+                        <h4 *ngIf="row.BANNER_TITLE" style="padding-top:10px; font-size: 18px; text-align:center;">
+                            {{row.BANNER_TITLE}}
+                        </h4>
+
+                        <!-- External Link  -->
+                        <a *ngIf="row.BANNER_EXTERNAL_LINK != 'null' 
+                         && row.BANNER_EXTERNAL_LINK != null 
+                         && row.BANNER_EXTERNAL_LINK !=''" [href]="row.BANNER_EXTERNAL_LINK">
+                            <img class="mx-auto d-block" src="{{row.BANNER_IMAGE_FILE_PATH}}" onerror="this.src='assets/images/noProductToShowInThisCategory.jpg'" [style.height.px]="getBannerHeightInPixels(parentBannerObject)" [style.width.%]="getBannerWidthInPercentage(parentBannerObject)">
+                        </a>
+                        <!-- Internal Link  -->
+                        <a *ngIf="(row.BANNER_EXTERNAL_LINK == 'null' 
+                  || row.BANNER_EXTERNAL_LINK == null 
+                  || row.BANNER_EXTERNAL_LINK == '') && row.BANNER_LINK_FLAG" [routerLink]="['/banner-products/', row.BANNER_ID]">
+                            <img class="mx-auto d-block" src="{{row.BANNER_IMAGE_FILE_PATH}}" onerror="this.src='assets/images/noProductToShowInThisCategory.jpg'" [style.height.px]="getBannerHeightInPixels(parentBannerObject)" [style.width.%]="getBannerWidthInPercentage(parentBannerObject)">
+                        </a>
+                        <!-- without Link  -->
+                        <img *ngIf="row.BANNER_LINK_FLAG==0 
+                    && (row.BANNER_EXTERNAL_LINK == 'null' 
+                    || row.BANNER_EXTERNAL_LINK == null 
+                    || row.BANNER_EXTERNAL_LINK == '')" class="mx-auto d-block" src="{{row.BANNER_IMAGE_FILE_PATH}}" onerror="this.src='assets/images/noProductToShowInThisCategory.jpg'" [style.height.px]="getBannerHeightInPixels(parentBannerObject)"
+                            [style.width.%]="getBannerWidthInPercentage(parentBannerObject)">
+
+                        <h6 style="text-align:center;  font-size:16px;" *ngIf="row.BANNER_NAME" class="color">
+                            {{row.BANNER_NAME}}
+                        </h6>
+                        <p *ngIf="row.BANNER_DESC && row.BANNER_DESC != 'null'" style="line-height: 20px; padding:10px;  font-size:14px;">{{row.BANNER_DESC}}
+                        </p>
+                    </div>
+                </div>
+            </ng-container>
+            <!-- List  Style ends-->
+            <h6 style="text-align:center;  font-size:16px;" *ngIf="row.BANNER_NAME" class="color">{{row.BANNER_NAME}}
+            </h6>
+            <p *ngIf="row.BANNER_DESC && row.BANNER_DESC != 'null'" style="line-height: 20px; padding:10px;  font-size:14px;">{{row.BANNER_DESC}}
+            </p>
+            <!-- Scroll  Style -->
+            <ng-container *ngIf="parentBannerObject.BANNER_STYLE_TYPE_CODE == 2">
+
+                <div class="gap-bw-banner">
+                    <!-- Title -->
+                    <ng-container *ngIf="parentBannerObject.BANNER_TITLE != 'null' && parentBannerObject.CHILD_BANNER && parentBannerObject.CHILD_BANNER.length > 0">
+
+                        <div class="col-12">
+                            <h1 class="mybanhead" [style.margin-left.%]="getMarginLeftForTitle(parentBannerObject)">
+                                {{parentBannerObject.BANNER_TITLE}}
+                            </h1>
+                        </div>
+
+                    </ng-container>
+                    <!-- Title ends -->
+                </div>
+
+                <div id="imageFullBanner{{allBannersIndex}}" class="myherobanner carousel slide" style="margin-top: 0 !important;" data-ride="carousel">
+                    <div class="carousel-inner d-flex mx-auto" [style.width.%]="getBannerWidthInPercentage(parentBannerObject)">
+
+                        <div *ngFor="let row of parentBannerObject.FULL_IMAGE_BANNERS; let i = index;" class="carousel-item carousel-item{{i}}" [ngClass]="getHeaderBannerClassName(i)">
+
+                            <div class="col-lg-12 ">
+                                <h4 *ngIf="row.BANNER_TITLE" style="padding-top:10px; font-size: 18px; text-align:center;">
+                                    {{row.BANNER_TITLE}}
+                                </h4>
+                                <!-- External Link  -->
+                                <a *ngIf="row.BANNER_EXTERNAL_LINK != 'null' 
+                          && row.BANNER_EXTERNAL_LINK != null 
+                          && row.BANNER_EXTERNAL_LINK !=''" [href]="row.BANNER_EXTERNAL_LINK">
+                                    <img class="w-100" src="{{row.BANNER_IMAGE_FILE_PATH}}" onerror="this.src='assets/images/noProductToShowInThisCategory.jpg'" [style.height.px]="getBannerHeightInPixels(parentBannerObject)">
+                                </a>
+                                <!-- Internal Link  -->
+                                <a *ngIf="(row.BANNER_EXTERNAL_LINK == 'null' 
+                   || row.BANNER_EXTERNAL_LINK == null 
+                   || row.BANNER_EXTERNAL_LINK == '') && row.BANNER_LINK_FLAG" [routerLink]="['/banner-products/', row.BANNER_ID]">
+                                    <img class="w-100" src="{{row.BANNER_IMAGE_FILE_PATH}}" onerror="this.src='assets/images/noProductToShowInThisCategory.jpg'" [style.height.px]="getBannerHeightInPixels(parentBannerObject)">
+                                </a>
+                                <!-- without Link  -->
+                                <img *ngIf="row.BANNER_LINK_FLAG==0 
+                     && (row.BANNER_EXTERNAL_LINK == 'null' 
+                     || row.BANNER_EXTERNAL_LINK == null 
+                     || row.BANNER_EXTERNAL_LINK == '')" class="w-100" src="{{row.BANNER_IMAGE_FILE_PATH}}" onerror="this.src='assets/images/noProductToShowInThisCategory.jpg'" [style.height.px]="getBannerHeightInPixels(parentBannerObject)">
+
+                                <h6 style="text-align:center;  font-size:16px;" *ngIf="row.BANNER_NAME" class="color">
+                                    {{row.BANNER_NAME}}
+                                </h6>
+                                <p *ngIf="row.BANNER_DESC && row.BANNER_DESC != 'null'" style="line-height: 20px; padding:10px;  font-size:14px;">{{row.BANNER_DESC}}
+                                </p>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <ng-container *ngIf="parentBannerObject.FULL_IMAGE_BANNERS.length > 1">
+                        <a class="carousel-control-prev" href="#imageFullBanner{{allBannersIndex}}" role="button" data-slide="prev" style="color: #000;">
+                            <button class="btn btn-primary" [style.margin-left.px]="getArrowMargin(parentBannerObject)">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </button>
+                        </a>
+                        <a class="carousel-control-next" href="#imageFullBanner{{allBannersIndex}}" role="button" data-slide="next" style="color: #000;">
+                            <button class="btn btn-primary" [style.margin-right.px]="getArrowMargin(parentBannerObject)">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </button>
+                        </a>
+                    </ng-container>
+                </div>
+            </ng-container>
+            <!-- Scroll  Style ends -->
+
+        </ng-container>
+        <!-- Full Image Banner ends -->
+
+        <!-- Half Image Banner-->
+        <ng-container *ngIf="parentBannerObject.HALF_IMAGE_BANNERS.length > 0">
+
+            <!-- List Style  -->
+            <ng-container *ngIf="parentBannerObject.BANNER_STYLE_TYPE_CODE == 1">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-6" *ngFor="let row of parentBannerObject.HALF_IMAGE_BANNERS;let halfBannerIndex = index;" style="margin-bottom: 12px;margin-top: 12px; padding-left: 12px;padding-right: 12px;">
+
+                        <div [style.width.%]="getBannerWidthInPercentage(parentBannerObject)" [style.marginLeft.%]="getMarginLeftForHalfBanner(parentBannerObject, halfBannerIndex)">
+                            <h4 *ngIf="row.BANNER_TITLE" style="padding-top:10px; font-size: 18px; text-align:center;">
+                                {{row.BANNER_TITLE}}
+                            </h4>
+
+                            <!-- External Link  -->
+                            <a *ngIf="row.BANNER_EXTERNAL_LINK != 'null' 
+                                   && row.BANNER_EXTERNAL_LINK != null 
+                                   && row.BANNER_EXTERNAL_LINK !=''" [href]="row.BANNER_EXTERNAL_LINK">
+                                <img src="{{row.BANNER_IMAGE_FILE_PATH}}" onerror="this.src='assets/images/noProductToShowInThisCategory.jpg'" [style.height.px]="getBannerHeightInPixels(parentBannerObject)" class="w-100">
+                            </a>
+                            <!-- Internal Link  -->
+                            <a *ngIf="(row.BANNER_EXTERNAL_LINK == 'null' 
+                            || row.BANNER_EXTERNAL_LINK == null 
+                            || row.BANNER_EXTERNAL_LINK == '') && row.BANNER_LINK_FLAG" [routerLink]="['/banner-products/', row.BANNER_ID]">
+                                <img src="{{row.BANNER_IMAGE_FILE_PATH}}" onerror="this.src='assets/images/noProductToShowInThisCategory.jpg'" [style.height.px]="getBannerHeightInPixels(parentBannerObject)" class="w-100">
+                            </a>
+                            <!-- without Link  -->
+                            <img *ngIf="row.BANNER_LINK_FLAG==0 
+                              && (row.BANNER_EXTERNAL_LINK == 'null' 
+                              || row.BANNER_EXTERNAL_LINK == null 
+                              || row.BANNER_EXTERNAL_LINK == '')" src="{{row.BANNER_IMAGE_FILE_PATH}}" onerror="this.src='assets/images/noProductToShowInThisCategory.jpg'" [style.height.px]="getBannerHeightInPixels(parentBannerObject)" class="w-100">
+
+                            <h6 style="text-align:center;  font-size:16px;" *ngIf="row.BANNER_NAME">{{row.BANNER_NAME}}
+                            </h6>
+                            <p *ngIf="row.BANNER_DESC && row.BANNER_DESC != 'null'" style="line-height: 20px; padding:10px;  font-size:14px;">
+                                {{row.BANNER_DESC}}
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+            </ng-container>
+            <!-- List Style ends  -->
+
+            <!-- Scroll  Style -->
+            <ng-container *ngIf="parentBannerObject.BANNER_STYLE_TYPE_CODE == 2">
+                <!-- <div class="col-12" > -->
+
+                <div class="row gap-bw-banner" [style.width.%]="getBannerWidthInPercentage(parentBannerObject)" [style.marginLeft.%]="getMarginLeftForHalfBanner(parentBannerObject, 0)/2">
+                    <div class="col-9" [ngClass]="{'p-0': screenResolution > 600}">
+                        <!-- Title -->
+                        <ng-container *ngIf="parentBannerObject.BANNER_TITLE != 'null' && parentBannerObject.CHILD_BANNER && parentBannerObject.CHILD_BANNER.length > 0">
+                            <div class="col-12">
+                                <h1 class="mybanhead">
+                                    {{parentBannerObject.BANNER_TITLE}}
+                                </h1>
+                            </div>
+                        </ng-container>
+                        <!-- Title ends -->
+                    </div>
+                    <div class="col-3" [ngClass]="{'p-0': screenResolution > 600}" *ngIf="parentBannerObject.HALF_IMAGE_BANNERS.length > 1">
+                        <div class="controls float-right" style="padding-bottom: 0;">
+                            <!-- Left Arrow  -->
+                            <a class="left fa fa-chevron-left " href="#Carousel{{allBannersIndex}}" data-slide="prev"></a>
+                            <!-- Right Arrow -->
+                            <a class="right fa fa-chevron-right " href="#Carousel{{allBannersIndex}}" data-slide="next"></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="Carousel{{allBannersIndex}}" class="carousel slide" data-ride="carousel" data-interval="2500" style="margin-top: 0 !important;">
+                    <!-- Carousel items -->
+                    <div class="carousel-inner">
+                        <div *ngFor="let halfBanners of parentBannerObject.HALF_IMAGE_BANNERS;let productsArrayIndex = index;" [ngClass]="getBannerContainerClassName(productsArrayIndex)">
+                            <div class="row">
+                                <div class="col-6" style="margin-bottom: 10px;" *ngFor="let row of halfBanners;let imageIndex = index;">
+
+                                    <div [style.width.%]="getBannerWidthInPercentage(parentBannerObject)" [style.marginLeft.%]="getMarginLeftForHalfBanner(parentBannerObject, imageIndex)">
+                                        <h4 *ngIf="row.BANNER_TITLE" style="padding-top:10px; font-size: 18px; text-align:center;">
+                                            {{row.BANNER_TITLE}}
+                                        </h4>
+
+                                        <!-- External Link  -->
+                                        <a *ngIf="row.BANNER_EXTERNAL_LINK != 'null' 
+                                                            && row.BANNER_EXTERNAL_LINK != null 
+                                                            && row.BANNER_EXTERNAL_LINK !=''" [href]="row.BANNER_EXTERNAL_LINK">
+                                            <img src="{{row.BANNER_IMAGE_FILE_PATH}}" onerror="this.src='assets/images/noProductToShowInThisCategory.jpg'" [style.height.px]="getBannerHeightInPixels(parentBannerObject)" class="w-100">
+                                        </a>
+                                        <!-- Internal Link  -->
+                                        <a *ngIf="(row.BANNER_EXTERNAL_LINK == 'null' 
+                                                            || row.BANNER_EXTERNAL_LINK == null 
+                                                            || row.BANNER_EXTERNAL_LINK == '') && row.BANNER_LINK_FLAG" [routerLink]="['/banner-products/', row.BANNER_ID]">
+                                            <img src="{{row.BANNER_IMAGE_FILE_PATH}}" onerror="this.src='assets/images/noProductToShowInThisCategory.jpg'" [style.height.px]="getBannerHeightInPixels(parentBannerObject)" class="w-100">
+                                        </a>
+                                        <!-- without Link  -->
+                                        <img *ngIf="row.BANNER_LINK_FLAG==0 
+                                                            && (row.BANNER_EXTERNAL_LINK == 'null' 
+                                                            || row.BANNER_EXTERNAL_LINK == null 
+                                                            || row.BANNER_EXTERNAL_LINK == '')" src="{{row.BANNER_IMAGE_FILE_PATH}}" onerror="this.src='assets/images/noProductToShowInThisCategory.jpg'" [style.height.px]="getBannerHeightInPixels(parentBannerObject)"
+                                            class="w-100">
+
+                                        <h6 style="text-align:center;  font-size:16px;" *ngIf="row.BANNER_NAME">
+                                            {{row.BANNER_NAME}}</h6>
+                                        <p *ngIf="row.BANNER_DESC && row.BANNER_DESC != 'null'" style="line-height: 20px; padding:10px;  font-size:14px;">
+                                            {{row.BANNER_DESC}}
+                                        </p>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!--.row-->
+                        </div>
+                        <!--.carousel-item-->
+
+                    </div>
+                    <!--.carousel-inner-->
+                </div>
+                <!--.Carousel-->
+
+                <!-- </div> -->
+            </ng-container>
+            <!-- Scroll  Style ends -->
+
+        </ng-container>
+        <!-- Half Image Banner ends -->
+
+        <!-- Image Banner (MORE THAN 2 IN A ROW)-->
+        <div [style.width.%]="getContainerWidthInPercentageForMoreThan2BannersInRow(parentBannerObject)" id="thisContainer{{allBannersIndex}}" *ngIf="parentBannerObject.IMAGE_BANNERS_MORE_THAN_TWO_IN_ROW.length > 0" [style.marginLeft.%]="getMarginForContainerShowingMoreThan2BannersInRow(parentBannerObject)"
+            class="px-2 gap-bw-banner">
+
+            <ng-container *ngIf="parentBannerObject.BANNER_STYLE_TYPE_CODE == 1">
+                <div class="col-12">
+                    <h1 class="mybanhead">
+                        {{parentBannerObject.BANNER_TITLE}}
+                    </h1>
+                </div>
+                <div class="row">
+                    <div *ngFor="let row of parentBannerObject.IMAGE_BANNERS_MORE_THAN_TWO_IN_ROW;" style="margin-bottom: 12px;margin-top: 12px;padding-right: 12px; padding-left: 12px;" [style.width.%]="100/row.NO_OF_BANNERS_IN_ROW">
+                        <h4 style="padding-top:10px; font-size: 18px; text-align:center;" *ngIf="row.BANNER_TITLE">
+                            {{row.BANNER_TITLE}}</h4>
+
+                        <!-- External Link  -->
+                        <a *ngIf="row.BANNER_EXTERNAL_LINK != 'null' 
+                        && row.BANNER_EXTERNAL_LINK != null 
+                        && row.BANNER_EXTERNAL_LINK !=''" [href]="row.BANNER_EXTERNAL_LINK">
+                            <img src="{{row.BANNER_IMAGE_FILE_PATH}}" onerror="this.src='assets/images/noProductToShowInThisCategory.jpg'" [style.height.px]="getHeight('thisContainer', parentBannerObject, allBannersIndex)" class="w-100">
+                        </a>
+                        <!-- Internal Link  -->
+                        <a *ngIf="(row.BANNER_EXTERNAL_LINK == 'null' 
+                        || row.BANNER_EXTERNAL_LINK == null 
+                        || row.BANNER_EXTERNAL_LINK == '') && row.BANNER_LINK_FLAG" [routerLink]="['/banner-products/', row.BANNER_ID]">
+                            <img src="{{row.BANNER_IMAGE_FILE_PATH}}" onerror="this.src='assets/images/noProductToShowInThisCategory.jpg'" [style.height.px]="getHeight('thisContainer', parentBannerObject, allBannersIndex)" class="w-100">
+                        </a>
+                        <!-- without Link  -->
+                        <img *ngIf="row.BANNER_LINK_FLAG==0 
+                        && (row.BANNER_EXTERNAL_LINK == 'null' 
+                        || row.BANNER_EXTERNAL_LINK == null 
+                        || row.BANNER_EXTERNAL_LINK == '')" src="{{row.BANNER_IMAGE_FILE_PATH}}" onerror="this.src='assets/images/noProductToShowInThisCategory.jpg'" [style.height.px]="getHeight('thisContainer', parentBannerObject, allBannersIndex)"
+                            class="w-100">
+
+                        <h6 style="text-align:center;  font-size:16px;" *ngIf="row.BANNER_NAME">
+                            {{this.commonService.checkIfNull(row.BANNER_NAME)}}
+                        </h6>
+
+                        <p *ngIf="row.BANNER_DESC && row.BANNER_DESC != 'null'" style="line-height: 20px; padding:10px;  font-size:14px;">
+                            {{this.commonService.checkIfNull(row.BANNER_DESC)}}
+                        </p>
+
+                    </div>
+                </div>
+            </ng-container>
+
+            <!-- Scroll  Style -->
+            <ng-container *ngIf="parentBannerObject.BANNER_STYLE_TYPE_CODE == 2">
+
+                <!-- <div class="col-md-12" style="padding-right: 0 !important;padding-left: 0 !important"> -->
+
+                <div class="row gap-bw-banner" *ngIf="parentBannerObject.IMAGE_BANNERS_MORE_THAN_TWO_IN_ROW.length > 1">
+                    <div class="col-9" [ngClass]="{'p-0': screenResolution > 600}">
+                        <!-- Title -->
+                        <ng-container *ngIf="parentBannerObject.BANNER_TITLE != 'null' && parentBannerObject.CHILD_BANNER && parentBannerObject.CHILD_BANNER.length > 0">
+                            <div class="col-12">
+                                <h1 class="mybanhead">
+                                    {{parentBannerObject.BANNER_TITLE}}
+                                </h1>
+                            </div>
+                        </ng-container>
+                        <!-- Title ends -->
+                    </div>
+                    <div class="col-3" [ngClass]="{'p-0': screenResolution > 600}">
+                        <div class="controls float-right" style="padding-bottom: 0;">
+                            <!-- Left Arrow  -->
+                            <a class="left fa fa-chevron-left " href="#Carousel{{allBannersIndex}}" data-slide="prev"></a>
+                            <!-- Right Arrow -->
+                            <a class="right fa fa-chevron-right " href="#Carousel{{allBannersIndex}}" data-slide="next"></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="Carousel{{allBannersIndex}}" class="carousel slide" data-ride="carousel" data-interval="2500" style="margin-top: 0 !important;">
+                    <!-- Carousel items -->
+                    <div class="carousel-inner">
+                        <div *ngFor="let banners of parentBannerObject.IMAGE_BANNERS_MORE_THAN_TWO_IN_ROW;let productsArrayIndex = index;" [ngClass]="getBannerContainerClassName(productsArrayIndex)">
+                            <div class="row">
+                                <div *ngFor="let row of banners" style="margin-bottom: 10px;padding-right: 5px; padding-left: 5px;" [style.width.%]="100/row.NO_OF_BANNERS_IN_ROW">
+                                    <h4 style="padding-top:10px; font-size: 18px; text-align:center;" *ngIf="row.BANNER_TITLE">
+                                        {{row.BANNER_TITLE}}</h4>
+
+                                    <!-- External Link  -->
+                                    <a *ngIf="row.BANNER_EXTERNAL_LINK != 'null' 
+                              && row.BANNER_EXTERNAL_LINK != null 
+                              && row.BANNER_EXTERNAL_LINK !=''" [href]="row.BANNER_EXTERNAL_LINK">
+                                        <img src="{{row.BANNER_IMAGE_FILE_PATH}}" onerror="this.src='assets/images/noProductToShowInThisCategory.jpg'" [style.height.px]="getHeight('thisContainer', parentBannerObject, allBannersIndex)" class="w-100">
+                                    </a>
+                                    <!-- Internal Link  -->
+                                    <a *ngIf="(row.BANNER_EXTERNAL_LINK == 'null' 
+                              || row.BANNER_EXTERNAL_LINK == null 
+                              || row.BANNER_EXTERNAL_LINK == '') && row.BANNER_LINK_FLAG" [routerLink]="['/banner-products/', row.BANNER_ID]">
+                                        <img src="{{row.BANNER_IMAGE_FILE_PATH}}" onerror="this.src='assets/images/noProductToShowInThisCategory.jpg'" [style.height.px]="getHeight('thisContainer', parentBannerObject, allBannersIndex)" class="w-100">
+                                    </a>
+                                    <!-- without Link  -->
+                                    <img *ngIf="row.BANNER_LINK_FLAG==0 
+                              && (row.BANNER_EXTERNAL_LINK == 'null' 
+                              || row.BANNER_EXTERNAL_LINK == null 
+                              || row.BANNER_EXTERNAL_LINK == '')" src="{{row.BANNER_IMAGE_FILE_PATH}}" onerror="this.src='assets/images/noProductToShowInThisCategory.jpg'" [style.height.px]="getHeight('thisContainer', parentBannerObject, allBannersIndex)"
+                                        class="w-100">
+
+                                    <h6 style="text-align:center;  font-size:16px;" *ngIf="row.BANNER_NAME">
+                                        {{this.commonService.checkIfNull(row.BANNER_NAME)}}
+                                    </h6>
+
+                                    <p *ngIf="row.BANNER_DESC && row.BANNER_DESC != 'null'" style="line-height: 20px; padding:10px;  font-size:14px;">
+                                        {{this.commonService.checkIfNull(row.BANNER_DESC)}}
+                                    </p>
+
+                                </div>
+                            </div>
+                            <!--.row-->
+                        </div>
+                        <!--.carousel-item-->
+
+                    </div>
+                    <!--.carousel-inner-->
+                </div>
+                <!--.Carousel-->
+
+                <!-- </div> -->
+            </ng-container>
+            <!-- Scroll  Style ends -->
+
+        </div>
+        <!-- Image Banner ends (MORE THAN 2 IN A ROW) -->
+        <!-- Image Banners ends -->
+
+        <!-- Image With Text Banners FULL BANNER -->
+        <ng-container *ngIf="parentBannerObject.FULL_IMAGE_WITH_TEXT_BANNERS.length > 0">
+
+            <!-- List style   -->
+            <ng-container *ngIf="parentBannerObject.BANNER_STYLE_TYPE_CODE == 1">
+                <ng-container *ngIf="parentBannerObject.SECTION_WIDTH_IN_PERCENTAGE==100">
+                    <div class="col-12 gap-bw-banner">
+
+                        <div class="row" style="align-items: center;" [style.width.%]="getBannerWidthInPercentage(parentBannerObject)" *ngFor="let row of parentBannerObject.FULL_IMAGE_WITH_TEXT_BANNERS;" [style.marginLeft.%]="getMarginLeftForTitle(parentBannerObject)" style="background-color: #cbad95">
+
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 p-0">
+                                <img src="{{row.BANNER_IMAGE_FILE_PATH}}" [style.height.px]="getBannerHeightInPixels(parentBannerObject)" [style.float]="getFloatValueForImage(row)" class="w-100">
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 p-2" [style.Height.px]="getBannerHeightInPixels(parentBannerObject)" style="padding: 40px 52px !important;overflow: hidden;" [style.float]="getFloatValueForContent(row)">
+                                <div style="position: absolute;top: 50%;transform: translateY(-50%);">
+                                    <h2 style="text-align: left;color: #fff;font-weight: 400 !important;letter-spacing: 0.2px !important;font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif !important">
+                                        {{row.OVERLAY_HEADING}}</h2>
+                                    <p [innerHTML]="row.OVERLAY_CONTENT" style="text-align: left;color: #fff;font-size: 18px !important;line-height: 24px;font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">
+                                    </p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="parentBannerObject.SECTION_WIDTH_IN_PERCENTAGE==60">
+                    <!-- Rajesh -->
+                    <div *ngIf="parentBannerObject.IMAGE_DIRECTION=='ltr'">
+                        <div class="col-12 gap-bw-banner">
+                            <div class="row" style="align-items: center;" [style.width.%]="getBannerWidthInPercentage(parentBannerObject)" *ngFor="let row of parentBannerObject.FULL_IMAGE_WITH_TEXT_BANNERS;" [style.marginLeft.%]="getMarginLeftForTitle(parentBannerObject)">
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 p-0">
+                                    <img src="{{row.BANNER_IMAGE_FILE_PATH}}" [style.height.px]="getBannerHeightInPixels(parentBannerObject)" [style.float]="getFloatValueForImage(row)" class="w-100">
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 p-2" [style.Height.px]="getBannerHeightInPixels(parentBannerObject)" [style.float]="getFloatValueForContent(row)">
+                                    ]
+                                    <div class="imageWithText">
+                                        <h2> {{row.OVERLAY_HEADING}}</h2>
+                                        {{parentBannerObject.IMAGE_DIRECTION}}
+                                        <p [innerHTML]="row.OVERLAY_CONTENT">
+                                        </p>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="parentBannerObject.IMAGE_DIRECTION=='rtl'">
+                        <div class="col-12 gap-bw-banner">
+                            <div class="row" style="align-items: center;" [style.width.%]="getBannerWidthInPercentage(parentBannerObject)" *ngFor="let row of parentBannerObject.FULL_IMAGE_WITH_TEXT_BANNERS;" [style.marginLeft.%]="getMarginLeftForTitle(parentBannerObject)">
+
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 p-0" [style.Height.px]="getBannerHeightInPixels(parentBannerObject)" [style.float]="getFloatValueForContent(row)">
+                                    <div class="imageWithText">
+                                        <h2> {{row.OVERLAY_HEADING}}</h2>
+                                        {{parentBannerObject.IMAGE_DIRECTION}}
+                                        <p [innerHTML]="row.OVERLAY_CONTENT">
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 p-2">
+                                    <img src="{{row.BANNER_IMAGE_FILE_PATH}}" [style.height.px]="getBannerHeightInPixels(parentBannerObject)" [style.float]="getFloatValueForImage(row)" class="w-100">
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="parentBannerObject.SECTION_WIDTH_IN_PERCENTAGE!=100 && parentBannerObject.SECTION_WIDTH_IN_PERCENTAGE!=60">
+                    <div class="col-12 gap-bw-banner">
+
+                        <div class="row" style="align-items: center;" [style.width.%]="getBannerWidthInPercentage(parentBannerObject)" *ngFor="let row of parentBannerObject.FULL_IMAGE_WITH_TEXT_BANNERS;" [style.marginLeft.%]="getMarginLeftForTitle(parentBannerObject)">
+
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 p-0">
+                                <img src="{{row.BANNER_IMAGE_FILE_PATH}}" [style.height.px]="getBannerHeightInPixels(parentBannerObject)" [style.float]="getFloatValueForImage(row)" class="w-100">
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 p-2" [style.Height.px]="getBannerHeightInPixels(parentBannerObject)" style="padding: 20px !important;overflow: hidden;" [style.float]="getFloatValueForContent(row)">
+                                <h3 style="text-align: left;;color: #4a4a4a;font-weight: 400 !important;letter-spacing: 0.2px !important;font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif !important">
+                                    {{row.OVERLAY_HEADING}}
+                                </h3>
+                                <p [innerHTML]="row.OVERLAY_CONTENT" style="text-align: left;color: #210;font-size: 16px !important;line-height: 1.5;font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">
+                                </p>
+                            </div>
+
+                        </div>
+                    </div>
+                </ng-container>
+            </ng-container>
+            <!-- List style ends  -->
+            <!-- Scroll  Style -->
+            <ng-container *ngIf="parentBannerObject.BANNER_STYLE_TYPE_CODE == 2">
+
+                <div class="gap-bw-banner">
+                    <!-- Title -->
+                    <ng-container *ngIf="parentBannerObject.BANNER_TITLE != 'null' && parentBannerObject.CHILD_BANNER && parentBannerObject.CHILD_BANNER.length > 0">
+
+                        <div class="row">
+                            <div class="col-12">
+                                <h1 class="mybanhead" [style.margin-left.%]="getMarginLeftForTitle(parentBannerObject)">
+                                    {{parentBannerObject.BANNER_TITLE}}
+                                </h1>
+                            </div>
+                        </div>
+
+                    </ng-container>
+                    <!-- Title ends -->
+                </div>
+
+                <div id="image-with-text-full-banner-carousel{{allBannersIndex}}" class="myherobanner carousel slide" style="margin-top: 0 !important;" data-ride="carousel">
+                    <div class="carousel-inner  d-flex mx-auto " [style.width.%]="getBannerWidthInPercentage(parentBannerObject)">
+
+                        <div *ngFor="let row of parentBannerObject.FULL_IMAGE_WITH_TEXT_BANNERS; let i = index;" class="carousel-item carousel-item{{i}}" [ngClass]="getHeaderBannerClassName(i)">
+
+                            <div class="row">
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 p-0 ">
+                                    <img [style.height.px]="getBannerHeightInPixels(parentBannerObject)" src="{{row.BANNER_IMAGE_FILE_PATH}}" class="w-100" [style.float]="getFloatValueForImage(row)">
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12  p-2" [style.Height.px]="getBannerHeightInPixels(parentBannerObject)" [style.float]="getFloatValueForContent(row)">
+                                    <div class="imageWithText">
+                                        <h2>{{row.OVERLAY_HEADING}}</h2>
+                                        <p [innerHTML]="row.OVERLAY_CONTENT"></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <ng-container *ngIf="parentBannerObject.FULL_IMAGE_WITH_TEXT_BANNERS.length > 1">
+                        <a class="carousel-control-prev" href="#image-with-text-full-banner-carousel{{allBannersIndex}}" role="button" data-slide="prev" style="color: #000;">
+                            <button class="btn btn-primary" [style.margin-left.px]="getArrowMargin(parentBannerObject)">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </button>
+                        </a>
+                        <a class="carousel-control-next" href="#image-with-text-full-banner-carousel{{allBannersIndex}}" role="button" data-slide="next" style="color: #000;">
+                            <button [style.margin-right.px]="getArrowMargin(parentBannerObject)" class="btn btn-primary">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </button>
+                        </a>
+                    </ng-container>
+                </div>
+            </ng-container>
+            <!-- Scroll  Style ends -->
+        </ng-container>
+        <!-- Image With Text Banners FULL BANNER ends -->
+
+        <!-- Video Banners -->
+        <!-- Full Video Banners -->
+        <ng-container *ngIf="parentBannerObject.FULL_VIDEO_BANNERS.length > 0">
+            <!-- List style -->
+            <ng-container *ngIf="parentBannerObject.BANNER_STYLE_TYPE_CODE == 1">
+                <div class="row" *ngFor="let row of parentBannerObject.FULL_VIDEO_BANNERS; let i = index;" [ngClass]="{'gap-bw-banner':(i == 0 && parentBannerObject.BANNER_TITLE == '') || (i > 0) }">
+                    <div class="col-lg-12">
+
+                        <iframe [src]="checkIfYouTubeVideo(row.BANNER_VIDEO_FILE_PATH) | safe" alt="Loading..." class="mx-auto d-flex" [style.height.px]="getBannerHeightInPixels(parentBannerObject)" [style.width.%]="getBannerWidthInPercentage(parentBannerObject)" controls allowfullscreen>
+                        </iframe>
+
+                    </div>
+                </div>
+            </ng-container>
+            <!-- List style ends -->
+            <!-- Scroll  Style -->
+            <ng-container *ngIf="parentBannerObject.BANNER_STYLE_TYPE_CODE == 2">
+
+                <!-- <div class="col-md-12" style="padding-right: 0 !important;padding-left: 0 !important"> -->
+
+                <div class="row gap-bw-banner" [style.width.%]="getBannerWidthInPercentage(parentBannerObject)" [style.marginLeft.%]="getMarginLeftForHalfBanner(parentBannerObject, 0)/2">
+                    <div class="col-9">
+                        <!-- Title -->
+                        <div class="col-12">
+                            <h1 class="mybanhead">
+                                {{parentBannerObject.BANNER_TITLE}}
+                            </h1>
+                        </div>
+                        <!-- Title ends -->
+                    </div>
+                    <div class="col-3" *ngIf="parentBannerObject.FULL_VIDEO_BANNERS.length > 1">
+                        <div class="controls float-right" style="padding-bottom: 0;">
+                            <!-- Left Arrow  -->
+                            <a class="left fa fa-chevron-left " href="#full-video-carousel-{{allBannersIndex}}" data-slide="prev"></a>
+                            <!-- Right Arrow -->
+                            <a class="right fa fa-chevron-right " href="#full-video-carousel-{{allBannersIndex}}" data-slide="next"></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="full-video-carousel-{{allBannersIndex}}" class="carousel slide" data-ride="carousel" data-interval="2500" style="margin-top: 0 !important;">
+                    <!-- Carousel items -->
+                    <div class="carousel-inner d-flex mx-auto" [style.width.%]="getBannerWidthInPercentage(parentBannerObject)">
+                        <div *ngFor="let row of parentBannerObject.FULL_VIDEO_BANNERS;let productsArrayIndex = index;" [ngClass]="getBannerContainerClassName(productsArrayIndex)">
+                            <div class="row">
+
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                                    <iframe [src]="checkIfYouTubeVideo(row.BANNER_VIDEO_FILE_PATH) | safe" alt="Loading..." class="w-100" [style.height.px]="getBannerHeightInPixels(parentBannerObject)" controls allowfullscreen> </iframe>
+                                </div>
+
+                            </div>
+                            <!--.row-->
+                        </div>
+                        <!--.carousel-item-->
+
+                    </div>
+                    <!--.carousel-inner-->
+                </div>
+                <!--.Carousel-->
+
+                <!-- </div> -->
+            </ng-container>
+            <!-- Scroll  Style ends -->
+        </ng-container>
+        <!-- Full Video Banners ends -->
+
+        <!-- Half Video Banners -->
+        <ng-container *ngIf="parentBannerObject.HALF_VIDEO_BANNERS.length > 0">
+            <!-- List style -->
+            <ng-container *ngIf="parentBannerObject.BANNER_STYLE_TYPE_CODE == 1">
+                <div class="row" [ngClass]="{'gap-bw-banner': parentBannerObject.BANNER_TITLE == ''}">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-6" *ngFor="let row of parentBannerObject.HALF_VIDEO_BANNERS;let halfBannerIndex = index;">
+
+                        <iframe [src]="checkIfYouTubeVideo(row.BANNER_VIDEO_FILE_PATH) | safe" alt="Loading..." [style.marginLeft.%]="getMarginLeftForHalfBanner(parentBannerObject, halfBannerIndex)" [style.height.px]="getBannerHeightInPixels(parentBannerObject)" [style.width.%]="getBannerWidthInPercentage(parentBannerObject)"
+                            controls allowfullscreen>
+                        </iframe>
+
+                    </div>
+                </div>
+            </ng-container>
+            <!-- List style ends -->
+            <!-- Scroll style  -->
+            <ng-container *ngIf="parentBannerObject.BANNER_STYLE_TYPE_CODE == 2">
+
+                <div class="row gap-bw-banner" [style.width.%]="getBannerWidthInPercentage(parentBannerObject)" [style.marginLeft.%]="getMarginLeftForHalfBanner(parentBannerObject, 0)/2">
+                    <div class="col-9">
+                        <div class="col-12">
+                            <h1 class="mybanhead">
+                                {{parentBannerObject.BANNER_TITLE}}
+                            </h1>
+                        </div>
+                    </div>
+                    <div class="col-3" *ngIf="parentBannerObject.HALF_VIDEO_BANNERS.length > 1">
+                        <div class="controls float-right" style="padding-bottom: 0;">
+                            <!-- Left Arrow  -->
+                            <a class="left fa fa-chevron-left" href="#half-video-carousel{{allBannersIndex}}" data-slide="prev"></a>
+                            <!-- Right Arrow -->
+                            <a class="right fa fa-chevron-right" href="#half-video-carousel{{allBannersIndex}}" data-slide="next"></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="half-video-carousel{{allBannersIndex}}" class="carousel slide" data-ride="carousel" data-interval="2500" style="margin-top: 0 !important;">
+                    <!-- Carousel items -->
+                    <div class="carousel-inner">
+                        <div *ngFor="let banners of parentBannerObject.HALF_VIDEO_BANNERS;let productsArrayIndex = index;" [ngClass]="getBannerContainerClassName(productsArrayIndex)">
+                            <div class="row">
+                                <div class="col-6" *ngFor="let row of banners; let halfBannerIndex = index;">
+
+                                    <div [style.width.%]="getBannerWidthInPercentage(parentBannerObject)" [style.marginLeft.%]="getMarginLeftForHalfBanner(parentBannerObject, halfBannerIndex)">
+
+                                        <iframe [src]="checkIfYouTubeVideo(row.BANNER_VIDEO_FILE_PATH) | safe" alt="Loading..." class="w-100" [style.height.px]="getBannerHeightInPixels(parentBannerObject)" controls allowfullscreen>
+                                        </iframe>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--.row-->
+                        </div>
+                        <!--.carousel-item-->
+
+                    </div>
+                    <!--.carousel-inner-->
+                </div>
+                <!--.Carousel-->
+
+
+                <!-- </div> -->
+            </ng-container>
+            <!-- Scroll style ends -->
+        </ng-container>
+        <!-- Half Video Banners ends -->
+
+        <!-- More than 2 Video Banners -->
+        <div [style.width.%]="getContainerWidthInPercentageForMoreThan2BannersInRow(parentBannerObject)" id="thisContainer{{allBannersIndex}}" *ngIf="parentBannerObject.VIDEO_BANNERS_MORE_THAN_TWO_IN_ROW.length > 0" [style.marginLeft.%]="getMarginForContainerShowingMoreThan2BannersInRow(parentBannerObject)"
+            class="px-2">
+
+            <!-- List Style  -->
+            <ng-container *ngIf="parentBannerObject.BANNER_STYLE_TYPE_CODE == 1">
+                <div class="gap-bw-banner">
+                    <div class="col-12">
+                        <h1 class="mybanhead">
+                            {{parentBannerObject.BANNER_TITLE}}
+                        </h1>
+                    </div>
+
+                    <div class="row">
+                        <div *ngFor="let row of parentBannerObject.VIDEO_BANNERS_MORE_THAN_TWO_IN_ROW;" style="margin-bottom: 10px;padding-right: 5px; padding-left: 5px;" [style.width.%]="100/row.NO_OF_BANNERS_IN_ROW">
+
+                            <iframe [src]="checkIfYouTubeVideo(row.BANNER_VIDEO_FILE_PATH) | safe" alt="Loading..." class="w-100" [style.height.px]="getHeight('thisContainer', parentBannerObject, allBannersIndex)" controls allowfullscreen>
+                            </iframe>
+
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+            <!-- List Style ends -->
+
+            <!-- Scroll style  -->
+            <ng-container *ngIf="parentBannerObject.BANNER_STYLE_TYPE_CODE == 2">
+
+                <div class="row gap-bw-banner">
+                    <div class="col-9">
+                        <!-- Title -->
+                        <ng-container *ngIf="parentBannerObject.BANNER_TITLE != 'null' && parentBannerObject.CHILD_BANNER && parentBannerObject.CHILD_BANNER.length > 0">
+                            <div class="col-12">
+                                <h1 class="mybanhead">
+                                    {{parentBannerObject.BANNER_TITLE}}
+                                </h1>
+                            </div>
+                        </ng-container>
+                        <!-- Title ends -->
+                    </div>
+                    <div class="col-3" *ngIf="parentBannerObject.VIDEO_BANNERS_MORE_THAN_TWO_IN_ROW.length > 1">
+                        <div class="controls float-right" style="padding-bottom: 0;">
+                            <!-- Left Arrow  -->
+                            <a class="left fa fa-chevron-left " href="#more-then-2-video-carousel{{allBannersIndex}}" data-slide="prev"></a>
+                            <!-- Right Arrow -->
+                            <a class="right fa fa-chevron-right " href="#more-then-2-video-carousel{{allBannersIndex}}" data-slide="next"></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+
+
+                        <div id="more-then-2-video-carousel{{allBannersIndex}}" class="carousel slide" data-ride="carousel" data-interval="2500" style="margin-top: 0 !important;">
+                            <!-- Carousel items -->
+                            <div class="carousel-inner">
+                                <div *ngFor="let banners of parentBannerObject.VIDEO_BANNERS_MORE_THAN_TWO_IN_ROW;let productsArrayIndex = index;" [ngClass]="getBannerContainerClassName(productsArrayIndex)">
+                                    <div class="row">
+                                        <div *ngFor="let row of banners" style="margin-bottom: 10px;padding-right: 5px; padding-left: 5px;" [style.width.%]="100/row.NO_OF_BANNERS_IN_ROW">
+
+                                            <iframe [src]="checkIfYouTubeVideo(row.BANNER_VIDEO_FILE_PATH) | safe" alt="Loading..." class="w-100" [style.height.px]="getHeight('thisContainer', parentBannerObject, allBannersIndex)" controls allowfullscreen> </iframe>
+
+                                        </div>
+                                    </div>
+                                    <!--.row-->
+                                </div>
+                                <!--.carousel-item-->
+
+                            </div>
+                            <!--.carousel-inner-->
+                        </div>
+                        <!--.Carousel-->
+
+
+                    </div>
+                </div>
+
+                <!-- </div> -->
+            </ng-container>
+            <!-- Scroll  Style ends -->
+
+        </div>
+        <!-- More than 2 Video Banners ends -->
+        <!-- Video Banners ends -->
+
+        <!-- Category Banners  -->
+        <!-- Full Banner-->
+        <ng-container *ngIf="parentBannerObject.FULL_CATEGORIES.length > 0">
+
+            <!-- List Style -->
+            <ng-container *ngIf="parentBannerObject.BANNER_STYLE_TYPE_CODE == 1">
+                <div class="row " *ngFor="let row of parentBannerObject.FULL_CATEGORIES">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-12" *ngFor="let category of row.PRODUCT_CATEGORY" style="margin-bottom: 10px;">
+
+                        <a [routerLink]="['/product/', category.PRODUCT_CATEGORY_ID]">
+                            <img src="{{category.PRODUCT_CATEGORY_IMAGE_FILE_PATH}}" onerror="this.src='assets/images/noProductToShowInThisCategory.jpg'" class="mx-auto d-block" [style.height.px]="getBannerHeightInPixels(parentBannerObject)" [style.width.%]="getBannerWidthInPercentage(parentBannerObject)">
+                        </a>
+                        <h6 style="text-align:center;  font-size:15px;margin-top: 1%;">
+                            {{category.PRODUCT_CATEGORY_NAME}}</h6>
+                        <p *ngIf="category.PRODUCT_CATEGORY_DESC" [title]="category.PRODUCT_CATEGORY_DESC" style="padding-bottom:10px;  font-size:14px;">
+                            {{this.commonService.checkIfNull(category.PRODUCT_CATEGORY_DESC) | limitTo: getDescriptionLimit(parentBannerObject.NO_OF_BANNERS_IN_ROW)}}
+                        </p>
+
+                    </div>
+                </div>
+            </ng-container>
+            <!-- List Style ends -->
+
+            <!-- Scroll Style -->
+            <ng-container *ngIf="parentBannerObject.BANNER_STYLE_TYPE_CODE == 2">
+
+                <div class="gap-bw-banner">
+                    <!-- Title -->
+                    <ng-container *ngIf="parentBannerObject.BANNER_TITLE != 'null' && parentBannerObject.CHILD_BANNER && parentBannerObject.CHILD_BANNER.length > 0">
+
+                        <div class="row">
+                            <div class="col-12">
+                                <h1 class="mybanhead" [style.margin-left.%]="getMarginLeftForTitle(parentBannerObject)">
+                                    {{parentBannerObject.BANNER_TITLE}}
+                                </h1>
+                            </div>
+                        </div>
+
+                    </ng-container>
+                    <!-- Title ends -->
+                </div>
+
+                <div *ngFor="let row of parentBannerObject.FULL_CATEGORIES;" id="categoryFullBanner{{allBannersIndex}}" class="myherobanner carousel slide" style="margin-top: 0 !important;" data-ride="carousel">
+                    <div class="carousel-inner">
+
+                        <div *ngFor="let category of row.PRODUCT_CATEGORY; let i = index;" class="carousel-item carousel-item{{i}}" [ngClass]="getHeaderBannerClassName(i)">
+
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-12" style="margin-bottom: 10px;">
+
+                                <a [routerLink]="['/product/', category.PRODUCT_CATEGORY_ID]">
+                                    <img src="{{category.PRODUCT_CATEGORY_IMAGE_FILE_PATH}}" onerror="this.src='assets/images/noProductToShowInThisCategory.jpg'" class="mx-auto d-block" [style.height.px]="getBannerHeightInPixels(parentBannerObject)" [style.width.%]="getBannerWidthInPercentage(parentBannerObject)">
+                                </a>
+                                <h6 style="text-align:center;  font-size:15px;margin-top: 1%;">
+                                    {{category.PRODUCT_CATEGORY_NAME}}</h6>
+                                <p *ngIf="category.PRODUCT_CATEGORY_DESC" [title]="category.PRODUCT_CATEGORY_DESC" style="padding-bottom:10px;  font-size:14px;">
+                                    {{this.commonService.checkIfNull(category.PRODUCT_CATEGORY_DESC) | limitTo: getDescriptionLimit(parentBannerObject.NO_OF_BANNERS_IN_ROW)}}
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <ng-container *ngIf="parentBannerObject.FULL_CATEGORIES.length > 0">
+                        <a class="carousel-control-prev" href="#categoryFullBanner{{allBannersIndex}}" role="button" data-slide="prev" style="color: #000;">
+                            <button class="btn btn-primary" [style.margin-left.px]="getArrowMargin(parentBannerObject)">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </button>
+                        </a>
+                        <a class="carousel-control-next" href="#categoryFullBanner{{allBannersIndex}}" role="button" data-slide="next" style="color: #000;">
+                            <button class="btn btn-primary" [style.margin-right.px]="getArrowMargin(parentBannerObject)">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </button>
+                        </a>
+                    </ng-container>
+                </div>
+            </ng-container>
+            <!-- Scroll Style ends -->
+
+        </ng-container>
+
+        <!-- Half Category Banner-->
+        <ng-container *ngIf="parentBannerObject.HALF_CATEGORIES.length > 0">
+
+            <!-- List Style  -->
+            <ng-container *ngIf="parentBannerObject.BANNER_STYLE_TYPE_CODE == 1">
+                <div class="row" *ngFor="let row of parentBannerObject.HALF_CATEGORIES">
+
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-6 " *ngFor="let category of row.PRODUCT_CATEGORY;let halfBannerIndex = index;" style="margin-bottom: 10px;">
+
+                        <div [style.width.%]="getBannerWidthInPercentage(parentBannerObject)" [style.marginLeft.%]="getMarginLeftForHalfBanner(parentBannerObject, halfBannerIndex)">
+                            <a [routerLink]="['/product/', category.PRODUCT_CATEGORY_ID]">
+                                <img src="{{category.PRODUCT_CATEGORY_IMAGE_FILE_PATH}}" [style.height.px]="getBannerHeightInPixels(parentBannerObject)" class="w-100" onerror="this.src='assets/images/noProductToShowInThisCategory.jpg'">
+                            </a>
+
+                            <h6 style="text-align:center;  font-size:15px;margin-top: 4%;">
+                                {{category.PRODUCT_CATEGORY_NAME}}</h6>
+                            <p *ngIf="category.PRODUCT_CATEGORY_DESC" [title]="category.PRODUCT_CATEGORY_DESC" style=" padding-bottom:10px;  font-size:14px;">
+                                {{this.commonService.checkIfNull(category.PRODUCT_CATEGORY_DESC) | limitTo: getDescriptionLimit(parentBannerObject.NO_OF_BANNERS_IN_ROW)}}
+                            </p>
+                        </div>
+
+                    </div>
+
+                </div>
+            </ng-container>
+            <!-- List Style ends  -->
+
+            <!-- Scroll  Style -->
+            <ng-container *ngIf="parentBannerObject.BANNER_STYLE_TYPE_CODE == 2">
+
+                <div *ngFor="let row of parentBannerObject.HALF_CATEGORIES;">
+                    <div class="row gap-bw-banner" [style.width.%]="getBannerWidthInPercentage(parentBannerObject)" [style.marginLeft.%]="getMarginLeftForHalfBanner(parentBannerObject, 0)/2">
+                        <div class="col-9" [ngClass]="{'p-0': screenResolution > 600}">
+
+                            <!-- Title -->
+                            <div class="col-12">
+                                <h1 class="mybanhead">
+                                    {{parentBannerObject.BANNER_TITLE}}
+                                </h1>
+                            </div>
+                            <!-- Title ends -->
+                        </div>
+                        <div class="col-3" [ngClass]="{'p-0': screenResolution > 600}" *ngIf="row.PRODUCT_CATEGORY.length > 1">
+                            <div class="controls float-right" style="padding-bottom: 0;">
+                                <!-- Left Arrow  -->
+                                <a class="left fa fa-chevron-left" href="#Carousel{{allBannersIndex}}" data-slide="prev"></a>
+                                <!-- Right Arrow -->
+                                <a class="right fa fa-chevron-right" href="#Carousel{{allBannersIndex}}" data-slide="next"></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="Carousel{{allBannersIndex}}" class="carousel slide" data-ride="carousel" data-interval="2500" style="margin-top: 0 !important;">
+                        <!-- Carousel items -->
+                        <div class="carousel-inner">
+
+                            <!--.carousel-item-->
+                            <div *ngFor="let halfCategoryBanners of row.PRODUCT_CATEGORY;let rowIndex = index;" [ngClass]="getBannerContainerClassName(rowIndex)">
+                                <div class="row">
+                                    <div class="col-6" *ngFor="let category of halfCategoryBanners;let halfBannerIndex = index;">
+
+                                        <div [style.width.%]="getBannerWidthInPercentage(parentBannerObject)" [style.marginLeft.%]="getMarginLeftForHalfBanner(parentBannerObject, halfBannerIndex)">
+
+                                            <a [routerLink]="['/product/', category.PRODUCT_CATEGORY_ID]">
+                                                <img src="{{category.PRODUCT_CATEGORY_IMAGE_FILE_PATH}}" [style.height.px]="getBannerHeightInPixels(parentBannerObject)" class="w-100" onerror="this.src='assets/images/noProductToShowInThisCategory.jpg'">
+                                            </a>
+
+                                            <h6 style="text-align:center;  font-size:15px;margin-top: 4%;">
+                                                {{category.PRODUCT_CATEGORY_NAME}}
+                                            </h6>
+                                            <p *ngIf="category.PRODUCT_CATEGORY_DESC" [title]="category.PRODUCT_CATEGORY_DESC" style=" padding-bottom:10px;  font-size:14px;">
+                                                {{this.commonService.checkIfNull(category.PRODUCT_CATEGORY_DESC) | limitTo: getDescriptionLimit(parentBannerObject.NO_OF_BANNERS_IN_ROW)}}
+                                            </p>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <!--.row-->
+                            </div>
+                            <!--.//carousel-item-->
+
+                        </div>
+                        <!--.carousel-inner-->
+                    </div>
+                    <!--.Carousel-->
+                </div>
+
+                <!-- </div> -->
+            </ng-container>
+            <!-- Scroll  Style ends -->
+
+        </ng-container>
+        <!-- Half Category Banner ends -->
+
+        <!--  Category Banners More than 2 in  row-->
+        <ng-container *ngIf="parentBannerObject.CATEGORY_BANNERS_MORE_THAN_TWO_IN_ROW.length > 0">
+
+            <!-- List Style -->
+
+            <div [style.width.%]="getContainerWidthInPercentageForMoreThan2BannersInRow(parentBannerObject)" [style.marginLeft.%]="getMarginForContainerShowingMoreThan2BannersInRow(parentBannerObject)" id="categoryContainer{{allBannersIndex}}" *ngFor="let row of parentBannerObject.CATEGORY_BANNERS_MORE_THAN_TWO_IN_ROW"
+                class="px-2">
+
+                <ng-container *ngIf="parentBannerObject.BANNER_STYLE_TYPE_CODE == 1">
+                    <div class="col-12">
+                        <h1 class="mybanhead">
+                            {{parentBannerObject.BANNER_TITLE}}
+                        </h1>
+                    </div>
+                    <div class="row">
+                        <div *ngFor="let category of row.PRODUCT_CATEGORY" style="margin-bottom: 12px;margin-top: 12px;padding-right: 12px; padding-left: 12px;" [style.width.%]="100/row.NO_OF_BANNERS_IN_ROW">
+
+                            <a [routerLink]="['/product/', category.PRODUCT_CATEGORY_ID]">
+                                <img src="{{category.PRODUCT_CATEGORY_IMAGE_FILE_PATH}}" onerror="this.src='assets/images/noProductToShowInThisCategory.jpg'" class="w-100" [style.height.px]="getHeight('categoryContainer', parentBannerObject, allBannersIndex)">
+                            </a>
+
+                            <h6 style="text-align:center;  font-size:15px;margin-top: 4%;">
+                                {{this.commonService.checkIfNull(category.PRODUCT_CATEGORY_NAME)}}</h6>
+
+                            <p *ngIf="category.PRODUCT_CATEGORY_DESC != '' && category.PRODUCT_CATEGORY_DESC != 'undefined'
+          && category.PRODUCT_CATEGORY_DESC != 'Undefined'" [title]="category.PRODUCT_CATEGORY_DESC" style="padding-bottom:10px;  font-size:14px;">
+                                {{this.commonService.checkIfNull(category.PRODUCT_CATEGORY_DESC) | limitTo: getDescriptionLimit(parentBannerObject.NO_OF_BANNERS_IN_ROW)}}
+                            </p>
+
+                        </div>
+                    </div>
+                </ng-container>
+                <!-- List Style ends -->
+
+                <!-- Scroll  Style -->
+                <ng-container *ngIf="parentBannerObject.BANNER_STYLE_TYPE_CODE == 2">
+                    <div class="col-md-12" style="padding-right: 0 !important;padding-left: 0 !important">
+
+                        <div *ngFor="let categoryBanners of parentBannerObject.CATEGORY_BANNERS_MORE_THAN_TWO_IN_ROW;">
+                            <div class="row gap-bw-banner">
+                                <div class="col-9" [ngClass]="{'p-0': screenResolution > 600}">
+                                    <!-- Title -->
+                                    <ng-container *ngIf="parentBannerObject.BANNER_TITLE != 'null' && parentBannerObject.CHILD_BANNER && parentBannerObject.CHILD_BANNER.length > 0">
+                                        <div class="col-12">
+                                            <h1 class="mybanhead">
+                                                {{parentBannerObject.BANNER_TITLE}}
+                                            </h1>
+                                        </div>
+                                    </ng-container>
+                                    <!-- Title ends -->
+                                </div>
+                                <div class="col-3" [ngClass]="{'p-0': screenResolution > 600}" *ngIf="categoryBanners.PRODUCT_CATEGORY.length > 1">
+                                    <div class="controls float-right" style="padding-bottom: 0;">
+                                        <!-- Left Arrow  -->
+                                        <a class="left fa fa-chevron-left " href="#Carousel{{allBannersIndex}}" data-slide="prev"></a>
+                                        <!-- Right Arrow -->
+                                        <a class="right fa fa-chevron-right " href="#Carousel{{allBannersIndex}}" data-slide="next"></a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="Carousel{{allBannersIndex}}" class="carousel slide" data-ride="carousel" data-interval="2500" style="margin-top: 0 !important;">
+                                <!-- Carousel items -->
+                                <div class="carousel-inner">
+
+                                    <div *ngFor="let banners of categoryBanners.PRODUCT_CATEGORY;let rowIndex = index;" [ngClass]="getBannerContainerClassName(rowIndex)">
+                                        <div class="row">
+                                            <div *ngFor="let category of banners;" style="margin-bottom: 10px;padding-right: 5px; padding-left: 5px;" [style.width.%]="100/categoryBanners.NO_OF_BANNERS_IN_ROW">
+
+                                                <a [routerLink]="['/product/', category.PRODUCT_CATEGORY_ID]">
+                                                    <img src="{{category.PRODUCT_CATEGORY_IMAGE_FILE_PATH}}" onerror="this.src='assets/images/noProductToShowInThisCategory.jpg'" class="w-100" [style.height.px]="getHeight('categoryContainer', parentBannerObject, allBannersIndex)">
+                                                </a>
+
+                                                <h6 style="text-align:center;  font-size:15px;margin-top: 4%;">
+                                                    {{this.commonService.checkIfNull(category.PRODUCT_CATEGORY_NAME)}}
+                                                </h6>
+
+                                                <p *ngIf="category.PRODUCT_CATEGORY_DESC != '' && category.PRODUCT_CATEGORY_DESC != 'undefined'
+                                    && category.PRODUCT_CATEGORY_DESC != 'Undefined'" [title]="category.PRODUCT_CATEGORY_DESC" style="padding-bottom:10px;  font-size:14px;">
+                                                    {{this.commonService.checkIfNull(category.PRODUCT_CATEGORY_DESC) | limitTo: getDescriptionLimit(parentBannerObject.NO_OF_BANNERS_IN_ROW)}}
+                                                </p>
+
+                                            </div>
+                                        </div>
+                                        <!--.row-->
+                                    </div>
+                                    <!--.carousel-item-->
+
+                                </div>
+                                <!--.carousel-inner-->
+                            </div>
+                            <!--.Carousel-->
+                        </div>
+
+                    </div>
+                </ng-container>
+                <!-- Scroll  Style ends -->
+
+            </div>
+        </ng-container>
+        <!-- Quarter Category Banners More than 2 in  row ends -->
+
+        <!-- Category Banners ends -->
+
+        <!-- Brand Banners -->
+        <!-- Full Banner-->
+        <ng-container *ngIf="parentBannerObject.FULL_BRANDS.length > 0">
+
+            <!-- List Style -->
+            <ng-container *ngIf="parentBannerObject.BANNER_STYLE_TYPE_CODE == 1">
+                <div class="row" *ngFor="let row of parentBannerObject.FULL_BRANDS">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-12" *ngFor="let brand of row.BRAND" style="margin-bottom: 10px;">
+
+                        <a [routerLink]="['/brand-products', brand.BRAND_ID]">
+                            <img src="{{brand.BRAND_IMAGE_FILE_PATH}}" class="mx-auto d-block" onerror="this.src='assets/images/noProductToShowInThisCategory.jpg'" [style.height.px]="getBannerHeightInPixels(parentBannerObject)" [style.width.%]="getBannerWidthInPercentage(parentBannerObject)">
+                        </a>
+
+                        <h6 style="text-align:center;   font-size:15px; font-weight: bold;    margin-bottom: 0; margin-top: 1%;" *ngIf="brand.PRODUCT_BRAND_NAME != '' && brand.PRODUCT_BRAND_NAME != 'undefined'
+    && brand.PRODUCT_BRAND_NAME != 'Undefined'"> {{brand.BRAND_NAME}}</h6>
+
+                        <p *ngIf="brand.BRAND_DESC != '' && brand.BRAND_DESC != 'undefined'
+    && brand.BRAND_DESC != 'Undefined'" [title]="brand.BRAND_DESC" style="padding-bottom:10px;  font-size:14px;">
+                            {{this.commonService.checkIfNull(brand.BRAND_DESC) | limitTo: getDescriptionLimit(parentBannerObject.NO_OF_BANNERS_IN_ROW)}}
+                        </p>
+                    </div>
+                </div>
+            </ng-container>
+            <!-- List Style ends -->
+
+            <!-- Scroll Style -->
+            <ng-container *ngIf="parentBannerObject.BANNER_STYLE_TYPE_CODE == 2">
+
+                <div class="gap-bw-banner">
+                    <!-- Title -->
+                    <ng-container *ngIf="parentBannerObject.BANNER_TITLE != 'null' && parentBannerObject.CHILD_BANNER && parentBannerObject.CHILD_BANNER.length > 0">
+
+                        <div class="row">
+                            <div class="col-12">
+                                <h1 class="mybanhead" [style.margin-left.%]="getMarginLeftForTitle(parentBannerObject)">
+                                    {{parentBannerObject.BANNER_TITLE}}
+                                </h1>
+                            </div>
+                        </div>
+
+                    </ng-container>
+                    <!-- Title ends -->
+                </div>
+
+                <div *ngFor="let row of parentBannerObject.FULL_BRANDS;" id="brandFullBanner{{allBannersIndex}}" class="myherobanner carousel slide" style="margin-top: 0 !important;" data-ride="carousel">
+                    <div class="carousel-inner">
+
+                        <div *ngFor="let brand of row.BRAND; let i = index;" class="carousel-item carousel-item{{i}}" [ngClass]="getHeaderBannerClassName(i)">
+
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-12" style="margin-bottom: 10px;">
+
+                                <a [routerLink]="['/brand-products', brand.BRAND_ID]">
+                                    <img src="{{brand.BRAND_IMAGE_FILE_PATH}}" class="mx-auto d-block" onerror="this.src='assets/images/noProductToShowInThisCategory.jpg'" [style.height.px]="getBannerHeightInPixels(parentBannerObject)" [style.width.%]="getBannerWidthInPercentage(parentBannerObject)">
+                                </a>
+
+                                <h6 style="text-align:center;   font-size:15px; font-weight: bold;    margin-bottom: 0; margin-top: 1%;" *ngIf="brand.PRODUCT_BRAND_NAME != '' && brand.PRODUCT_BRAND_NAME != 'undefined'
+                      && brand.PRODUCT_BRAND_NAME != 'Undefined'"> {{brand.BRAND_NAME}}</h6>
+
+                                <p *ngIf="brand.BRAND_DESC != '' && brand.BRAND_DESC != 'undefined'
+                                    && brand.BRAND_DESC != 'Undefined'" [title]="brand.BRAND_DESC" style="padding-bottom:10px;  font-size:14px;">
+                                    {{this.commonService.checkIfNull(brand.BRAND_DESC) | limitTo: getDescriptionLimit(parentBannerObject.NO_OF_BANNERS_IN_ROW)}}
+                                </p>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <ng-container *ngIf="parentBannerObject.FULL_BRANDS.length > 0">
+                        <a class="carousel-control-prev" href="#brandFullBanner{{allBannersIndex}}" role="button" data-slide="prev" style="color: #000;">
+                            <button class="btn btn-primary" [style.margin-left.px]="getArrowMargin(parentBannerObject)">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </button>
+                        </a>
+                        <a class="carousel-control-next" href="#brandFullBanner{{allBannersIndex}}" role="button" data-slide="next" style="color: #000;">
+                            <button class="btn btn-primary" [style.margin-right.px]="getArrowMargin(parentBannerObject)">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </button>
+                        </a>
+                    </ng-container>
+                </div>
+            </ng-container>
+            <!-- Scroll Style ends -->
+
+        </ng-container>
+        <!-- Full Banner ends-->
+
+        <!-- Half Banner-->
+        <ng-container *ngIf="parentBannerObject.HALF_BRANDS.length > 0">
+
+            <!-- List Style  -->
+            <ng-container *ngIf="parentBannerObject.BANNER_STYLE_TYPE_CODE == 1">
+                <div class="row" *ngFor="let row of parentBannerObject.HALF_BRANDS">
+
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-6" *ngFor="let brand of row.BRAND;let halfBannerIndex = index;" style="margin-bottom: 10px;">
+                        <div [style.width.%]="getBannerWidthInPercentage(parentBannerObject)" [style.marginLeft.%]="getMarginLeftForHalfBanner(parentBannerObject, halfBannerIndex)">
+                            <a [routerLink]="['/brand-products', brand.BRAND_ID]">
+                                <img src="{{brand.BRAND_IMAGE_FILE_PATH}}" [style.height.px]="getBannerHeightInPixels(parentBannerObject)" onerror="this.src='assets/images/noProductToShowInThisCategory.jpg'">
+                            </a>
+
+                            <h6 style="text-align:center;  font-size:15px; margin-top: 4%; "> {{brand.BRAND_NAME}}</h6>
+                            <p *ngIf="brand.BRAND_DESC" [title]="brand.BRAND_DESC" style="padding-bottom:10px;  font-size:14px;">
+                                {{this.commonService.checkIfNull(brand.BRAND_DESC) | limitTo: getDescriptionLimit(parentBannerObject.NO_OF_BANNERS_IN_ROW)}}
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </ng-container>
+            <!-- List Style ends  -->
+
+            <!-- Scroll  Style -->
+            <ng-container *ngIf="parentBannerObject.BANNER_STYLE_TYPE_CODE == 2">
+
+                <div *ngFor="let row of parentBannerObject.HALF_BRANDS;">
+                    <div class="row gap-bw-banner" [style.width.%]="getBannerWidthInPercentage(parentBannerObject)" [style.marginLeft.%]="getMarginLeftForHalfBanner(parentBannerObject, 0)/2">
+                        <div class="col-9" [ngClass]="{'p-0': screenResolution > 600}">
+                            <div class="col-12">
+                                <h1 class="mybanhead">
+                                    {{parentBannerObject.BANNER_TITLE}}
+                                </h1>
+                            </div>
+                        </div>
+                        <div class="col-3" [ngClass]="{'p-0': screenResolution > 600}" *ngIf="row.BRAND.length > 1">
+                            <div class="controls float-right" style="padding-bottom: 0;">
+                                <!-- Left Arrow  -->
+                                <a class="left fa fa-chevron-left" href="#Carousel{{allBannersIndex}}" data-slide="prev"></a>
+                                <!-- Right Arrow -->
+                                <a class="right fa fa-chevron-right" href="#Carousel{{allBannersIndex}}" data-slide="next"></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="Carousel{{allBannersIndex}}" class="carousel slide" data-ride="carousel" data-interval="2500" style="margin-top: 0 !important;">
+                        <!-- Carousel items -->
+                        <div class="carousel-inner">
+
+                            <!--.carousel-item-->
+
+                            <div *ngFor="let halfBrandBanners of row.BRAND;let rowIndex = index;" [ngClass]="getBannerContainerClassName(rowIndex)">
+                                <div class="row">
+                                    <div class="col-6" *ngFor="let brand of halfBrandBanners;let halfBannerIndex = index;">
+
+                                        <div [style.width.%]="getBannerWidthInPercentage(parentBannerObject)" [style.marginLeft.%]="getMarginLeftForHalfBanner(parentBannerObject, halfBannerIndex)">
+                                            <a [routerLink]="['/brand-products', brand.BRAND_ID]">
+                                                <img src="{{brand.BRAND_IMAGE_FILE_PATH}}" [style.height.px]="getBannerHeightInPixels(parentBannerObject)" onerror="this.src='assets/images/noProductToShowInThisCategory.jpg'">
+                                            </a>
+
+                                            <h6 style="text-align:center;  font-size:15px;margin-top: 4%;  ">
+                                                {{brand.BRAND_NAME}}</h6>
+                                            <p *ngIf="brand.BRAND_DESC" [title]="brand.BRAND_DESC" style="padding-bottom:10px;  font-size:14px;">
+                                                {{this.commonService.checkIfNull(brand.BRAND_DESC) | limitTo: getDescriptionLimit(parentBannerObject.NO_OF_BANNERS_IN_ROW)}}
+                                            </p>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <!--.row-->
+                            </div>
+                            <!--.//carousel-item-->
+
+                        </div>
+                        <!--.carousel-inner-->
+                    </div>
+                    <!--.Carousel-->
+                </div>
+
+                <!-- </div> -->
+            </ng-container>
+            <!-- Scroll  Style ends -->
+
+        </ng-container>
+        <!-- Half Brand Banner ends-->
+
+        <!--  brand Banners More than 2 in  row-->
+        <ng-container *ngIf="parentBannerObject.BRAND_BANNERS_MORE_THAN_TWO_IN_ROW.length > 0">
+            <div [style.width.%]="getContainerWidthInPercentageForMoreThan2BannersInRow(parentBannerObject)" [style.marginLeft.%]="getMarginForContainerShowingMoreThan2BannersInRow(parentBannerObject)" id="brandContainer{{allBannersIndex}}" *ngFor="let row of parentBannerObject.BRAND_BANNERS_MORE_THAN_TWO_IN_ROW"
+                class="px-2">
+
+                <!-- List Style -->
+                <ng-container *ngIf="parentBannerObject.BANNER_STYLE_TYPE_CODE == 1">
+                    <div class="col-12">
+                        <h1 class="mybanhead">
+                            {{parentBannerObject.BANNER_TITLE}}
+                        </h1>
+                    </div>
+                    <div class="row">
+
+                        <div *ngFor="let brand of row.BRAND" style="margin-bottom: 10px;padding-right: 5px; padding-left: 5px;" [style.width.%]="100/row.NO_OF_BANNERS_IN_ROW">
+
+                            <a [routerLink]="['/brand-products', brand.BRAND_ID]">
+                                <img src="{{brand.BRAND_IMAGE_FILE_PATH}}" onerror="this.src='assets/images/noProductToShowInThisCategory.jpg'" class="w-100" [style.height.px]="getHeight('brandContainer', parentBannerObject, allBannersIndex)">
+                            </a>
+
+                            <h6 style="text-align:center;  font-size:15px;margin-top: 4%;">
+                                {{this.commonService.checkIfNull(brand.BRAND_NAME)}}</h6>
+                            <p *ngIf="brand.BRAND_DESC" [title]="brand.BRAND_DESC" style="padding-bottom:10px;  font-size:14px;">
+                                {{this.commonService.checkIfNull(brand.BRAND_DESC) | limitTo: getDescriptionLimit(parentBannerObject.NO_OF_BANNERS_IN_ROW)}}
+                            </p>
+
+                        </div>
+
+                    </div>
+                </ng-container>
+                <!-- List Style ends -->
+
+                <!-- Scroll  Style -->
+                <ng-container *ngIf="parentBannerObject.BANNER_STYLE_TYPE_CODE == 2">
+                    <div class="col-md-12" style="padding-right: 0 !important;padding-left: 0 !important">
+
+                        <div class="row gap-bw-banner">
+                            <div class="col-9" [ngClass]="{'p-0': screenResolution > 600}">
+                                <!-- Title -->
+                                <ng-container *ngIf="parentBannerObject.BANNER_TITLE != 'null' && parentBannerObject.CHILD_BANNER && parentBannerObject.CHILD_BANNER.length > 0">
+                                    <div class="col-12">
+                                        <h1 class="mybanhead">
+                                            {{parentBannerObject.BANNER_TITLE}}
+                                        </h1>
+                                    </div>
+                                </ng-container>
+                                <!-- Title ends -->
+                            </div>
+                            <div class="col-3" [ngClass]="{'p-0': screenResolution > 600}" *ngIf="row.BRAND.length > 1">
+                                <div class="controls float-right" style="padding-bottom: 0;">
+                                    <!-- Left Arrow  -->
+                                    <a class="left fa fa-chevron-left " href="#Carousel{{allBannersIndex}}" data-slide="prev"></a>
+                                    <!-- Right Arrow -->
+                                    <a class="right fa fa-chevron-right " href="#Carousel{{allBannersIndex}}" data-slide="next"></a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="Carousel{{allBannersIndex}}" class="carousel slide" data-ride="carousel" data-interval="2500" style="margin-top: 0 !important;">
+                            <!-- Carousel items -->
+                            <div class="carousel-inner">
+                                <!-- <div *ngFor="let categoryBanners of parentBannerObject.BRAND_BANNERS_MORE_THAN_TWO_IN_ROW;"> -->
+                                <div *ngFor="let brands of row.BRAND;let rowIndex = index;" [ngClass]="getBannerContainerClassName(rowIndex)">
+                                    <div class="row">
+                                        <div *ngFor="let brand of brands" style="margin-bottom: 10px;padding-right: 5px; padding-left: 5px;" [style.width.%]="100/row.NO_OF_BANNERS_IN_ROW">
+
+                                            <a [routerLink]="['/brand-products', brand.BRAND_ID]">
+                                                <img src="{{brand.BRAND_IMAGE_FILE_PATH}}" style="width: 100%;" onerror="this.src='assets/images/noProductToShowInThisCategory.jpg'" class="w-100" [style.height.px]="getHeight('brandContainer', parentBannerObject, allBannersIndex)">
+                                            </a>
+
+                                            <h6 style="text-align:center;  font-size:15px; margin-top: 4%;">
+                                                {{this.commonService.checkIfNull(brand.BRAND_NAME)}}</h6>
+                                            <p *ngIf="brand.BRAND_DESC" [title]="brand.BRAND_DESC" style="padding-bottom:10px;  font-size:14px;">
+                                                {{this.commonService.checkIfNull(brand.BRAND_DESC) | limitTo: getDescriptionLimit(parentBannerObject.NO_OF_BANNERS_IN_ROW)}}
+                                            </p>
+
+                                        </div>
+                                    </div>
+                                    <!--.row-->
+                                </div>
+                                <!-- </div> -->
+                                <!--.carousel-item-->
+
+                            </div>
+                            <!--.carousel-inner-->
+                        </div>
+                        <!--.Carousel-->
+
+                    </div>
+                </ng-container>
+                <!-- Scroll  Style ends -->
+
+            </div>
+        </ng-container>
+        <!--  brand Banners More than 2 in  row ends -->
+        <!-- Brand Banners ends -->
+
+
+        <!-- Product Banner -->
+        <ng-container *ngIf="parentBannerObject.PRODUCTS_MORE_THAN_ONE_IN_ROW.length > 0">
+
+
+            <!-- List Style -->
+            <ng-container *ngIf="parentBannerObject.BANNER_STYLE_TYPE_CODE == 1">
+
+
+                <div [style.width.%]="getContainerWidthInPercentageForMoreThan2BannersInRow(parentBannerObject)" [style.marginLeft.%]="getMarginForContainerShowingMoreThan2BannersInRow(parentBannerObject)" id="productContainer{{allBannersIndex}}" *ngFor="let row of parentBannerObject.PRODUCTS_MORE_THAN_ONE_IN_ROW;let productBannerArrayIndex = index;">
+
+                    <div class="col-12">
+                        <h1 class="mybanhead">
+                            {{parentBannerObject.BANNER_TITLE}}
+                        </h1>
+                    </div>
+
+
+                    <div *ngFor="let products of row.PRODUCT;let productsArrayIndex = index;">
+                        <!-- row -->
+                        <div class="row">
+
+                            <div *ngFor="let product of products;let productArrayIndex = index;" [style.width.%]="100/row.NO_OF_BANNERS_IN_ROW" style="  padding-left: 12px; padding-right: 12px;" [ngClass]="{'mx-auto d-block' : row.NO_OF_BANNERS_IN_ROW == 2}">
+                                <mat-card style="padding-bottom: 10px; margin-bottom: 10px;">
+                                    <mat-card-content>
+
+                                        <div class="men-thumb-item">
+                                            <a [routerLink]="['/product-view', product.PRODUCT_ID, product.PRODUCT_DETAIL[0].PRODUCT_DETAIL_ID]" target="_blank">
+                                                <img src="{{getProductImageName(product)}}" onerror="this.src='assets/images/noProductToShowInThisCategory.jpg'" class="w-100" [style.height.px]="getHeight('productContainer', parentBannerObject, allBannersIndex)">
+                                            </a>
+                                            <span *ngIf="product.PRODUCT_DETAIL[0].NEW_ARRIVAL_FLAG == 1" class="product-new-top">New</span>
+                                        </div>
+
+                                        <div class="item-info-product ">
+                                            <h4>
+                                                <a [routerLink]="['/product-view', product.PRODUCT_ID, product.PRODUCT_DETAIL[0].PRODUCT_DETAIL_ID]" target="_blank">{{product.PRODUCT_NAME | limitTo:getLimit() }}</a>
+                                            </h4>
+
+                                            <div class="info-product-price">
+                                                <span class="item_price" *ngIf="product.PRODUCT_DETAIL[0]">{{this.commonService.INR_SYMBOL}}{{this.productMidLayerService.getProductPrice(product.PRODUCT_DETAIL[0])}}</span>
+                                                <del *ngIf="this.productMidLayerService.getScratchPrice(product.PRODUCT_DETAIL[0]) > 0">{{this.commonService.INR_SYMBOL}}{{this.productMidLayerService.getScratchPrice(product.PRODUCT_DETAIL[0])}}</del>
+                                                <span *ngIf="this.productMidLayerService.getScratchPrice(product.PRODUCT_DETAIL[0]) > 0" class="discount-percentage">
+                                                    {{this.productMidLayerService.getDicountPercentage(product.PRODUCT_DETAIL[0])}}</span>
+                                            </div>
+                                            <div style="display: none;">
+                                                <div *ngIf="this.transactionService.showAddToCart(product) && this.transactionService.showOutofStock(product) == false" class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
+                                                    <form action="#" method="post">
+                                                        <fieldset>
+                                                            <div style="background: url('assets/images/blue.gif');">
+                                                            </div>
+                                                            <input type="button" name="submit" value="Add to cart" class="button backgroun addToCartBtn commonBtn" (click)="this.productBannerCartService.addToCart(product, allBannersIndex, productBannerArrayIndex, productsArrayIndex, productArrayIndex)" style="height: 40px;"
+                                                            />
+                                                        </fieldset>
+                                                    </form>
+                                                </div>
+                                                <div *ngIf="this.transactionService.showOutofStock(product)">
+                                                    <input type="button" value="Out of Stock" class="outbutton w-100" style="height: 40px;" />
+                                                </div>
+                                                <div class="quantity-select" *ngIf="this.transactionService.showAddToCart(product)==false && this.transactionService.showOutofStock(product) == false">
+                                                    <div class="entry value-minus" (click)="this.productBannerCartService.updateCart(product, allBannersIndex, productBannerArrayIndex, productsArrayIndex, productArrayIndex, this.transactionService.getSelectedQty(product), 2)">
+                                                        &nbsp;</div>
+                                                    <div class="entry value">
+                                                        {{this.transactionService.getSelectedQty(product)}}</div>
+                                                    <div class="entry value-plus active" (click)="this.productBannerCartService.updateCart(product, allBannersIndex, productBannerArrayIndex, productsArrayIndex, productArrayIndex, this.transactionService.getSelectedQty(product), 1)">
+                                                        &nbsp;</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </mat-card-content>
+                                </mat-card>
+                                <mat-progress-bar mode="indeterminate" style="margin-top: -5%; z-index: 10;" *ngIf="product.progressBar">
+                                </mat-progress-bar>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- row -->
+                </div>
+            </ng-container>
+            <!-- List Style ends  -->
+
+            <!-- Scroll  Style -->
+            <ng-container *ngIf="parentBannerObject.BANNER_STYLE_TYPE_CODE == 2">
+                <div [style.width.%]="getContainerWidthInPercentageForMoreThan2BannersInRow(parentBannerObject)" [style.marginLeft.%]="getMarginForContainerShowingMoreThan2BannersInRow(parentBannerObject)" id="productContainer{{allBannersIndex}}" *ngFor="let row of parentBannerObject.PRODUCTS_MORE_THAN_ONE_IN_ROW;let productBannerArrayIndex = index;"
+                    class="px-2 gap-bw-banner">
+                    <div class="col-md-12" style="padding-right: 0 !important;padding-left: 0 !important">
+
+                        <div class="row">
+                            <div class="col-9">
+                                <div class="col-12">
+                                    <h1 class="mybanhead">
+                                        {{parentBannerObject.BANNER_TITLE}}
+                                    </h1>
+                                </div>
+                            </div>
+                            <div class="col-3" *ngIf="row.PRODUCT.length > 1">
+                                <div class="controls float-right" style="padding-bottom: 0;">
+                                    <!-- Left Arrow  -->
+                                    <a class="left fa fa-chevron-left " href="#Carousel{{allBannersIndex}}" data-slide="prev"></a>
+                                    <!-- Right Arrow -->
+                                    <a class="right fa fa-chevron-right " href="#Carousel{{allBannersIndex}}" data-slide="next"></a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="Carousel{{allBannersIndex}}" class="carousel slide" data-ride="carousel" data-interval="2500" style="margin-top: 0 !important;">
+                            <!-- Carousel items -->
+                            <div class="carousel-inner ">
+
+                                <div *ngFor="let products of row.PRODUCT;let productsArrayIndex = index;" [ngClass]="getBannerContainerClassName(productsArrayIndex)">
+
+                                    <!-- row -->
+                                    <div class="row ">
+                                        <div [style.width.%]="100/row.NO_OF_BANNERS_IN_ROW" *ngFor="let product of products; let productArrayIndex = index;" style="padding-left: 12px; padding-right: 12px;">
+                                            <mat-card style="padding-bottom: 10px; margin-bottom: 10px;">
+                                                <mat-card-content>
+
+                                                    <div class="men-thumb-item">
+                                                        <a [routerLink]="['/product-view', product.PRODUCT_ID, product.PRODUCT_DETAIL[0].PRODUCT_DETAIL_ID]" target="_blank">
+                                                            <img src="{{getProductImageName(product)}}" onerror="this.src='assets/images/noProductToShowInThisCategory.jpg'" alt="" class="w-100" [style.height.px]="getHeight('productContainer', parentBannerObject, allBannersIndex)">
+                                                        </a>
+                                                        <span *ngIf="product.PRODUCT_DETAIL[0].NEW_ARRIVAL_FLAG == 1" class="product-new-top">New</span>
+                                                    </div>
+
+                                                    <div class="item-info-product ">
+                                                        <div class="row">
+                                                            <div class="col-10">
+                                                                <h4>
+                                                                    <a [routerLink]="['/product-view', product.PRODUCT_ID, product.PRODUCT_DETAIL[0].PRODUCT_DETAIL_ID]" target="_blank">{{product.PRODUCT_NAME | limitTo:getLimit() }}</a>
+                                                                </h4>
+                                                                <div class="info-product-price">
+                                                                    <span class="item_price" *ngIf="product.PRODUCT_DETAIL[0]">{{this.commonService.STORE_CURRENCY_SYMBOL}}{{this.productMidLayerService.getProductPrice(product.PRODUCT_DETAIL[0])}}</span>
+                                                                    <del *ngIf="this.productMidLayerService.getScratchPrice(product.PRODUCT_DETAIL[0]) > 0">{{this.commonService.STORE_CURRENCY_SYMBOL}}{{this.productMidLayerService.getScratchPrice(product.PRODUCT_DETAIL[0])}}</del>
+                                                                    <span *ngIf="this.productMidLayerService.getScratchPrice(product.PRODUCT_DETAIL[0]) > 0" class="discount-percentage">
+                                                                        {{this.productMidLayerService.getDicountPercentage(product.PRODUCT_DETAIL[0])}}
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-2">
+                                                                <span>
+                                                                    <div class="image-hover"
+                                                                        *ngIf="this.myWishlistService.isThisProductsInMyWishlist(product.PRODUCT_DETAIL[0])==false">
+                                                                        <i class="far fa-heart"
+                                                                            style="color:#c2c2cc;font-size: 18px;cursor: pointer;"
+                                                                            (click)="this.myWishlistService.addToMyWishlist(product.PRODUCT_DETAIL[0])"></i>
+                                                                    </div>
+
+                                                                    <div class="image-hover"
+                                                                        *ngIf="this.myWishlistService.isThisProductsInMyWishlist(product.PRODUCT_DETAIL[0])">
+                                                                        <i class="fas fa-heart"
+                                                                            style="color: #382127;font-size: 18px;cursor: pointer;"
+                                                                            (click)="this.myWishlistService.deleteMyWishlist(product.PRODUCT_DETAIL[0])"></i>
+                                                                    </div>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+
+                                                        <div style="display: none;">
+                                                            <div *ngIf="this.transactionService.showAddToCart(product) && this.transactionService.showOutofStock(product) == false" class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
+                                                                <form action="#" method="post">
+                                                                    <fieldset>
+                                                                        <div style="background: url('assets/images/blue.gif');">
+                                                                        </div>
+                                                                        <input type="button" name="submit" value="Add to cart" class="button background" (click)="this.productBannerCartService.addToCart(product, allBannersIndex, productBannerArrayIndex, productsArrayIndex, productArrayIndex)" style="height: 40px;" />
+                                                                    </fieldset>
+                                                                </form>
+                                                            </div>
+                                                            <div class="quantity-select" *ngIf="this.transactionService.showOutofStock(product)">
+                                                                <input type="button" value="Out of Stock" class="outbutton w-100" style="height: 40px;" />
+                                                            </div>
+                                                            <div class="quantity-select" *ngIf="this.transactionService.showAddToCart(product)==false && this.transactionService.showOutofStock(product) == false">
+                                                                <div class="entry value-minus" (click)="this.productBannerCartService.updateCart(product, allBannersIndex, productBannerArrayIndex, productsArrayIndex, productArrayIndex, this.transactionService.getSelectedQty(product), 2)">
+                                                                    &nbsp;</div>
+                                                                <div class="entry value">
+                                                                    {{this.transactionService.getSelectedQty(product)}}
+                                                                </div>
+                                                                <div class="entry value-plus active" (click)="this.productBannerCartService.updateCart(product, allBannersIndex, productBannerArrayIndex, productsArrayIndex, productArrayIndex, this.transactionService.getSelectedQty(product), 1)">
+                                                                    &nbsp;</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </mat-card-content>
+                                            </mat-card>
+                                            <mat-progress-bar mode="indeterminate" style="margin-top: -5%; z-index: 10;" *ngIf="product.progressBar">
+                                            </mat-progress-bar>
+                                        </div>
+                                    </div>
+                                    <!-- row -->
+
+                                </div>
+                                <!--.carousel-item-->
+
+                            </div>
+                            <!--.carousel-inner-->
+                        </div>
+                        <!--.Carousel-->
+
+                    </div>
+                </div>
+            </ng-container>
+            <!-- Scroll  Style ends -->
+
+        </ng-container>
+        <!-- Products more than one ends-->
+
+
+        <!-- Text Banners -->
+        <!-- Full Text Banner-->
+        <ng-container *ngIf="parentBannerObject.FULL_TEXT_BANNERS.length > 0">
+
+            <!-- List  Style-->
+            <ng-container *ngIf="parentBannerObject.BANNER_STYLE_TYPE_CODE == 1">
+                <div class="row gap-bw-banner" *ngFor="let row of parentBannerObject.FULL_TEXT_BANNERS;">
+                    <div class="col-lg-12 ">
+                        <h4 *ngIf="row.BANNER_TITLE" style="padding-top:10px; font-size: 18px; text-align:center;">
+                            {{row.BANNER_TITLE}}
+                        </h4>
+
+                        <div class="mx-auto d-block overflow-hidden p-2" [style.width.%]="getBannerWidthInPercentage(parentBannerObject)">
+                            <div class="textBanners">
+                                <h2 style="text-align: center;">{{row.OVERLAY_HEADING}}</h2>
+                                <p [innerHTML]="row.OVERLAY_CONTENT"></p>
+                            </div>
+                        </div>
+
+                        <h6 style="text-align:center;  font-size:16px;" *ngIf="row.BANNER_NAME" class="color">
+                            {{row.BANNER_NAME}}
+                        </h6>
+
+                    </div>
+                </div>
+            </ng-container>
+            <!-- List  Style ends-->
+
+            <!-- Scroll  Style -->
+            <ng-container *ngIf="parentBannerObject.BANNER_STYLE_TYPE_CODE == 2">
+
+                <div class="gap-bw-banner">
+                    <!-- Title -->
+                    <ng-container *ngIf="parentBannerObject.BANNER_TITLE != 'null' && parentBannerObject.CHILD_BANNER && parentBannerObject.CHILD_BANNER.length > 0">
+                        <div class="col-12">
+                            <h1 class="mybanhead" [style.margin-left.%]="getMarginLeftForTitle(parentBannerObject)">
+                                {{parentBannerObject.BANNER_TITLE}}
+                            </h1>
+                        </div>
+                    </ng-container>
+                    <!-- Title ends -->
+                </div>
+
+                <div id="textFullBanner{{allBannersIndex}}" class="myherobanner carousel slide" data-ride="carousel" style="margin-top: 0 !important;">
+                    <div class="carousel-inner">
+
+                        <div *ngFor="let row of parentBannerObject.FULL_TEXT_BANNERS; let i = index;" class="carousel-item carousel-item{{i}}" [ngClass]="getHeaderBannerClassName(i)">
+
+                            <div class="col-lg-12 ">
+                                <h4 *ngIf="row.BANNER_TITLE" style="padding-top:10px; font-size: 18px; text-align:center;">
+                                    {{row.BANNER_TITLE}}
+                                </h4>
+
+                                <div class="mx-auto d-block overflow-hidden p-2" [style.width.%]="getBannerWidthInPercentage(parentBannerObject)">
+                                    <h6 style="text-align: center;">{{row.OVERLAY_HEADING}}</h6>
+                                    <p [innerHTML]="row.OVERLAY_CONTENT"></p>
+                                </div>
+
+                                <h6 style="text-align:center;  font-size:16px;" *ngIf="row.BANNER_NAME" class="color">
+                                    {{row.BANNER_NAME}}
+                                </h6>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <ng-container *ngIf="parentBannerObject.FULL_TEXT_BANNERS.length > 1">
+                        <a class="carousel-control-prev" href="#textFullBanner{{allBannersIndex}}" role="button" data-slide="prev" style="color: #000;">
+                            <button class="btn btn-primary" [style.margin-left.px]="getArrowMargin(parentBannerObject)">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </button>
+                        </a>
+                        <a class="carousel-control-next" href="#textFullBanner{{allBannersIndex}}" role="button" data-slide="next" style="color: #000;">
+                            <button class="btn btn-primary" [style.margin-right.px]="getArrowMargin(parentBannerObject)">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </button>
+                        </a>
+                    </ng-container>
+                </div>
+            </ng-container>
+            <!-- Scroll  Style ends -->
+
+        </ng-container>
+        <!-- Full Text Banner ends -->
+
+        <!-- Half Text Banner-->
+        <ng-container *ngIf="parentBannerObject.HALF_TEXT_BANNERS.length > 0">
+
+            <!-- List Style  -->
+            <ng-container *ngIf="parentBannerObject.BANNER_STYLE_TYPE_CODE == 1">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-6" *ngFor="let row of parentBannerObject.HALF_TEXT_BANNERS;let halfBannerIndex = index;" style="margin-bottom: 10px;">
+                        <h4 *ngIf="row.BANNER_TITLE" style="padding-top:10px; font-size: 18px; text-align:center;">
+                            {{row.BANNER_TITLE}}
+                        </h4>
+                        <div [style.width.%]="getBannerWidthInPercentage(parentBannerObject)" [style.marginLeft.%]="getMarginLeftForHalfBanner(parentBannerObject, halfBannerIndex)" class=" overflow-hidden p-2">
+                            <div class="textBanners">
+                                <h2 style="text-align: center;">{{row.OVERLAY_HEADING}}</h2>
+                                <p [innerHTML]="row.OVERLAY_CONTENT"></p>
+                            </div>
+                        </div>
+
+                        <h6 style="text-align:center;  font-size:16px;" *ngIf="row.BANNER_NAME">{{row.BANNER_NAME}}</h6>
+
+                    </div>
+                </div>
+            </ng-container>
+            <!-- List Style ends  -->
+
+            <!-- Scroll  Style -->
+            <ng-container *ngIf="parentBannerObject.BANNER_STYLE_TYPE_CODE == 2">
+
+                <div class="col-md-12" style="padding-right: 0 !important;padding-left: 0 !important">
+
+                    <div class="row gap-bw-banner" *ngIf="parentBannerObject.HALF_TEXT_BANNERS.length > 1">
+                        <div class="col-9" [ngClass]="{'p-0': screenResolution > 600}">
+                            <!-- Title -->
+                            <ng-container *ngIf="parentBannerObject.BANNER_TITLE != 'null' && parentBannerObject.CHILD_BANNER && parentBannerObject.CHILD_BANNER.length > 0">
+                                <div class="col-12">
+                                    <h1 class="mybanhead" [style.margin-left.%]="getMarginLeftForTitle(parentBannerObject)">
+                                        {{parentBannerObject.BANNER_TITLE}}
+                                    </h1>
+                                </div>
+                            </ng-container>
+                            <!-- Title ends -->
+                        </div>
+                        <div class="col-3" [ngClass]="{'p-0': screenResolution > 600}">
+                            <div class="controls float-right" style="padding-bottom: 0;">
+                                <!-- Left Arrow  -->
+                                <a class="left fa fa-chevron-left " href="#Carousel{{allBannersIndex}}" data-slide="prev"></a>
+                                <!-- Right Arrow -->
+                                <a class="right fa fa-chevron-right " href="#Carousel{{allBannersIndex}}" data-slide="next"></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="Carousel{{allBannersIndex}}" class="carousel slide" data-ride="carousel" data-interval="2500" style="margin-top: 0 !important;">
+                        <!-- Carousel items -->
+                        <div class="carousel-inner">
+                            <div *ngFor="let halfBanners of parentBannerObject.HALF_TEXT_BANNERS;let bannerIndex = index;" [ngClass]="getBannerContainerClassName(bannerIndex)">
+                                <div class="row">
+                                    <div class="col-6" style="margin-bottom: 10px;" *ngFor="let row of halfBanners;let halfBannerIndex = index;">
+
+                                        <h4 *ngIf="row.BANNER_TITLE" style="padding-top:10px; font-size: 18px; text-align:center;">
+                                            {{row.BANNER_TITLE}}
+                                        </h4>
+
+                                        <div [style.width.%]="getBannerWidthInPercentage(parentBannerObject)" [style.marginLeft.%]="getMarginLeftForHalfBanner(parentBannerObject, halfBannerIndex)" class="overflow-hidden p-2">
+                                            <h6 style="text-align: center;">{{row.OVERLAY_HEADING}}</h6>
+                                            <p [innerHTML]="row.OVERLAY_CONTENT"></p>
+                                        </div>
+
+                                        <h6 style="text-align:center;  font-size:16px;" *ngIf="row.BANNER_NAME">
+                                            {{row.BANNER_NAME}}</h6>
+
+                                    </div>
+                                </div>
+                                <!--.row-->
+                            </div>
+                            <!--.carousel-item-->
+
+                        </div>
+                        <!--.carousel-inner-->
+                    </div>
+                    <!--.Carousel-->
+
+                </div>
+            </ng-container>
+            <!-- Scroll  Style ends -->
+
+        </ng-container>
+        <!-- Half Text Banner ends -->
+
+        <!-- Text Banner (MORE THAN 2 IN A ROW)-->
+        <div [style.width.%]="getContainerWidthInPercentageForMoreThan2BannersInRow(parentBannerObject)" id="thisContainer{{allBannersIndex}}" *ngIf="parentBannerObject.TEXT_BANNERS_MORE_THAN_TWO_IN_ROW.length > 0" [style.marginLeft.%]="getMarginForContainerShowingMoreThan2BannersInRow(parentBannerObject)"
+            class="px-2">
+
+            <ng-container *ngIf="parentBannerObject.BANNER_STYLE_TYPE_CODE == 1">
+                <div class="col-12">
+                    <h1 class="mybanhead">
+                        {{parentBannerObject.BANNER_TITLE}}
+                    </h1>
+                </div>
+                <div class="row">
+                    <div *ngFor="let row of parentBannerObject.TEXT_BANNERS_MORE_THAN_TWO_IN_ROW;" style="margin-bottom: 10px;padding-right: 5px; padding-left: 5px;" [style.width.%]="100/row.NO_OF_BANNERS_IN_ROW">
+                        <h4 style="padding-top:10px; font-size: 18px; text-align:center;" *ngIf="row.BANNER_TITLE">
+                            {{row.BANNER_TITLE}}</h4>
+
+
+                        <div class="w-100 overflow-hidden p-2">
+                            <!-- [style.height.px]="getHeight('thisContainer', parentBannerObject, allBannersIndex)"> -->
+                            <h6 style="text-align: center;">{{row.OVERLAY_HEADING}}</h6>
+                            <p [innerHTML]="row.OVERLAY_CONTENT"></p>
+                        </div>
+
+                        <h6 style="text-align:center;  font-size:16px;" *ngIf="row.BANNER_NAME">
+                            {{this.commonService.checkIfNull(row.BANNER_NAME)}}
+                        </h6>
+
+                    </div>
+                </div>
+            </ng-container>
+
+            <!-- Scroll  Style -->
+            <ng-container *ngIf="parentBannerObject.BANNER_STYLE_TYPE_CODE == 2">
+
+                <div class="col-md-12" style="padding-right: 0 !important;padding-left: 0 !important">
+
+                    <div class="row gap-bw-banner" *ngIf="parentBannerObject.TEXT_BANNERS_MORE_THAN_TWO_IN_ROW.length > 1">
+                        <div class="col-9" [ngClass]="{'p-0': screenResolution > 600}">
+                            <!-- Title -->
+                            <ng-container *ngIf="parentBannerObject.BANNER_TITLE != 'null' && parentBannerObject.CHILD_BANNER && parentBannerObject.CHILD_BANNER.length > 0">
+                                <div class="col-12">
+                                    <h1 class="mybanhead" [style.margin-left.%]="getMarginLeftForTitle(parentBannerObject)">
+                                        {{parentBannerObject.BANNER_TITLE}}
+                                    </h1>
+                                </div>
+                            </ng-container>
+                            <!-- Title ends -->
+                        </div>
+                        <div class="col-3" [ngClass]="{'p-0': screenResolution > 600}">
+                            <div class="controls float-right" style="padding-bottom: 0;">
+                                <!-- Left Arrow  -->
+                                <a class="left fa fa-chevron-left " href="#Carousel{{allBannersIndex}}" data-slide="prev"></a>
+                                <!-- Right Arrow -->
+                                <a class="right fa fa-chevron-right " href="#Carousel{{allBannersIndex}}" data-slide="next"></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="Carousel{{allBannersIndex}}" class="carousel slide" data-ride="carousel" data-interval="2500" style="margin-top: 0 !important;">
+                        <!-- Carousel items -->
+                        <div class="carousel-inner">
+                            <div *ngFor="let banners of parentBannerObject.TEXT_BANNERS_MORE_THAN_TWO_IN_ROW;let productsArrayIndex = index;" [ngClass]="getBannerContainerClassName(productsArrayIndex)">
+                                <div class="row">
+                                    <div *ngFor="let row of banners" style="margin-bottom: 10px;padding-right: 5px; padding-left: 5px;" [style.width.%]="100/row.NO_OF_BANNERS_IN_ROW">
+                                        <h4 style="padding-top:10px; font-size: 18px; text-align:center;" *ngIf="row.BANNER_TITLE">
+                                            {{row.BANNER_TITLE}}</h4>
+
+                                        <div class="w-100 overflow-hidden p-2">
+                                            <h6 style="text-align: center;">{{row.OVERLAY_HEADING}}</h6>
+                                            <p [innerHTML]="row.OVERLAY_CONTENT"></p>
+                                        </div>
+
+                                        <h6 style="text-align:center;  font-size:16px;" *ngIf="row.BANNER_NAME">
+                                            {{this.commonService.checkIfNull(row.BANNER_NAME)}}
+                                        </h6>
+
+                                    </div>
+                                </div>
+                                <!--.row-->
+                            </div>
+                            <!--.carousel-item-->
+
+                        </div>
+                        <!--.carousel-inner-->
+                    </div>
+                    <!--.Carousel-->
+
+                </div>
+            </ng-container>
+            <!-- Scroll  Style ends -->
+
+        </div>
+        <!-- Text Banner ends (MORE THAN 2 IN A ROW) -->
+        <!-- Text Banners ends -->
+
+
+        <!-- allBannersArray ends  -->
+    </ng-container>
+
+</div>
+<script>
+    $(window).on('load', function() {
+        $('.myherobanner').carousel({
+            interval: 2000
+        });
+    });
+</script>

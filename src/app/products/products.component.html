@@ -1,0 +1,593 @@
+<app-hero-banner *ngIf="!isThisMobile()"></app-hero-banner>
+<app-banners *ngIf="!isThisMobile()"></app-banners>
+
+<app-hero-banner *ngIf="isThisMobile()"></app-hero-banner>
+<app-banners style="margin-bottom: 30px;" *ngIf="isThisMobile()"></app-banners>
+<div style="align-items:center ;"></div>
+<div class="cla1">
+<div class="img1"><img src="assets\logo\mlb-category-header.jpg" style="width: 100%;">
+<div class="m">
+<h1 class="me">Men</h1>
+<ol class="ca">
+    <li><span>Home</span></li>
+   
+    <li>Product Category </li>
+  
+    <li>Men</li>
+</ol>
+
+
+</div></div></div>
+<div class="containerWidth">
+   
+    <div class="loading" *ngIf="this.productMidLayerService.processBar || this.bannerService.processBar">
+        <mat-spinner class="loading-image"></mat-spinner>
+    </div>
+    <div *ngIf="this.productMidLayerService.showNoProductsImage && !this.bannerService.displayBanner" style="text-align: center;" class="noproshow">
+        <img [src]="this.commonService.imagePathForNoProductsInCategory" class=" nopro ">
+        <br>
+        <h2 class="empty " style="text-align: center; ">Empty List</h2>
+        <br>
+        <a [routerLink]="[ '/'] ">
+            <button class="btn background ">Continue
+                Shopping</button>
+        </a>
+    </div>
+    <!-- <div *ngIf="this.productMidLayerService.showNoProductsImage && !this.bannerService.displayBanner " style="text-align: center; " class="noproshow ">
+        <img src="assets/images/noProductImage.png " class="nopr " style="height: 190px;width: 380px; ">
+        <div style="font-size: 24px;font-weight: 500; ">Empty List</div>
+        <a [routerLink]="[ '/'] ">
+            <button class="btn btn-primary " style="margin-top: 20px;background-color: #ff1744;border-color: #ff1744; ">Continue
+                Shopping</button>
+        </a>
+    </div> -->
+
+
+
+    <ng-container *ngIf="this.productMidLayerService.showNoProductsImage==false ">
+        <!--this processing bar will appear untill products gets loaded-->
+        <!-- <div class="loading " *ngIf="this.productMidLayerService.productsArray.length==0 ">
+            <mat-spinner class="loading-image "></mat-spinner>
+        </div> -->
+    </ng-container>
+
+    <div class="products-div " infinite-scroll [infiniteScrollDistance]="scrollDistance " [infiniteScrollThrottle]="throttle " (scrolled)="onScrollDown($event) ">
+
+        <ng-container *ngIf="this.productMidLayerService.showNoProductsImage==false ">
+            <div class="mycontainer ">
+                <div class="row ">
+                    <div class="col-lg-3 col-md-12 ">
+                        <div class="_1joEet " style="padding-top: 10px; ">
+                            <div class="_1HEvv0 ">
+                                <a class="_1KHd47 " [routerLink]="[ '/'] ">Home</a> &nbsp;
+                                <i class="fa fa-angle-right left color breadcrumbIcon "></i>
+                            </div>&nbsp;
+                            <div class="_1HEvv0 ">
+                                <a class="_1KHd48 ">{{this.productMidLayerService.productCategory}}</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-9 col-md-12 ">
+                        <h1 class="_2yAnYN ">{{this.productMidLayerService.productCategory | titlecase}}</h1>
+                    </div>
+                </div>
+
+                <div class="row ">
+                    <div class="col-lg-3 col-md-12 col-sm-12 myfilter ">
+                        <div class="filters ">
+                            <div class="sortbox ">
+                                <ul class="filtersU " style="display: none; ">
+                                    <li>
+                                        <input type="checkbox " name="discount ">Discount
+                                    </li>
+                                    <li>
+                                        <input type="checkbox " name="Name "> Name
+                                    </li>
+                                    <li>
+                                        <input type="checkbox " name="Top rated "> Top rated
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- sort by ends-->
+                            <div class="sortbox">
+                           <div class="accordion" id="accordionExample" style="width: 100%;">
+                                    <!-- Category filters starts-->
+                                    <div *ngIf="this.productMidLayerService.filtersObject.CATEGORY && this.productMidLayerService.filtersObject.CATEGORY.length > 0">
+                                       <div class="filtBorder">
+                                            <div id="CatesId">
+                                                <a class="filterName" data-toggle="collapse" href="#categoryFilters" aria-expanded="false">Categories</a>
+                                            </div>
+                                            <div id="categoryFilters" class="collapse" aria-labelledby="CatesId" data-parent="#accordionExample">
+                                                <ul style="list-style: none; ">
+                                                    <p class="filterItems" *ngFor="let row of this.productMidLayerService.filtersObject.CATEGORY" (click)="this.productMidLayerService.onFilterSelectionChangeCategory($event, row.PRODUCT_CATEGORY_ID)">
+                                                        <span class="material-icons">
+                                                            keyboard_arrow_right
+                                                        </span>&nbsp; {{row.PRODUCT_CATEGORY_NAME}}
+                                                    </p>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Category filters ends-->
+
+                                    <!-- Brands filters starts-->
+                                    <ng-container *ngIf="this.productMidLayerService.filtersObject.BRAND 
+                                    && this.productMidLayerService.filtersObject.BRAND.length > 0">
+                                        <div class="filtBorder">
+                                            <div id="brandsId">
+                                                <a class="filterName" data-toggle="collapse" href="#brandFilters" aria-expanded="false">Brands</a>
+                                            </div>
+                                            <div id="brandFilters" class="collapse productbrand" aria-labelledby="discountsId" data-parent="#accordionExample">
+                                                <ul class="filtersU">
+                                                    <p class="filterItems" *ngFor="let row of this.productMidLayerService.filtersObject.BRAND" (click)="this.productMidLayerService.onFilterSelectionChangeBrand($event, row.PRODUCT_BRAND_ID)">
+                                                        <span class="material-icons">
+                                                            keyboard_arrow_right
+                                                        </span>&nbsp; {{row.PRODUCT_BRAND_NAME}}
+                                                    </p>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                    <!-- Brands filters ends-->
+                                    <!-- Discouunt filters starts-->
+                                  
+                                    <div class="filter1">
+                                      <div class="dis"><a>Discounts</a></div>
+                                       <div class="filterdisc">
+                                        <ol class="ol1"><span>
+                                            <li><a><input type="checkbox" value="">None</a></li>
+                                            <li><a><input type="checkbox" value="">30% and above</a></li>
+                                            <li><a><input type="checkbox" value="">20% and above</a></li>
+                                            <li><a><input type="checkbox" value="">10% and above</a></li>
+                                            <li><a><input type="checkbox" value="">Upto 10%</a></li>
+                                            <li><a><input type="checkbox" value="">Rs.151.00 and above</a></li>
+                                            <li><a><input type="checkbox" value="">Rs.101.00 - Rs.150.00</a></li>
+                                            <li><a><input type="checkbox" value="">Rs.1.00 - Rs.100.00</a></li>
+                                            <li><a><input type="checkbox" value="">Rs.5.00 - Rs.50.00</a></li>
+                                        </span>
+                                        </ol>
+                                       </div>
+
+                                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                             <!--       <div class="filtBorder">
+                                        <div id="discountsId">
+                                            <a class="filterName" data-toggle="collapse" href="#discountFilters" aria-expanded="false">Discounts</a>
+                                        </div>
+                                        <div id="discountFilters" class="collapse productdiscount" aria-labelledby="discountsId" data-parent="#accordionExample">
+                                     
+                                      
+                                            <ul class="filtersU" *ngIf="this.productMidLayerService.filtersObject.DISCOUNT && this.productMidLayerService.filtersObject.DISCOUNT.length > 0">
+                                            <p class="filterItems" (click)="this.productMidLayerService.clearDiscountFilter()" name="discounts">
+                                                    <span class="material-icons" >
+                                                        keyboard_arrow_right
+                                                    </span>&nbsp; None
+                                                </p>
+                                                <p class="filterItems" *ngFor="let row of this.productMidLayerService.filtersObject.DISCOUNT" (click)="this.productMidLayerService.onFilterSelectionChangeDiscount($event, row)" name="discounts">
+                                                    <span class="material-icons">
+                                                        keyboard_arrow_right
+                                                    </span>&nbsp; {{row.DISPLAY_TEXT}}
+                                                </p> 
+                                                <div class="ch">
+                                                <div class="ch1"><input type="checkbox">None</div>
+                                                <div class="ch2"><input type="checkbox">30% and above</div>
+                                                <div class="ch3"><input type="checkbox">20% and above</div>
+                                                <div class="ch4"><input type="checkbox">10% and above</div>
+                                                <div class="ch5"><input type="checkbox">Upto 10%</div>
+                                                <div class="ch6"><input type="checkbox">Rs.151.00 and above</div>
+                                                <div class="ch7"><input type="checkbox">Rs.101.00 - Rs.150.00</div>
+                                                <div class="ch8"><input type="checkbox">Rs.1.00 - Rs.100.00</div>
+                                                <div class="ch9"><input type="checkbox">Rs.5.00 - Rs.50.00</div>
+                                            </div>
+                                            </ul>
+                                        </div>
+                                    </div>-->
+                                    <!-- Discouunt filters ends-->
+                                    <!-- attribute filters -->
+                           <!--        <div class="filtBorder" *ngFor="let row of this.productMidLayerService.attributeFiltersArray;let i = index;">
+                                        <div id="attrFilters">
+                                            <a class="filterName" data-toggle="collapse" href="#collapseAttrFilters{{i}}" aria-expanded="false">{{row.FILTER_ATTRIBUTE_NAME}}</a>
+                                        </div>
+                                        <div id="collapseAttrFilters{{i}}" class="collapse productdiscount" aria-labelledby="attrFilters" data-parent="#accordionExample">
+                                            <ul class="filtersU">
+                                                <p class="filterItems" *ngFor="let attribute of row.FILTER_VALUE" (click)="this.productMidLayerService.onFilterSelectionChangeAttributes($event, attribute)">
+                                                    <span class="material-icons">
+                                                        keyboard_arrow_right
+                                                    </span>&nbsp; {{attribute.FILTER_ATTRIBUTE_VALUE}}
+                                                </p>
+                                            </ul>
+                                        </div>
+                                    </div>--> 
+                                    <!-- attribute filters end -->
+                                </div>
+                            </div>
+                            <!--sortbox2-->
+                        </div>
+                    </div>
+                    <!-- filter end  -->
+                    <div class="agileinfo-ads-display col-lg-9 col-md-12  col-sm-12 col-12">
+                        <div class="wrapper">
+                            <div class="_3UEiDE">
+                                <div class="_1joEet">
+                                </div><div class="show"><p>Showing 150 of 198 results</p></div> 
+                            <!--   <div class="_3ywJNQ" style="width: 245px;padding: 0px 18px 0px 12px;font-size: 18px;border-bottom: 1px solid #000;  position: relative;  top: -34px;left: -184px;">
+                                    <span class="_3YmFT8" style="color: rgb(143, 143, 143);border-bottom: 0;">Sort by
+                                        :</span>
+
+                                    <select (change)="onsortbychange()" class="form-control" [(ngModel)]="sortby" style="box-shadow: inset 0 1px 1px rgba(0,0,0,.075);-webkit-box-shadow: inset 0 0px 0px rgba(0,0,0,.075);border: 0;
+            width: 75%;padding: 6px 6px;">
+                                        <option style="cursor: pointer;background: #fff;"
+                                            [ngClass]="getSortByClassName(row.REFERENCE_CODE)"
+                                            *ngFor="let row of this.productMidLayerService.filtersObject.SORT_BY"
+                                            [ngValue]="row" class="_1xHtJz xufquN">
+                                            {{row.REFERENCE_CODE_NAME}}
+                                        </option>
+                                    </select>
+                                </div>--> 
+                               <div class="shor"><p>Short by: <a>Short by latest</a>  <span class="down"><i class="fa-solid fa-angle-down"></i></span></p></div>
+                        <div class="line"><i class="fa-thin fa-pipe"></i></div>
+                             <div class="vi"> view:</div>
+                             <div class="v1"><a><i class="fa fa-th-large" aria-hidden="true"></i>
+                             </a></div>
+                             <div class="v2"><a><i class="fa fa-th" aria-hidden="true"></i></a></div>
+                            </div>
+
+                            <div class="product-sec1">
+
+                                <!-- if no products on filter  -->
+                                <ng-container *ngIf="this.productMidLayerService.showNoProductsImage == false && 
+                                productMidLayerService.callFromFilter && productMidLayerService.productsArray.length == 0">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="text-align: center;">
+                                        <img [src]="this.commonService.imagePathForNoProductsInCategory" style="height: 220px;;width: 220px;">
+                                        <br>
+                                        <h2 style="text-align: center;">Empty List</h2>
+                                        <br>
+                                        <a [routerLink]="['/']">
+                                            <button class="btn background">Continue
+                                                Shopping</button>
+                                        </a>
+                                    </div>
+                                </ng-container>
+                               
+                                <!-- Loop is Started Here -->
+                                <div class="productsGrid">
+                                   
+                                    <div *ngIf="this.productMidLayerService.showNoProductsImage && !this.bannerService.displayBanner" style="text-align: center;" class="noproshow">
+                                        <img src="assets/images/noProductToShowInThisCategory.jpg" class="nopr" style="height: 190px;width: 380px;">
+                                        <div style="font-size: 24px;font-weight: 500;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+                                            Empty List</div>
+                                        <a [routerLink]="['/']">
+                                            <button class="btn background" style="margin-top: 20px;">Continue
+                                                Shopping</button>
+                                        </a>
+                                     
+                                    </div>
+                                 
+                                    <ng-container *ngFor="let row of this.productMidLayerService.productsArray; let i = index;">
+                                            
+                                        <div class="product-me" *ngIf="row.PRODUCT_DETAIL[0]" style="margin: 10px;">
+                                            
+                                        
+                                        
+                                            
+                                         <!--   <div class="add1"><p>Add to Cart</p></div>
+                                            <div class="add2"><p>Add to Cart</p></div>
+                                            <div class="add3"><p>Add to Cart</p></div>
+                                            <div class="add4"><p>Add to Cart</p></div>
+                                            <div class="add5"><p>Add to Cart</p></div>
+                                            <div class="add6"><p>Add to Cart</p></div>
+                                            
+                                            <div class="w2"><span class="fa1"><i class="fa fa-heart-o" aria-hidden="true"></i></span></div>
+                                            <div class="w22"><span class="fa1"><i class="fa fa-eye" aria-hidden="true"></i>
+                                            </span></div>
+                                            <div class="w3"><span class="fa1"><i class="fa fa-heart-o" aria-hidden="true"></i></span></div>
+                                            <div class="w33"><span class="fa1"><i class="fa fa-eye" aria-hidden="true"></i>
+                                            </span></div>
+                                            <div class="w4"><span class="fa1"><i class="fa fa-heart-o" aria-hidden="true"></i></span></div>
+                                            <div class="w44"><span class="fa1"><i class="fa fa-eye" aria-hidden="true"></i>
+                                            </span></div>
+                                            <div class="w5"><span class="fa1"><i class="fa fa-heart-o" aria-hidden="true"></i></span></div>
+                                            <div class="w55"><span class="fa1"><i class="fa fa-eye" aria-hidden="true"></i>
+                                            </span></div>
+                                            <div class="w6"><span class="fa1"><i class="fa fa-heart-o" aria-hidden="true"></i></span></div>
+                                            <div class="w66"><span class="fa1"><i class="fa fa-eye" aria-hidden="true"></i>
+                                            </span></div>
+                                            <div class="w7"><span class="fa1"><i class="fa fa-heart-o" aria-hidden="true"></i></span></div>
+                                            <div class="w77"><span class="fa1"><i class="fa fa-eye" aria-hidden="true"></i>
+                                            </span></div>-->
+                                     
+                                          
+
+
+                                           
+                                            <mat-card class="mat-car productListCar" style="box-shadow: 0 3px 16px 0 rgba(0,0,0,.11);">
+                                                 <div class="imgsize" style="overflow: hidden;">
+                                                  
+                                                   
+                                         
+                                                    <!-- Final Checklist -->
+                                                    <a [routerLink]="['/collections/product-view', row.PRODUCT_ID, row.PRODUCT_DETAIL[0].PRODUCT_DETAIL_ID, row.PRODUCT_CATEGORY_NAME, row.PRODUCT_NAME]" style="cursor: pointer;width: 100%;">
+                                                        <!-- //Final Checklist -->
+                                                        <img src="{{this.productMidLayerService.getProductImageName(row)}}" onerror="this.src='assets/images/noProductToShowInThisCategory.jpg'" alt="Loading Product Image" class="productImageStyl imageHoverStyle">
+                                                    </a>
+                                                    <span *ngIf="row.PRODUCT_DETAIL[0].NEW_ARRIVAL_FLAG == 1" class="product-new-top">New</span>
+
+                                                    <!-- Final Checklist-->
+                                                    <span class="discount" style="color:red;" *ngIf="this.productMidLayerService.getScratchPrice(row.PRODUCT_DETAIL[0]) > 0">
+                                                        <h6 style="margin-left: -8px;">
+                                                            <span
+                                                                *ngIf="this.productMidLayerService.getScratchPrice(row.PRODUCT_DETAIL[0]) > 0">
+                                                                {{this.productMidLayerService.getDicountPercentage(row.PRODUCT_DETAIL[0])}}</span>
+                                                    </h6>
+                                                    </span>
+                                                    <!-- //Final Checklist-->
+                                                </div>
+                                                <div class="add"><p>Add to Cart</p></div>
+                                               
+                                                <div class="w1"><span class="fa1"><i class="fa fa-heart-o" aria-hidden="true"></i></span></div>
+                                                    <div class="w11"><span class="fa1"><i class="fa fa-eye" aria-hidden="true"></i>
+                                                    </span></div>
+                                            </mat-card>
+
+                                            <div class="item-info-product" style="box-shadow: transparent;">
+                                                <div class="row">
+                                                    <div class="col-lg-10 col-md-10 col-sm-10">
+                                                        <strong>
+                                                            <!-- Final Checklist -->
+                                                            <a [routerLink]="['/collections/product-view', row.PRODUCT_ID, row.PRODUCT_DETAIL[0].PRODUCT_DETAIL_ID,
+                                                             row.PRODUCT_CATEGORY_NAME, row.PRODUCT_NAME]"
+                                                                class="productNameClass">
+                                                                {{row.PRODUCT_NAME}}
+                                                            </a>
+                                                            <!-- //Final Checklist -->
+                                                        </strong>
+                                                    </div>
+                                                    <div class="col-lg-2 col-md-2 col-sm-2" style="margin-top:4px;padding-left: 15px;">
+                                                        <!-- <span><i class="far fa-heart" aria-hidden="true"></i></span> -->
+                                                        <span>
+                                                            <div class="image-hover"
+                                                                *ngIf="this.myWishlistService.isThisProductsInMyWishlist(row.PRODUCT_DETAIL[0])==false">
+                                                                <i class="far fa-heart"
+                                                                    style="font-size: 21px;cursor: pointer;"
+                                                                    (click)="this.myWishlistService.addToMyWishlist(row.PRODUCT_DETAIL[0])"></i>
+                                                            </div>
+
+                                                            <div class="image-hover"
+                                                                *ngIf="this.myWishlistService.isThisProductsInMyWishlist(row.PRODUCT_DETAIL[0])">
+                                                                <i class="fas fa-heart"
+                                                                    style="color: var(--theme-color); cursor: pointer;font-size: 21px;"
+                                                                    (click)="this.myWishlistService.deleteMyWishlist(row.PRODUCT_DETAIL[0])"></i>
+                                                            </div>
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="info-product-price">
+                                                    <span> <del *ngIf="this.productMidLayerService.getScratchPrice(row.PRODUCT_DETAIL[0]) > 0">{{this.commonService.STORE_CURRENCY_SYMBOL}}{{this.productMidLayerService.getScratchPrice(row.PRODUCT_DETAIL[0])}}
+                                                    </del>&nbsp;
+                                                        <span class="item_price"
+                                                            *ngIf="row.PRODUCT_DETAIL[0]">{{this.commonService.STORE_CURRENCY_SYMBOL}}{{this.productMidLayerService.getProductPrice(row.PRODUCT_DETAIL[0])}}
+                                                            &nbsp;</span>
+                                                   
+                                             <!--      <span *ngIf="this.productMidLayerService.getScratchPrice(row.PRODUCT_DETAIL[0]) > 0" class="discount-percentage">
+                                                            {{this.productMidLayerService.getDicountPercentage(row.PRODUCT_DETAIL[0])}}
+                                                        </span>--> 
+                                                    </span>
+                                                </div>
+                                                <!-- Final Checklist-->
+                                                <!-- <span class="rating" *ngIf="row.PRODUCT_DETAIL[0].PRODUCT_DETAIL_REVIEW_VALUE > 0">
+                        {{row.PRODUCT_DETAIL[0].PRODUCT_DETAIL_REVIEW_VALUE | number:'1.1-1'}} &#9734;
+                      </span> -->
+                                                <!-- //Final Checklist-->
+                                                <div class="row" style="margin: 0%;padding: 0%;">
+                                                </div>
+                                            </div>
+
+                                            <mat-progress-bar mode="indeterminate" style=" z-index: 10;" *ngIf="this.productMidLayerService.addingToCart[i]"></mat-progress-bar>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                                <!-- Loop is Ended Here -->
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+
+
+    <ng-container *ngIf="this.productMidLayerService.showNoProductsImage == false">
+        <!-- Mobile Filter -->
+        <div class="mobilefilter">
+            <div class="row footericon7 ft7" style="padding: 3px;background: #fff;">
+                <div class="col-6" style="padding:0">
+                 <li style="border-right: 1px solid #cccc;; color: #fff;">
+                        <a [routerLink]="['/collections/filter']">
+                            <i class="fa fa-filter"></i> FILTER</a>
+                    </li>
+                </div>
+                <div class="col-6">
+                    <li style="color: #3f414d;cursor: pointer;" [routerLink]="['/collections/mobilecart']">
+                        CART({{this.transactionService.transactionDetailsArray.length}})</li>
+                </div>
+            </div>
+        </div>
+        <div id="mobileoverlay3" onclick="closeNav()">
+        </div>
+    </ng-container>
+
+    <!-- Mobile Filter end -->
+
+
+    <div class="">
+        <div class="container agileinfo-ads-display mobiledescstyle1" style="display: none;overflow: hidden;">
+
+            <ng-container *ngIf="this.productMidLayerService.showNoProductsImage == false">
+                <div class="row mymobdecstyle1">
+                    <div class=" col-sm-12 col-12" style="padding-left: 0 !important;padding-right: 0 !important;">
+
+                        <div class="breadcrumbStyle">
+                            <div class="_1joEet">
+                                <div class="_1HEvv0">
+                                    <a class="_1KHd47" [routerLink]="['/']">Home</a> &nbsp;
+                                    <i class="fa fa-angle-right left color breadcrumbIcon"></i>
+                                </div>&nbsp;
+                                <div class="_1HEvv0">
+                                    <a class="_1KHd48">{{this.productMidLayerService.productCategory}}</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="wrapper mywrapper">
+                            <div class="product-sec1">
+                                <div class="row myprorow">
+
+                                    <!-- <div *ngIf="this.productMidLayerService.productsArray.length == 0 && !this.bannerService.displayBanner" style="text-align: center;" class="noproshow">
+
+                                        <img src="assets/images/noProductToShowInThisCategory.jpg" class="nopr" style="height: 190px;width: 380px;">
+                                        <div style="font-size: 24px;font-weight: 500;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+                                            Empty List</div>
+                                        <a [routerLink]="['/']">
+                                            <button class="btn background" style="margin-top: 20px;">Continue
+                                                Shopping</button>
+                                        </a>
+                                    </div> -->
+
+                                    <!-- if no products on filter  -->
+                                    <ng-container *ngIf="this.productMidLayerService.showNoProductsImage == false && 
+                                    productMidLayerService.callFromFilter && productMidLayerService.productsArray.length == 0">
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="text-align: center;">
+                                            <img class="w-100" [src]="this.commonService.imagePathForNoProductsInCategory">
+                                            <!-- Checklist-2 -->
+                                            <br>
+                                            <h2 style="text-align: center;">Empty List</h2>
+                                            <a [routerLink]="['/']">
+                                                <button class="btn background">Continue
+                                                    Shopping</button>
+                                            </a>
+                                        </div>
+                                    </ng-container>
+                                    <ng-container *ngFor="let row of this.productMidLayerService.productsArray; let i = index;">
+                                        <div class="col-md-6 col-sm-6 col-6 product-me" *ngIf="row.PRODUCT_DETAIL[0]">
+                                            <mat-card class="mat-card">
+                                                <div class="imgsize">
+                                                    <div>
+                                                        <!-- Final Checklist -->
+                                                        <a [routerLink]="['/collections/product-view', 
+                                                        row.PRODUCT_ID, row.PRODUCT_DETAIL[0].PRODUCT_DETAIL_ID,
+                                                         row.PRODUCT_CATEGORY_NAME, row.PRODUCT_NAME]" style="cursor: pointer">
+                                                            <!-- //Final Checklist -->
+                                                            <img style="width: 100%;" src="{{this.productMidLayerService.getProductImageName(row)}}" onerror="this.src='assets/images/noProductToShowInThisCategory.jpg'" alt="Loading Product Image" class="productImageStyle">
+                                                        </a>
+
+                                                        <span *ngIf="row.PRODUCT_DETAIL[0].NEW_ARRIVAL_FLAG == 1" class="product-new-top">New</span>
+                                                        <!-- Final Checklist-->
+                                                        <span class="discount" style="color:red;" *ngIf="this.productMidLayerService.getScratchPrice(row.PRODUCT_DETAIL[0]) > 0">
+                                                            <h6 style="margin-left: 8px;">
+                                                                <span
+                                                                    *ngIf="this.productMidLayerService.getScratchPrice(row.PRODUCT_DETAIL[0]) > 0">
+                                                                    {{this.productMidLayerService.getDicountPercentage(row.PRODUCT_DETAIL[0])}}</span>
+                                                        </h6>
+                                                        </span>
+                                                        <!-- //Final Checklist-->
+                                                    </div>
+                                                </div>
+
+                                                <div class="item-info-product" style="box-shadow: transparent;">
+
+                                                    <!-- <h4 style="margin-top: 0px;margin-bottom: 6px;">
+                          <a style="font-size: 12px;" [routerLink]="['/product-view', row.PRODUCT_ID]"
+                          class="productNameClass">{{row.PRODUCT_NAME | limitTo:40}}</a>
+                        </h4> -->
+
+                                                    <div class="row mobilePadding">
+                                                        <div class="left col-lg-10 col-md-9 col-sm-8 col-8">
+                                                            <h4>
+                                                                <!-- Final Checklist -->
+                                                                <a class="productNameClass" style="text-decoration:none" [routerLink]="['/collections/product-view', row.PRODUCT_ID, row.PRODUCT_DETAIL[0].PRODUCT_DETAIL_ID, 
+                                                                row.PRODUCT_CATEGORY_NAME, row.PRODUCT_NAME]">
+                                                                    {{row.PRODUCT_NAME}}
+                                                                </a>
+                                                                <!-- //Final Checklist -->
+                                                            </h4>
+                                                            <!-- Final Checklist-->
+                                                            <div class="info-product-price">
+                                                                <span>
+                                                                    <span class="item_price"
+                                                                        *ngIf="row.PRODUCT_DETAIL[0]">{{this.commonService.STORE_CURRENCY_SYMBOL}}{{this.productMidLayerService.getProductPrice(row.PRODUCT_DETAIL[0])}}
+                                                                        &nbsp;</span>
+                                                                <del *ngIf="this.productMidLayerService.getScratchPrice(row.PRODUCT_DETAIL[0]) > 0">{{this.commonService.STORE_CURRENCY_SYMBOL}}{{this.productMidLayerService.getScratchPrice(row.PRODUCT_DETAIL[0])}}</del>&nbsp;
+                                                                <span *ngIf="this.productMidLayerService.getScratchPrice(row.PRODUCT_DETAIL[0]) > 0">
+                                                                        ({{this.productMidLayerService.getDicountPercentage(row.PRODUCT_DETAIL[0])}})</span>
+                                                                </span>
+                                                            </div>
+                                                            <!-- //Final Checklist-->
+                                                        </div>
+
+                                                        <div class="right col-lg-2 col-md-3 col-sm-4 col-4" style="margin-top:0px;">
+                                                            <!-- <span><i class="far fa-heart" aria-hidden="true"></i></span> -->
+                                                            <span style="float: none;margin-top: 13px; margin-right: 12px;">
+                                                                <div class="image-hover"
+                                                                    *ngIf="this.myWishlistService.isThisProductsInMyWishlist(row.PRODUCT_DETAIL[0])==false">
+                                                                    <i class="far fa-heart"
+                                                                        (click)="this.myWishlistService.addToMyWishlist(row.PRODUCT_DETAIL[0])"></i>
+                                                                </div>
+
+                                                                <div class="image-hover"
+                                                                    *ngIf="this.myWishlistService.isThisProductsInMyWishlist(row.PRODUCT_DETAIL[0])">
+                                                                    <i class="fas fa-heart"
+                                                                        style="color: var(--theme-color);"
+                                                                        (click)="this.myWishlistService.deleteMyWishlist(row.PRODUCT_DETAIL[0])"></i>
+                                                                </div>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+
+
+
+                                                    <!-- <div class="row" style="margin: 0%;padding: 0%;"> -->
+
+                                                    <!-- <span class="rating" *ngIf="row.PRODUCT_DETAIL[0].PRODUCT_DETAIL_REVIEW_VALUE > 0">
+                            {{row.PRODUCT_DETAIL[0].PRODUCT_DETAIL_REVIEW_VALUE | number:'1.1-1'}} &#9734;
+                          </span> -->
+
+                                                    <!-- <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12"  style="padding: 0px; padding-left: 0px;text-align: center;">
+                              <div class="additem" *ngIf="this.transactionService.showOutofStock(row)">
+                                <div>Out of stock</div>
+                              </div>
+                            </div> -->
+                                                    <!-- </div> -->
+                                                </div>
+
+                                            </mat-card>
+                                            <mat-progress-bar mode="indeterminate" style=" z-index: 10;" *ngIf="this.productMidLayerService.addingToCart[i]"></mat-progress-bar>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+
+</div>

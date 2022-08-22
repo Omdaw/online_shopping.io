@@ -1,0 +1,50 @@
+.services-breadcrumb {
+  margin-top: 12%;
+}
+
+.welcome {
+  /* margin-top: 5%; */
+}
+
+.welcome {
+  padding: 0 !important
+}
+
+@media only screen and (min-device-width : 768px) and (max-device-width : 1366px) {
+
+  .services-breadcrumb {
+    margin-top: 14%;
+  }
+}
+
+
+
+@media only screen and (min-device-width : 1024px) and (max-device-width : 1366px) and (orientation : landscape) and (-webkit-min-device-pixel-ratio: 2) {}
+
+@media only screen and (min-device-width : 1024px) and (max-device-width : 1366px) and (orientation : portrait) and (-webkit-min-device-pixel-ratio: 2) {
+  .services-breadcrumb {
+    margin-top: 18%;
+  }
+}
+
+@media only screen and (min-device-width : 768px) and (max-device-width : 1020px) and (orientation : portrait) and (-webkit-min-device-pixel-ratio: 2) {
+  .services-breadcrumb {
+    margin-top: 17%;
+  }
+}
+
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) and (-webkit-min-device-pixel-ratio: 2) {
+  .services-breadcrumb {
+    margin-top: 18%;
+  }
+}
+
+@media(max-width:767px) {
+  .welcome {
+    /* margin-top: 2% !important; */
+  }
+
+  .services-breadcrumb {
+    margin-top: 34%;
+  }
+}

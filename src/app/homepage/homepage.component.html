@@ -1,0 +1,143 @@
+<div class="loading" *ngIf="processBar">
+  <mat-spinner class="loading-image"></mat-spinner>
+</div>
+
+<div class="myherobanne carousel"></div>
+
+<app-hero-banner></app-hero-banner>
+
+<!-- new-checklist-soln-for-default-banner -->
+<ng-container *ngIf="bannerService.toalNumberOfBanners == 0">
+
+  <img *ngIf="!isMobile()" src="assets/images/default/desktop-banner.jpg"   
+  class="slide-image myhero mx-auto d-block"
+   [style.height.px]="getHeroBannerHeightInPixels(100)" 
+   [style.width.%]="getBannerWidthInPercentage(100)" />
+
+   <img *ngIf="isMobile()" src="assets/images/default/mobile-banner.jpg"   
+   class="slide-image myhero mx-auto d-block"
+    [style.height.px]="getHeroBannerHeightInPixels(100)" 
+    [style.width.%]="getBannerWidthInPercentage(100)" />
+</ng-container>
+
+<div style="margin-top: 35px;">
+  <app-banners></app-banners>
+
+  <!-- Dynamic Testimonials Starts -->
+  <section class="testimonials desktestimonial2 container">
+    <div *ngIf="(reviewsArray.length > 0)">
+      <div class="row myicons" style="margin-right: 0px;">
+        <div class="col-md-9 col-sm-9 col-7">
+          <h3 class="testimonialTitle">
+            Testimonials</h3>
+        </div>
+        <div class="col-md-3 col-sm-3 col-5" *ngIf="reviewsArray.length > 1">
+          <div class="controls pull-right">
+            <a class="left fa fa-chevron-left btn btn-success background carouselBtn" href="#carousel2"
+              data-slide="prev"></a>
+            <a class="right fa fa-chevron-right btn btn-success background carouselBtn" href="#carousel2"
+              data-slide="next"></a>
+          </div>
+        </div>
+      </div>
+      <div id="carousel2" style="margin-top: 0;" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+          <div *ngFor="let reviews of reviewsArray;let i = index;" [ngClass]="getTestClassName(i)">
+            <div class="row" style="margin-left: 0;margin-right: 0;">
+              <div *ngFor="let row of reviews;" class="col-md-4 mycol text-center">
+                <div class="profile">
+                  <img src="{{row.REVIEW_IMAGE_FILE_PATH}}"
+                    onerror="this.src='assets/images/noProductToShowInThisCategory.jpg'" alt="" class="user">
+
+                  <blockquote>
+
+                    <sup> <i class="fa fa-quote-left" aria-hidden="true"></i></sup>
+                    <div title="{{row.COMMENT}}">
+                      <div class="reviewtext" [innerHTML]='row.COMMENT | limitTo: 90'></div>
+                    </div>
+                    <sup><i class="fa fa-quote-right" aria-hidden="true"></i> </sup>
+                  </blockquote>
+                  <h3 *ngIf="row.SUBSCRIBER_NAME != 'null'"><span>-'{{row.SUBSCRIBER_NAME}}'</span></h3>
+                  <h3 *ngIf="row.SUBSCRIBER_NAME == 'null' && row.CUSTOMER_NAME != 'null'">
+                    <span>-'{{row.CUSTOMER_NAME}}'</span></h3>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Dynamic Testimonials Ends -->
+
+  <div class="botViewCart" *ngIf="this.userProfileService.numberOfProductsInCart>0"
+    [routerLink]="['/collections/mobilecart']">
+    <div class="center">
+      <div>
+        <span class="noOfItems">{{this.userProfileService.numberOfProductsInCart}}
+          <span *ngIf="this.userProfileService.numberOfProductsInCart<2"> item</span>
+          <span *ngIf="this.userProfileService.numberOfProductsInCart>1"> items</span>
+        </span> in Cart
+      </div>
+      <div>
+        VIEW CART
+      </div>
+    </div>
+    <div class="right">
+      <span class="material-icons">
+        arrow_right_alt
+      </span>
+    </div>
+  </div>
+</div>
+
+
+<!-- Mobile Testimonials Starts-->
+<section class="testimonials mobtestimonial2" style="display: none;">
+  <div *ngIf="(reviewsArray.length > 0)" style="padding-bottom: 40px;">
+    <div class="row myicons" style="margin-right: 0px;">
+      <div class="col-md-9 col-sm-9 col-7">
+        <h3 class="testimonialTitle">
+          Testimonials</h3>
+      </div>
+      <div class="col-md-3 col-sm-3 col-5" *ngIf="reviewsArray.length > 1">
+        <div class="controls pull-right">
+          <a class="left fa fa-chevron-left btn btn-success background carouselBtn" href="#carousel3"
+            data-slide="prev"></a>
+          <a class="right fa fa-chevron-right btn btn-success background carouselBtn" href="#carousel3"
+            data-slide="next"></a>
+        </div>
+      </div>
+    </div>
+    <div id="carousel3" style="margin-top: 0;" class="carousel slide" data-ride="carousel">
+      <div class="carousel-inner">
+        <div *ngFor="let reviews of reviewsArray;let i = index;" [ngClass]="getTestClassName(i)">
+          <div class="row" style="margin-left: 0;margin-right: 0;">
+            <div *ngFor="let row of reviews;" class="col-md-4  text-center">
+              <div class="profile">
+                <img src="{{row.REVIEW_IMAGE_FILE_PATH}}"
+                  onerror="this.src='assets/images/noProductToShowInThisCategory.jpg'" alt="" class="user">
+
+                <blockquote>
+
+                  <sup> <i class="fa fa-quote-left" aria-hidden="true"></i></sup>
+                  <div title="{{row.COMMENT}}">
+                    <div class="reviewtext" [innerHTML]='row.COMMENT | limitTo: 90'></div>
+                  </div>
+                  <sup><i class="fa fa-quote-right" aria-hidden="true"></i> </sup>
+                </blockquote>
+                <h3 *ngIf="row.SUBSCRIBER_NAME != 'null'"><span>-'{{row.SUBSCRIBER_NAME}}'</span></h3>
+                <h3 *ngIf="row.SUBSCRIBER_NAME == 'null' && row.CUSTOMER_NAME != 'null'">
+                  <span>-'{{row.CUSTOMER_NAME}}'</span></h3>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Mobile Testimonials Ends-->
